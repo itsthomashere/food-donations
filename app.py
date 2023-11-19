@@ -3,11 +3,7 @@ import streamlit as st
 import openai
 import constants as c
 from sqlalchemy import create_engine, text
-
-
-import uuid
-from datetime import datetime, timedelta
-from openai import api_requestor
+from streamlit_option_menu import option_menu
 
 def customize_streamlit_ui() -> None:
     st.set_page_config(
@@ -97,6 +93,12 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 
 customize_streamlit_ui()
+
+selected2 = option_menu(None, ["Home", "Upload", "Tasks", 'Settings'], 
+    icons=['house', 'cloud-upload', "list-task", 'gear'], 
+    menu_icon="cast", default_index=0, orientation="horizontal")
+#    selected2
+
 try:
     create_tables()
 except Exception:
