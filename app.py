@@ -89,9 +89,7 @@ def get_sql_dataframe(table_name: str, uuid: str) -> None:
 
 
 def display_message(role: str, content: str) -> None:
-    with st.chat_message(
-        name=role, 
-        avatar=determine_image(role=role, content=content)):
+    with st.chat_message(name=role):
         st.write(content)
 
 # --- CONFIGURE API KEY ---
