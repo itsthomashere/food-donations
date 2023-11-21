@@ -123,7 +123,7 @@ if user_input:
         st.write("Adding columns 'quantity', 'total price' and 'total weight'...")
         st.write("`product_details.extend(additional_columns)`")
         additional_columns = [1, result[3], result[4]]
-        product_details = result + additional_columns
+        product_details = list(result) + list(additional_columns)
         st.write(result)
         st.write("Appending new row to today's donated items.")
         st.write("`add_new_product('donations', product_details)`")
