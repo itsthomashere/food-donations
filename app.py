@@ -67,6 +67,17 @@ def create_tables() -> None:
                     total_weight NUMERIC(10, 2));"""))
         s.commit()
 
+
+def check_existing_entry(table_name, product_code):
+    conn = st.experimental_connection("digitalocean", type="sql")
+    with conn.session as s:
+        query = text(f"""
+            SELECT quantity, price, weight FROM {table_name} WHERE product_code = :product_code
+        """)
+        result = s.execute(query, {"product_code": product_code}).fetchone()
+    return result
+
+
 def save_to_sql(user_id: str, role: str, content: str) -> None:
     conn = st.experimental_connection("digitalocean", type="sql")
     
@@ -112,6 +123,14 @@ user_message = st.chat_input("Enter a barcode")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
+    with st.spinner("Searching dataset."):
+        result = check_existing_entry('dataset', user_message)
+        if result is not None:
+            st.success(result)
+        else:
+            st.write("Not in there.")
+
+    st.write(result)
 
     # --- PASS THE ENTIRETY OF SESSION STATE MESSAGES TO OPENAI ---
     try:
