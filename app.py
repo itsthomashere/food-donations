@@ -117,6 +117,7 @@ if user_input:
             st.write("`add_new_product(donations, product_code)`")
         else:
             st.write("`Negative. Moving on...`")
+            st.divider()
 
     st.write("`Is it in my 6,000 item dataset?`")
     result = list(check_existing_entry('dataset', user_input))
@@ -134,4 +135,5 @@ if user_input:
         with col2:
             st.button("`Enter manually`")
 
+        st.divider()
 
