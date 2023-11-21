@@ -99,8 +99,10 @@ customize_streamlit_ui()
 
 create_tables()
 
+st.title("Food Donations")
+
 # --- USER INTERACTION ---
-user_message = st.chat_input("Present an idea")
+user_message = st.chat_input("Enter a barcode")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
