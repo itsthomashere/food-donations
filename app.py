@@ -44,22 +44,17 @@ def create_chat_completion(model: str, messages: list[dict[str, str]]) -> None:
 def create_tables() -> None:
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
-        # Create the 'users' table with a timestamp column
+        # Create the 'donation_history' table with specified columns
         s.execute(text("""
-                    CREATE TABLE IF NOT EXISTS users (
-                    ID SERIAL PRIMARY KEY,
-                    uuid VARCHAR(36) UNIQUE,
-                    timestamp TIMESTAMPTZ);"""))
-        
-        # Create the 'submissions' table with a foreign key relation to 'users'
-        s.execute(text("""
-                    CREATE TABLE IF NOT EXISTS submissions (
-                    ID SERIAL PRIMARY KEY,
-                    uuid VARCHAR(36),
-                    timestamp TIMESTAMPTZ,
-                    role VARCHAR(9) CHECK (LENGTH(role) >= 4),
-                    content TEXT,
-                    FOREIGN KEY (uuid) REFERENCES users(uuid));"""))
+                    CREATE TABLE IF NOT EXISTS donation_history (
+                    product_code VARCHAR(13),
+                    product_name VARCHAR(255),
+                    category VARCHAR(255),
+                    price NUMERIC(10, 2),
+                    weight NUMERIC(10, 2),
+                    quantity INT,
+                    total_price NUMERIC(10, 2),
+                    total_weight NUMERIC(10, 2));"""))
         s.commit()
 
 def save_to_sql(user_id: str, role: str, content: str) -> None:
