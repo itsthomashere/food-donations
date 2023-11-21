@@ -129,6 +129,7 @@ if user_input:
         st.write("`add_new_product('donations', product_details)`")
         st.divider()
     else:
+        st.write("Negative. Moving on...")
         st.divider()
         st.header("Product code not found in dataset.")
         col1, col2 = st.columns(2)
