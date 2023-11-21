@@ -123,12 +123,18 @@ user_message = st.chat_input("Enter a barcode")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
-    with st.spinner("Searching dataset."):
-        result = check_existing_entry('dataset', user_message)
-        if result is not None:
-            st.success(result)
-        else:
-            st.write("Not in there.")
+    result = check_existing_entry('dataset', user_message)
+
+    if result is not None:
+        additional_columns = {
+            'quantity': 1,
+            'total price': result['price'],
+            'total weight': result['weight']
+        }
+        result.extend(additional_columns)
+        st.success(f"Product Details: {result}")
+    else:
+        st.write("Not in there.")
 
     st.write(result)
 
