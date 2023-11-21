@@ -59,12 +59,12 @@ def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
     return result
 
 
-def save_to_table(product_details: dict) -> None:
+def save_to_table(table_name: str, product_details: dict) -> None:
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
         # Prepare the SQL INSERT statement
-        insert_query = """
-        INSERT INTO donation_history (
+        insert_query = f"""
+        INSERT INTO {table_name} (
             product_code, 
             product_name, 
             category, 
