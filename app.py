@@ -1,9 +1,12 @@
 import os
-import streamlit as st
+
 import openai
-import constants as c
+import streamlit as st
 from sqlalchemy import create_engine, text
-from streamlit_option_menu import option_menu
+#from streamlit_option_menu import option_menu
+
+import constants as c
+
 
 def customize_streamlit_ui() -> None:
     st.set_page_config(
