@@ -59,29 +59,44 @@ def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
     return result
 
 
-def save_to_sql(user_id: str, role: str, content: str) -> None:
+def save_to_table(product_details: dict) -> None:
     conn = st.experimental_connection("digitalocean", type="sql")
-    
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with conn.session as s:
-        # Insert user_id and timestamp into 'users' table if it doesn't already exist
-        s.execute(
-            text('INSERT INTO users (uuid, timestamp) VALUES (:uuid, :timestamp) ON CONFLICT (uuid) DO NOTHING;'),
-            params=dict(uuid=user_id, timestamp=timestamp)
-        )
-        
-        # Insert into 'submissions' table
-        s.execute(
-            text('INSERT INTO submissions (uuid, timestamp, role, content) VALUES (:uuid, :timestamp, :role, :content);'),
-            params=dict(uuid=user_id, timestamp=timestamp, role=role, content=content)
-        )
-        s.commit()
+        # Prepare the SQL INSERT statement
+        insert_query = """
+        INSERT INTO donation_history (
+            product_code, 
+            product_name, 
+            category, 
+            price, 
+            weight, 
+            quantity, 
+            total_price, 
+            total_weight
+        ) VALUES (
+            :product_code, 
+            :product_name, 
+            :category, 
+            :price, 
+            :weight, 
+            :quantity, 
+            :total_price, 
+            :total_weight
+        );
+        """
 
-def get_sql_dataframe(table_name: str, uuid: str) -> None:
-    conn = st.experimental_connection("digitalocean", type="sql")
-    query = f'select * from {table_name} where uuid = :uuid order by timestamp'
-    messages = conn.query(query, ttl=timedelta(minutes=1), params={"uuid": uuid})
-    st.dataframe(messages)
+        # Execute the query with the dictionary values
+        s.execute(text(insert_query), {
+            'product_code': product_details['product code'],
+            'product_name': product_details['product name'],
+            'category': product_details['category'],
+            'price': product_details['price'],
+            'weight': product_details['weight'],
+            'quantity': product_details['quantity'],
+            'total_price': product_details['total price'],
+            'total_weight': product_details['total weight']
+        })
+        s.commit()
 
 
 def display_message(role: str, content: str) -> None:
@@ -155,14 +170,16 @@ if user_input:
                 st.write("Updating both databases with newly logged item")
                 st.write("`add_new_product('dataset', product_details)`")
                 st.write("`add_new_product('donation_history', product_details)`")
-#                product_details = {
-#                    'product_code': product_code,
-#                    'product_name': product_name,
-#                    'category': category,
-#                    'price': price,
-#                    'weight': weight,
-#                    'quantity': 1,
-#                    'total_price': price,
-#                    'total_weight': weight
-#                }
-#                st.write(st.session_state['products'])
+                product_details = {
+                    'product_code': product_code,
+                    'product_name': product_name,
+                    'category': category,
+                    'price': price,
+                    'weight': weight,
+                    'quantity': 1,
+                    'total_price': price,
+                    'total_weight': weight
+                }
+                st.write(st.session_state['products'])
+                if not item_exists('donations', product_code):
+                    save_to_sql('donations', product_details)
