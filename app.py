@@ -153,8 +153,6 @@ if user_input:
         col1, col2 = st.columns(2)
         st.divider()
 
-        st.text_input("Enter product details")
-
         with st.form("my_form"):
             st.write("Enter product details")
             product_name = st.text_input("Enter product_name:")
