@@ -87,14 +87,14 @@ def save_to_table(table_name: str, product_details: dict) -> None:
 
         # Execute the query with the dictionary values
         s.execute(text(insert_query), {
-            'product_code': product_details['product code'],
-            'product_name': product_details['product name'],
+            'product_code': product_details['product_code'],
+            'product_name': product_details['product_name'],
             'category': product_details['category'],
             'price': product_details['price'],
             'weight': product_details['weight'],
             'quantity': product_details['quantity'],
-            'total_price': product_details['total price'],
-            'total_weight': product_details['total weight']
+            'total_price': product_details['total_price'],
+            'total_weight': product_details['total_weight']
         })
         s.commit()
 
