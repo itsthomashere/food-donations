@@ -126,6 +126,8 @@ if user_message:
     result = check_existing_entry('dataset', user_message)
 
     if result is not None:
+        st.write(result)
+        st.write(result['price'])
         additional_columns = {
             'quantity': 1,
             'total price': result['price'],
