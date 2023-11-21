@@ -178,6 +178,7 @@ if user_input:
                     'total_price': price,
                     'total_weight': weight
                 }
+                st.session_state['products'].append(product_details)
                 st.write(st.session_state['products'])
                 if not item_exists('donations', product_code):
                     save_to_table('donations', product_details)
