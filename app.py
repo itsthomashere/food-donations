@@ -182,4 +182,4 @@ if user_input:
                 }
                 st.write(st.session_state['products'])
                 if not item_exists('donations', product_code):
-                    save_to_sql('donations', product_details)
+                    save_to_table('donations', product_details)
