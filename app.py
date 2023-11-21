@@ -141,3 +141,31 @@ if user_input:
 
         if manual_entry:
             st.text_input("Enter product details")
+
+            with st.form("my_form"):
+                st.write("Enter product details")
+                product_name = st.text_input("Enter product_name:")
+                price = st.text_input("Enter price:")
+                category = st.text_input("Enter category:")
+                weight = st.text_input("Enter weight:")
+                product_code = st.text_input("Enter product code", user_input)
+
+                # Every form must have a submit button.
+                submitted = st.form_submit_button("Submit")
+                if submitted:
+
+                    product_details = {
+                        'product_code': product_code,
+                        'product_name': product_name,
+                        'category': category,
+                        'price': price,
+                        'weight': weight,
+                        'quantity': 1,
+                        'total_price': price,
+                        'total_weight': weight
+                    }
+
+                    st.write(product_details)
+                    st.write("Updating both databases with newly logged item")
+                    st.write("`add_new_product('dataset', product_details)`")
+                    st.write("`add_new_product('donation_history', product_details)`")
