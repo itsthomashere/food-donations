@@ -97,25 +97,14 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 customize_streamlit_ui()
 
-#selected2 = option_menu(None, ["Home", "Upload", "Tasks", 'Settings'], 
-    #icons=['house', 'cloud-upload', "list-task", 'gear'], 
-    #menu_icon="cast", default_index=0, orientation="horizontal")
-#    selected2
-
-try:
-    create_tables()
-except Exception:
-    pass
+create_tables()
 
 # --- USER INTERACTION ---
 user_message = st.chat_input("Present an idea")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
-    try:
-        save_to_sql(user_id=st.session_state["uuid"], role="user", content=user_message)
-    except Exception:
-        pass
+    save_to_sql(user_id=st.session_state["uuid"], role="user", content=user_message)
 
     # --- PASS THE ENTIRETY OF SESSION STATE MESSAGES TO OPENAI ---
     try:
@@ -123,45 +112,11 @@ if user_message:
             model="gpt-4", 
             messages=st.session_state["messages"]
         ) # create_chat_completion already displays message to streamlit UI
-
-    except openai.error.Timeout as e:
-        # Handle timeout error, e.g. retry or log
-        print(f"OpenAI API request timed out: {e}")
-        pass
-    except openai.error.APIError as e:
-        # Handle API error, e.g. retry or log
-        print(f"OpenAI API returned an API Error: {e}")
-        pass
-    except openai.error.APIConnectionError as e:
-        # Handle connection error, e.g. check network or log
-        print(f"OpenAI API request failed to connect: {e}")
-        pass
-    except openai.error.InvalidRequestError as e:
-        # Handle invalid request error, e.g. validate parameters or log
-        print(f"OpenAI API request was invalid: {e}")
-        pass
-    except openai.error.AuthenticationError as e:
-        # Handle authentication error, e.g. check credentials or log
-        print(f"OpenAI API request was not authorized: {e}")
-        pass
-    except openai.error.PermissionError as e:
-        # Handle permission error, e.g. check scope or log
-        print(f"OpenAI API request was not permitted: {e}")
-        pass
-    except openai.error.RateLimitError as e:
-        # Handle rate limit error, e.g. wait or log
-        print(f"OpenAI API request exceeded rate limit: {e}")
-        pass
-    except Exception as e:
+   except Exception as e:
         error_message = f"Error: {str(e)}"
         print(error_message)
-        #self.status_update(False, error_message)
-        # CustomApplication.processEvents()
         pass
 
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
-    try:
-        save_to_sql(user_id=st.session_state["uuid"], role="assistant", content=response)
-    except Exception:
-        pass
+    save_to_sql(user_id=st.session_state["uuid"], role="assistant", content=response)
 
