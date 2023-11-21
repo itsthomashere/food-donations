@@ -112,6 +112,9 @@ if user_input:
         donations = check_existing_entry('donation_history', user_input)
         if donations is not None:
             st.success("Incrementing quantity.")
+            st.write("`product_details = get_product_info(donations, product_code)`")
+            st.write("`increment_quantity(product_details)`")
+            st.write("`add_new_product(donations, product_code)`")
         else:
             st.write("`Negative. Moving on...`")
 
