@@ -113,13 +113,13 @@ st.write(product_info)
 user_input = st.text_input("Enter a barcode")
 if user_input:
 
-    st.write("Is it already in today's donated goods?")
+    st.write("`Is it already in today's donated goods?`")
     with st.spinner("Checking..."):
         donations = check_existing_entry('donation_history', user_input)
         if donations is not None:
             st.success("Incrementing quantity.")
         else:
-            st.write("Negative. Moving on...")
+            st.write("`Negative. Moving on...`")
 
     result = list(check_existing_entry('dataset', user_input))
 
