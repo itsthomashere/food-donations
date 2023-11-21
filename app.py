@@ -72,7 +72,7 @@ def check_existing_entry(table_name, product_code):
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
         query = text(f"""
-            SELECT quantity, price, weight FROM {table_name} WHERE product_code = :product_code
+            SELECT product_code, product_name, category, price, weight FROM {table_name} WHERE product_code = :product_code
         """)
         result = s.execute(query, {"product_code": product_code}).fetchone()
     return result
