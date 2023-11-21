@@ -112,7 +112,7 @@ if user_message:
             model="gpt-4", 
             messages=st.session_state["messages"]
         ) # create_chat_completion already displays message to streamlit UI
-   except Exception as e:
+    except Exception as e:
         error_message = f"Error: {str(e)}"
         print(error_message)
         pass
