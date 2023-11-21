@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, text
 
 import constants as c
 
-product_info = 6009178236888
+product_info = (6009178236888, 20011697)
 
 def customize_streamlit_ui() -> None:
     st.set_page_config(
@@ -117,8 +117,6 @@ if user_message:
     result = list(check_existing_entry('dataset', user_message))
 
     if result is not None:
-        st.write(result)
-        st.write(result[3])
         additional_columns = [1, result[3], result[4]]
         result = result + additional_columns
         st.success(f"Product Details: {result}")
