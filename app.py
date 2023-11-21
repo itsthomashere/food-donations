@@ -7,6 +7,16 @@ from sqlalchemy import create_engine, text
 
 import constants as c
 
+product_info = {
+    'product code': 6009178236888,
+    'product name': 'Pork Bacon & Cheese Bangers 500 g',
+    'category': 'Mixed Groceries',
+    'price': 64.99,
+    'weight': 0.5,
+    'quantity': 1,
+    'total price': 64.99,
+    'total weight': 0.5,
+}
 
 def customize_streamlit_ui() -> None:
     st.set_page_config(
@@ -95,6 +105,7 @@ customize_streamlit_ui()
 create_tables()
 
 st.title("Food Donations")
+st.write(product_info)
 
 # --- USER INTERACTION ---
 user_message = st.chat_input("Enter a barcode")
