@@ -110,12 +110,18 @@ st.title("Food Donations")
 st.write(product_info)
 
 # --- USER INTERACTION ---
-user_message = st.text_input("Enter a barcode")
-if user_message:
-    # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
-    display_message(role="user", content=user_message)
-    donations = check_existing_entry('donation_history', user_message)
-    result = list(check_existing_entry('dataset', user_message))
+user_input = st.text_input("Enter a barcode")
+if user_input:
+
+    st.write("Is it already in today's donated goods?")
+    with st.spinner("Checking..."):
+        donations = check_existing_entry('donation_history', user_input)
+        if donations is not None:
+            st.success("Incrementing quantity.")
+        else:
+            st.write("Negative. Moving on...")
+
+    result = list(check_existing_entry('dataset', user_input))
 
     if result is not None:
         additional_columns = [1, result[3], result[4]]
@@ -126,16 +132,4 @@ if user_message:
         st.write("Not in there.")
 
     st.write(result)
-
-    # --- PASS THE ENTIRETY OF SESSION STATE MESSAGES TO OPENAI ---
-    try:
-        response = create_chat_completion(
-            model="gpt-4", 
-            messages=st.session_state["messages"]
-        ) # create_chat_completion already displays message to streamlit UI
-    except Exception as e:
-        error_message = f"Error: {str(e)}"
-        print(error_message)
-        pass
-
 
