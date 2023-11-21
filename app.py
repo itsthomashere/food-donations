@@ -122,7 +122,7 @@ if user_input:
     result = list(check_existing_entry('dataset', user_input))
     if result is not None:
         st.success("Item located in dataset.")
-        st.success("Extracting product details associated with product code...")
+        st.write("Extracting product details associated with product code...")
         additional_columns = [1, result[3], result[4]]
         result = result + additional_columns
         st.write(result)
