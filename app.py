@@ -128,12 +128,8 @@ if user_message:
     if result is not None:
         st.write(result)
         st.write(result[3])
-        additional_columns = {
-            'quantity': 1,
-            'total price': result[3],
-            'total weight': result[4]
-        }
-        result.extend(additional_columns)
+        additional_columns = (1, result[3], result[4])
+        result = result + additional_columns
         st.success(f"Product Details: {result}")
     else:
         st.write("Not in there.")
