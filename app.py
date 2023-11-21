@@ -110,16 +110,18 @@ st.title("Food Donations")
 st.write(product_info)
 
 # --- USER INTERACTION ---
-user_message = st.chat_input("Enter a barcode")
+user_message = st.text_input("Enter a barcode")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
+    donations = check_existing_entry('donation_history', user_message)
     result = list(check_existing_entry('dataset', user_message))
 
     if result is not None:
         additional_columns = [1, result[3], result[4]]
         result = result + additional_columns
         st.success(f"Product Details: {result}")
+
     else:
         st.write("Not in there.")
 
