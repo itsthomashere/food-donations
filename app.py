@@ -93,6 +93,9 @@ customize_streamlit_ui()
 
 create_tables()
 
+if 'products' not in st.session_state:
+    st.session_state['products'] = []
+
 st.title("Food Donations")
 st.write(product_info)
 
@@ -165,7 +168,7 @@ if user_input:
                         'total_weight': weight
                     }
 
-                    st.write(product_details)
+                    st.write(st.session_state['products'])
                     st.write("Updating both databases with newly logged item")
                     st.write("`add_new_product('dataset', product_details)`")
                     st.write("`add_new_product('donation_history', product_details)`")
