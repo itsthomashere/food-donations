@@ -134,8 +134,10 @@ if user_input:
         st.header("Product code not found in dataset.")
         col1, col2 = st.columns(2)
         with col1:
-            st.button("Try webscraping")
+            manual_entry = st.button("Enter manually")
         with col2:
-            st.button("Enter manually")
+            webscrape = st.button("Try webscraping")
         st.divider()
 
+        if manual_entry:
+            st.text_input("Enter product details")
