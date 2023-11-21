@@ -7,16 +7,7 @@ from sqlalchemy import create_engine, text
 
 import constants as c
 
-product_info = {
-    'product code': 6009178236888,
-    'product name': 'Pork Bacon & Cheese Bangers 500 g',
-    'category': 'Mixed Groceries',
-    'price': 64.99,
-    'weight': 0.5,
-    'quantity': 1,
-    'total price': 64.99,
-    'total weight': 0.5,
-}
+product_info = 6009178236888
 
 def customize_streamlit_ui() -> None:
     st.set_page_config(
@@ -68,7 +59,7 @@ def create_tables() -> None:
         s.commit()
 
 
-def check_existing_entry(table_name, product_code):
+def check_existing_entry(table_name: str, product_code: str) tuple | None:
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
         query = text(f"""
