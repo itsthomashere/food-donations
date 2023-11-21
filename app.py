@@ -95,9 +95,6 @@ def display_message(role: str, content: str) -> None:
     with st.chat_message(name=role):
         st.write(content)
 
-# --- CONFIGURE API KEY ---
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 
 customize_streamlit_ui()
 
