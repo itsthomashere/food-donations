@@ -22,23 +22,6 @@ def customize_streamlit_ui() -> None:
                 """
     st.markdown(hide_st_style, unsafe_allow_html=True)
 
-def create_chat_completion(model: str, messages: list[dict[str, str]]) -> None:
-    """Generate and display chat completion using OpenAI and Streamlit."""
-    with st.chat_message(name="assistant", avatar="./icons/assistant.png"):
-        message_placeholder = st.empty()
-        full_response = ""
-        for response in openai.ChatCompletion.create(
-            model=model,
-            messages=messages,
-            stream=True,
-        ):
-            full_response += response.choices[0].delta.get("content", "")
-            message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
-
-        #check_keywords(full_response)
-    return full_response
-
 def create_tables() -> None:
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
@@ -54,6 +37,16 @@ def create_tables() -> None:
                     total_price NUMERIC(10, 2),
                     total_weight NUMERIC(10, 2));"""))
         s.commit()
+
+
+def item_exists(table_name: str, product_code: str) -> bool:
+    conn = st.experimental_connection("digitalocean", type="sql")
+    with conn.session as s:
+        query = text(f"""
+            SELECT product_code FROM {table_name} WHERE product_code = :product_code
+        """)
+        result = s.execute(query, {"product_code": product_code}).fetchone()
+    return result is not None
 
 
 def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
@@ -107,33 +100,41 @@ st.write(product_info)
 user_input = st.text_input("Enter a barcode")
 if user_input:
 
-    st.write("`Is it already in today's donated goods?`")
-    with st.spinner("Checking..."):
-        donations = check_existing_entry('donation_history', user_input)
-        if donations is not None:
-            st.success("Incrementing quantity.")
-            st.write("`product_details = get_product_info(donations, product_code)`")
-            st.write("`increment_quantity(product_details)`")
-            st.write("`add_new_product(donations, product_code)`")
-        else:
-            st.write("`Negative. Moving on...`")
-            st.divider()
-
-    st.write("`Is it in my 6,000 item dataset?`")
-    result = check_existing_entry('dataset', user_input)
-    if result is not None:
-        st.success("`Item located in dataset.`")
-        st.write("`Extracting product details associated with product code...`")
-        additional_columns = [1, result[3], result[4]]
-        result = result + additional_columns
-        st.write(result)
+    st.divider()
+    st.header("Is it already in today's donated goods?")
+    donations = check_existing_entry('donation_history', user_input)
+    if donations is not None:
+        st.success("Incrementing quantity.")
+        st.write("`product_details = get_product_info(donations, product_code)`")
+        st.write("`increment_quantity(product_details)`")
+        st.write("`add_new_product(donations, product_code)`")
     else:
-        st.write("`Product code not found in dataset.`")
+        st.write("Negative. Moving on...")
+        st.divider()
+
+    st.header("Is it in my 6,000 item dataset?")
+    if item_exists('dataset', user_input):
+    #result = check_existing_entry('dataset', user_input)
+    #if result is not None:
+        st.success("Item located in dataset.")
+        st.write("Extracting product details associated with product code...")
+        st.write("`product_details = extract_product_details('dataset', barcode)`")
+        result = check_existing_entry('dataset', user_input)
+        st.write("Adding columns 'quantity', 'total price' and 'total weight'...")
+        st.write("`product_details.extend(additional_columns)`")
+        additional_columns = [1, result[3], result[4]]
+        product_details = result + additional_columns
+        st.write(result)
+        st.write("Appending new row to today's donated items.")
+        st.write("`add_new_product('donations', product_details)`")
+        st.divider()
+    else:
+        st.divider()
+        st.header("Product code not found in dataset.")
         col1, col2 = st.columns(2)
         with col1:
-            st.button("`Try webscraping`")
+            st.button("Try webscraping")
         with col2:
-            st.button("`Enter manually`")
-
+            st.button("Enter manually")
         st.divider()
 
