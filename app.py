@@ -1,6 +1,3 @@
-import os
-
-import openai
 import streamlit as st
 from sqlalchemy import create_engine, text
 #from streamlit_option_menu import option_menu
