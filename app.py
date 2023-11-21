@@ -121,17 +121,17 @@ if user_input:
     st.write("Is it in my 6,000 item dataset?")
     result = list(check_existing_entry('dataset', user_input))
     if result is not None:
-        st.success("Item located in dataset.")
-        st.write("Extracting product details associated with product code...")
+        st.success("`Item located in dataset.`")
+        st.write("`Extracting product details associated with product code...`")
         additional_columns = [1, result[3], result[4]]
         result = result + additional_columns
         st.write(result)
     else:
-        st.write("Product code not found in dataset.")
+        st.write("`Product code not found in dataset.`")
         col1, col2 = st.columns(2)
         with col1:
-            st.button("Try webscraping")
+            st.button("`Try webscraping`")
         with col2:
-            st.button("Enter manually")
+            st.button("`Enter manually`")
 
 
