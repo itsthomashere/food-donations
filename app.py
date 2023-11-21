@@ -101,7 +101,6 @@ user_message = st.chat_input("Enter a barcode")
 if user_message:
     # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
     display_message(role="user", content=user_message)
-    save_to_sql(user_id=st.session_state["uuid"], role="user", content=user_message)
 
     # --- PASS THE ENTIRETY OF SESSION STATE MESSAGES TO OPENAI ---
     try:
@@ -114,6 +113,4 @@ if user_message:
         print(error_message)
         pass
 
-    # --- DISPLAY MESSAGE TO STREAMLIT UI, UPDATE SQL, UPDATE SESSION STATE ---
-    save_to_sql(user_id=st.session_state["uuid"], role="assistant", content=response)
 
