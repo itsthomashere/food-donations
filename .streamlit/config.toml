@@ -9,7 +9,7 @@ backgroundColor = "#d0d0d0"
 #backgroundColor = "#002b36"
 
 # Background color used for the sidebar and most interactive widgets.
-secondaryBackgroundColor = "#d0d0d0"
+secondaryBackgroundColor = "#ffffff"
 #secondaryBackgroundColor = "#586e75"
 
 # Color used for almost all text.
