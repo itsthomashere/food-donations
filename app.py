@@ -59,7 +59,7 @@ def create_tables() -> None:
         s.commit()
 
 
-def check_existing_entry(table_name: str, product_code: str) tuple | None:
+def check_existing_entry(table_name: str, product_code: str): tuple | None:
     conn = st.experimental_connection("digitalocean", type="sql")
     with conn.session as s:
         query = text(f"""
