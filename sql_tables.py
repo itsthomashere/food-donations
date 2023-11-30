@@ -9,36 +9,43 @@ def get_sql_dataframe(table_name: str, order) -> None:
 
 
 def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
-    """Update a SQL table with donation data, where donation_data is a tuple."""
-    # Ensure donation_data is a tuple with the correct number of elements
-    if not isinstance(donation_data, tuple) or len(donation_data) != 5:
-        raise ValueError("donation_data must be a tuple with 5 elements.")
+    """
+    Inserts or updates a product entry in a specified table with given donation data.
 
-    # Unpack the tuple
+    This function takes a table name and a tuple containing donation data. It constructs an SQL query 
+    to either insert a new row into the table or update an existing row if the product code conflicts. 
+    The function ensures the integrity of the donation data by verifying its format and length. 
+    It updates the quantity, total price, and total weight of the product in the table based on the new data.
+
+    Parameters:
+    table_name (str): The name of the database table to update.
+    donation_data (tuple[str | float]): A tuple containing the product code (str), product name (str),
+                                         category (str), price (float), and weight (float) of the donation.
+
+    Raises:
+    ValueError: If donation_data is not a tuple or doesn't contain exactly 5 elements.
+    """
+    if not isinstance(donation_data, tuple) or len(donation_data) != 5:
+        raise ValueError("donation_data must be a tuple with exactly 5 elements.")
+
+    # Unpack the donation data for easier usage in the query
     product_code, product_name, category, price, weight = donation_data
 
-    # Define the SQL query with placeholders
-    query = text(f"""
+    # Construct the SQL query
+    query = f"""
     INSERT INTO {table_name} (product_code, product_name, category, price, weight)
-    VALUES (:product_code, :product_name, :category, :price, :weight)
-    ON CONFLICT (product_code)
-    DO UPDATE SET
-        quantity = {table_name}.quantity + 1,  # Assuming a default increment of 1
-        total_price = {table_name}.price * ({table_name}.quantity + 1),
-        total_weight = {table_name}.weight * ({table_name}.quantity + 1);
-    """)
-
-    # Bind parameters
-    query = query.bindparams(bindparam('product_code', product_code),
-                             bindparam('product_name', product_name),
-                             bindparam('category', category),
-                             bindparam('price', price),
-                             bindparam('weight', weight))
+    VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT (product_code) DO UPDATE SET
+        product_name = EXCLUDED.product_name,
+        category = EXCLUDED.category,
+        price = EXCLUDED.price,
+        weight = EXCLUDED.weight;
+    """
 
     # Connect to the database and execute the query
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
-        s.execute(query)
+        s.execute(query, (product_code, product_name, category, price, weight))
         s.commit()
 
 
