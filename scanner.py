@@ -62,6 +62,8 @@ def receive_barcodes():
                     'total_weight': product_details[4]
                 }
                 st.write(product_details)
+                update_table("donation_log", product_details)
+                st.success("Saved item to donation log.")
 
             else:
                 st.write("Barcode not in dataset.")
