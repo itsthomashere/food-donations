@@ -1,7 +1,15 @@
+import datetime
+
 import streamlit as st
 from sqlalchemy import create_engine, text
 
 from sql_tables import update_table
+
+
+def get_formatted_date():
+    """Return today's date in 'YYYY-MM-DD' format."""
+    today = datetime.date.today()
+    return today.strftime('%Y-%m-%d')
 
 
 def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
@@ -41,6 +49,19 @@ def receive_barcodes():
             product_details = check_existing_entry("dataset", user_input)
             if product_details is not None:
                 st.write(product_details)
+
+                product_details = {
+                    'date_received': get_formatted_date(),
+                    'product_code': product_details[0],
+                    'product_name': product_details[1],
+                    'category': product_details[2],
+                    'price': product_details[3],
+                    'weight': product_details[4],
+                    'quantity': 1,
+                    'total_price': product_details[3],
+                    'total_weight': product_details[4]
+                }
+
             else:
                 st.write("Barcode not in dataset.")
                 st.write("`manual_entry()`")
