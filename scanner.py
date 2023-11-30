@@ -41,9 +41,7 @@ def in_donations_table(product_code, date):
 
 def receive_barcodes():
 
-    _, col2, _ = st.columns([1, 2, 1])
-    with col2:
-        user_input = st.chat_input("Enter a barcode")
+    user_input = st.chat_input("Enter a barcode")
 
     if user_input:
         product_details = find_product("dataset", user_input)
