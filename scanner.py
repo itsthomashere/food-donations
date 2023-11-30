@@ -7,7 +7,7 @@ def in_donations_table(product_code, date):
     query = text(f"""
     SELECT COUNT(*)
     FROM donation_log
-    WHERE product_code = '{product_code}' AND date_received = {date};
+    WHERE product_code = '{product_code}' AND date_received = '{date}';
     """)
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
