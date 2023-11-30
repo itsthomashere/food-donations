@@ -9,36 +9,35 @@ def get_sql_dataframe(table_name: str, order) -> None:
 
 
 def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
-    st.write(donation_data)
-    for i in donation_data:
-        st.write(i)
-    if not isinstance(donation_data, tuple) or len(donation_data) != 5:
-        raise ValueError("donation_data must be a tuple with exactly 5 elements.")
 
     product_code, product_name, category, price, weight = donation_data
-    product_code = str(product_code)  # Convert product_code to string
 
-    # Construct the SQL query with named parameters
+    {
+        'date_received': get_formatted_date(),
+        'product_code': product_code,
+        'product_name': product_name,
+        'category': category,
+        'price': price,
+        'weight': weight,
+        'quantity': quantity,
+        'total_price': price,
+        'total_weight': weight
+    }
+
     query = f"""
-    INSERT INTO {table_name} (product_code, product_name, category, price, weight)
-    VALUES (:product_code, :product_name, :category, :price, :weight)
-    ON CONFLICT (product_code) DO UPDATE SET
-        product_name = EXCLUDED.product_name,
-        category = EXCLUDED.category,
-        price = EXCLUDED.price,
-        weight = EXCLUDED.weight;
+    INSERT INTO {table_name} (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
+    VALUES (:date_received, :product_code, :product_name, :category, :price, :weight, :quantity, :total_price, :total_weight)
+    ON CONFLICT (product_code)
+    DO UPDATE SET
+    quantity = {table_name}.quantity + EXCLUDED.quantity,
+    total_price = {table_name}.price * ({table_name}.quantity + EXCLUDED.quantity),
+    total_weight = {table_name}.weight * ({table_name}.quantity + EXCLUDED.quantity);
     """
 
     # Connect to the database and execute the query
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
-        s.execute(query, {
-            'product_code': product_code, 
-            'product_name': product_name, 
-            'category': category, 
-            'price': price, 
-            'weight': weight
-        })
+        s.execute(query, product_details)
         s.commit()
 
 def donations_dataset():
