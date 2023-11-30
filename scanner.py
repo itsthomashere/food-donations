@@ -46,9 +46,6 @@ def receive_barcodes():
         product_details = find_product("dataset", user_input)
         if product_details is not None:
             st.write(product_details, len(product_details))
-
-            # Debugging statement to check the types of elements in product_details
-            st.write("Product Details Types:", tuple(type(item) for item in product_details))
             update_table("donation_log", product_details)
             st.success("Saved item to donation log.")
         else:
