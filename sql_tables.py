@@ -35,7 +35,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     # Construct the SQL query
     query = f"""
     INSERT INTO {table_name} (product_code, product_name, category, price, weight)
-    VALUES (%s, %s, %s, %s, %s)
+    VALUES (:product_code, :product_name, :category, :price, :weight)
     ON CONFLICT (product_code) DO UPDATE SET
         product_name = EXCLUDED.product_name,
         category = EXCLUDED.category,
@@ -46,7 +46,13 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     # Connect to the database and execute the query
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
-        s.execute(query, (product_code, product_name, category, price, weight))
+        s.execute(query, {
+            'product_code': product_code, 
+            'product_name': product_name, 
+            'category': category, 
+            'price': price, 
+            'weight': weight
+        })
         s.commit()
 
 
