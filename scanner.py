@@ -40,16 +40,14 @@ def in_donations_table(product_code, date):
 
 
 def receive_barcodes():
+    if "text" not in st.session_state:
+        st.session_state["text"] = ""
 
+    st.session_state["text"] = ""
     input = st.text_input("text", key="text")
 
-    def clear_text():
-        st.session_state["text"] = ""
-    
-    st.button("clear text input", on_click=clear_text)
-    st.write(input)
 
-    user_input = st.text_input("Enter a barcode")
+    user_input = st.text_input("Enter a barcode", key="text")
 
     if user_input:
         product_details = find_product("dataset", user_input)
