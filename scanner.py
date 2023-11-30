@@ -48,6 +48,7 @@ def receive_barcodes():
             st.write(product_details, len(product_details))
             update_table("donation_log", product_details)
             st.success("Saved item to donation log.")
+            user_input = None
         else:
             st.write("Barcode not in dataset.")
             st.write("`manual_entry()`")
