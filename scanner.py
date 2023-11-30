@@ -7,13 +7,13 @@ def in_donations_table(product_code, date):
     query = text(f"""
     SELECT COUNT(*)
     FROM donation_log
-    WHERE product_code = '{product_code}' AND date_received = '{date}';
+    WHERE product_code = :product_code AND date_received = :date_received;
     """)
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
-        s.execute(query)
-        s.commit()
-    return query
+        #result = s.execute(query)
+        result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
+    return result
 
 
 def receive_barcodes():
