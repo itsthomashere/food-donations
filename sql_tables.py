@@ -38,7 +38,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     # Connect to the database and execute the query
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
-        s.execute(query, product_details)
+        s.execute(query, product_details).fetchone()
         s.commit()
 
 def donations_dataset():
