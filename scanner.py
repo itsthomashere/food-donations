@@ -61,6 +61,7 @@ def receive_barcodes():
                     'total_price': product_details[3],
                     'total_weight': product_details[4]
                 }
+                st.write(product_details)
 
             else:
                 st.write("Barcode not in dataset.")
