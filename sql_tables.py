@@ -8,27 +8,35 @@ def get_sql_dataframe(table_name: str, order) -> None:
     st.dataframe(messages, use_container_width=True, hide_index=True)
 
 
-def update_table(table_name, donation_data):
-    """Update a SQL table with donation data."""
+def update_table(table_name: str, donation_data: tuple(str | float)) -> None:
+    """Update a SQL table with donation data, where donation_data is a tuple."""
+    # Ensure donation_data is a tuple with the correct number of elements
+    if not isinstance(donation_data, tuple) or len(donation_data) != 5:
+        raise ValueError("donation_data must be a tuple with 5 elements.")
+
+    # Unpack the tuple
+    product_code, product_name, category, price, weight = donation_data
+
     # Define the SQL query with placeholders
     query = text(f"""
-    INSERT INTO {table_name} (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
-    VALUES (:date_received, :product_code, :product_name, :category, :price, :weight, :quantity, :total_price, :total_weight)
+    INSERT INTO {table_name} (product_code, product_name, category, price, weight)
+    VALUES (:product_code, :product_name, :category, :price, :weight)
     ON CONFLICT (product_code)
     DO UPDATE SET
-        quantity = {table_name}.quantity + EXCLUDED.quantity,
-        total_price = {table_name}.price * ({table_name}.quantity + EXCLUDED.quantity),
-        total_weight = {table_name}.weight * ({table_name}.quantity + EXCLUDED.quantity);
+        quantity = {table_name}.quantity + 1,  # Assuming a default increment of 1
+        total_price = {table_name}.price * ({table_name}.quantity + 1),
+        total_weight = {table_name}.weight * ({table_name}.quantity + 1);
     """)
 
-    # Explicitly bind parameters
-    for key, value in donation_data.items():
-        query = query.bindparams(bindparam(key, value))
+    # Bind parameters
+    query = query.bindparams(bindparam('product_code', product_code),
+                             bindparam('product_name', product_name),
+                             bindparam('category', category),
+                             bindparam('price', price),
+                             bindparam('weight', weight))
 
-    # Connect to the database
+    # Connect to the database and execute the query
     conn = st.connection("digitalocean", type="sql")
-
-    # Execute the query using the donation data
     with conn.session as s:
         s.execute(query)
         s.commit()

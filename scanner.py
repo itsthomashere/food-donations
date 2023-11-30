@@ -50,18 +50,19 @@ def receive_barcodes():
             if product_details is not None:
                 st.write(product_details)
 
-                product_details = {
-                    'date_received': get_formatted_date(),
-                    'product_code': product_details[0],
-                    'product_name': product_details[1],
-                    'category': product_details[2],
-                    'price': product_details[3],
-                    'weight': product_details[4],
-                    'quantity': 1,
-                    'total_price': product_details[3],
-                    'total_weight': product_details[4]
-                }
-                st.write(product_details)
+#                product_details = {
+#                    'date_received': get_formatted_date(),
+#                    'product_code': product_details[0],
+#                    'product_name': product_details[1],
+#                    'category': product_details[2],
+#                    'price': product_details[3],
+#                    'weight': product_details[4],
+#                    'quantity': 1,
+#                    'total_price': product_details[3],
+#                    'total_weight': product_details[4]
+#                }
+#
+#                st.write(product_details)
                 update_table("donation_log", product_details)
                 st.success("Saved item to donation log.")
 
