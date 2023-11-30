@@ -10,29 +10,15 @@ def get_sql_dataframe(table_name: str, order) -> None:
 
 def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     """
-    Inserts or updates a product entry in a specified table with given donation data.
-
-    This function takes a table name and a tuple containing donation data. It constructs an SQL query 
-    to either insert a new row into the table or update an existing row if the product code conflicts. 
-    The function ensures the integrity of the donation data by verifying its format and length. 
-    It updates the quantity, total price, and total weight of the product in the table based on the new data.
-
-    Parameters:
-    table_name (str): The name of the database table to update.
-    donation_data (tuple[str | float]): A tuple containing the product code (str), product name (str),
-                                         category (str), price (float), and weight (float) of the donation.
-
-    Raises:
-    ValueError: If donation_data is not a tuple or doesn't contain exactly 5 elements.
+    [Function Description Unchanged]
     """
-    donation_data = (str(donation_data[0]),) + donation_data[1:]
     if not isinstance(donation_data, tuple) or len(donation_data) != 5:
         raise ValueError("donation_data must be a tuple with exactly 5 elements.")
 
     # Unpack the donation data for easier usage in the query
     product_code, product_name, category, price, weight = donation_data
 
-    # Construct the SQL query
+    # Construct the SQL query with named parameters
     query = f"""
     INSERT INTO {table_name} (product_code, product_name, category, price, weight)
     VALUES (:product_code, :product_name, :category, :price, :weight)
@@ -54,7 +40,6 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
             'weight': weight
         })
         s.commit()
-
 
 def donations_dataset():
     product_details = {
