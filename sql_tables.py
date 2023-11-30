@@ -9,9 +9,9 @@ def get_sql_dataframe(table_name: str, order) -> None:
 
 
 def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
-    """
-    [Function Description Unchanged]
-    """
+    st.write(donation_data)
+    for i in donation_data:
+        st.write(i)
     if not isinstance(donation_data, tuple) or len(donation_data) != 5:
         raise ValueError("donation_data must be a tuple with exactly 5 elements.")
 
