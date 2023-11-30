@@ -1,6 +1,5 @@
 import streamlit as st
 from sqlalchemy import create_engine, text, bindparam
-from scanner import get_formatted_date
 import datetime
 
 def get_sql_dataframe(table_name: str, order) -> None:
