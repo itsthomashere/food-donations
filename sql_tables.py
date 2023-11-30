@@ -20,7 +20,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
         'category': category,
         'price': price,
         'weight': weight,
-        'quantity': quantity,
+        'quantity': 1,
         'total_price': price,
         'total_weight': weight
     }
