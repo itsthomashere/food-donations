@@ -43,10 +43,6 @@ def receive_barcodes():
     if "text" not in st.session_state:
         st.session_state["text"] = ""
 
-    st.session_state["text"] = ""
-    input = st.text_input("text", key="text")
-
-
     user_input = st.text_input("Enter a barcode", key="text")
 
     if user_input:
