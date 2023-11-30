@@ -15,8 +15,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     if not isinstance(donation_data, tuple) or len(donation_data) != 5:
         raise ValueError("donation_data must be a tuple with exactly 5 elements.")
 
-    # Unpack the donation data for easier usage in the query
-    product_code, product_name, category, price, weight = donation_data
+    product_code, product_name, category, price, weight = map(str, donation_data[:1]) + donation_data[1:]
 
     # Construct the SQL query with named parameters
     query = f"""
