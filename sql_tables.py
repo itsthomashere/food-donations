@@ -25,6 +25,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     Raises:
     ValueError: If donation_data is not a tuple or doesn't contain exactly 5 elements.
     """
+    st.write("Received Donation Data:", donation_data)
     if not isinstance(donation_data, tuple) or len(donation_data) != 5:
         raise ValueError("donation_data must be a tuple with exactly 5 elements.")
 
