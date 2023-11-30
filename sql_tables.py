@@ -1,6 +1,7 @@
 import streamlit as st
 from sqlalchemy import create_engine, text, bindparam
 from scanner import get_formatted_date
+import datetime
 
 def get_sql_dataframe(table_name: str, order) -> None:
     conn = st.connection("digitalocean", type="sql")
@@ -14,7 +15,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     product_code, product_name, category, price, weight = donation_data
 
     {
-        'date_received': get_formatted_date(),
+        'date_received': datetime.date.today()
         'product_code': product_code,
         'product_name': product_name,
         'category': category,
