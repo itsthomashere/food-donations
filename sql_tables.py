@@ -13,7 +13,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
 
     product_code, product_name, category, price, weight = donation_data
 
-    {
+    product_details = {
         'date_received': datetime.date.today(),
         'product_code': product_code,
         'product_name': product_name,
