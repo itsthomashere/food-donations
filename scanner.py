@@ -12,7 +12,7 @@ def get_formatted_date():
     return today.strftime('%Y-%m-%d')
 
 
-def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
+def find_product(table_name: str, product_code: str) -> tuple | None:
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
         query = text(f"""
@@ -43,29 +43,11 @@ def receive_barcodes():
     user_input = st.text_input("Enter a barcode")
 
     if user_input:
-
-        if not in_donations_table(user_input, "2023-11-30"):
-            st.write("Searching dataset")
-            product_details = check_existing_entry("dataset", user_input)
+        product_details = find_product("dataset", user_input)
             if product_details is not None:
-                st.write(product_details)
-
-#                product_details = {
-#                    'date_received': get_formatted_date(),
-#                    'product_code': product_details[0],
-#                    'product_name': product_details[1],
-#                    'category': product_details[2],
-#                    'price': product_details[3],
-#                    'weight': product_details[4],
-#                    'quantity': 1,
-#                    'total_price': product_details[3],
-#                    'total_weight': product_details[4]
-#                }
-#
-#                st.write(product_details)
+                st.write(product_details, len(product_details))
                 update_table("donation_log", product_details)
                 st.success("Saved item to donation log.")
-
             else:
                 st.write("Barcode not in dataset.")
                 st.write("`manual_entry()`")
