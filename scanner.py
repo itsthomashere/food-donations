@@ -40,6 +40,15 @@ def in_donations_table(product_code, date):
 
 
 def receive_barcodes():
+
+    input = st.text_input("text", key="text")
+
+    def clear_text():
+        st.session_state["text"] = ""
+    
+    st.button("clear text input", on_click=clear_text)
+    st.write(input)
+
     user_input = st.text_input("Enter a barcode")
 
     if user_input:
