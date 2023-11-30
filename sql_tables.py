@@ -8,7 +8,7 @@ def get_sql_dataframe(table_name: str, order) -> None:
     st.dataframe(messages, use_container_width=True, hide_index=True)
 
 
-def update_table(table_name: str, donation_data: tuple(str | float)) -> None:
+def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     """Update a SQL table with donation data, where donation_data is a tuple."""
     # Ensure donation_data is a tuple with the correct number of elements
     if not isinstance(donation_data, tuple) or len(donation_data) != 5:
