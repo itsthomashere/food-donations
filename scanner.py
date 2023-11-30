@@ -13,7 +13,7 @@ def in_donations_table(product_code, date):
     with conn.session as s:
         s.execute(query)
         s.commit()
-    return bool(query) if len(query) <=1 else query
+    return query
 
 
 def receive_barcodes():
