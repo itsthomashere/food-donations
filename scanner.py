@@ -13,7 +13,10 @@ def in_donations_table(product_code, date):
     with conn.session as s:
         #result = s.execute(query)
         result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
-    return result
+    try:
+        return bool(result[0])
+    except Exception as e:
+        return result[0] if isinstance(result, tuple) else result
 
 
 def receive_barcodes():
