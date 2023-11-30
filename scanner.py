@@ -44,14 +44,11 @@ def receive_barcodes():
 
     if user_input:
         product_details = find_product("dataset", user_input)
-            if product_details is not None:
-                st.write(product_details, len(product_details))
-                update_table("donation_log", product_details)
-                st.success("Saved item to donation log.")
-            else:
-                st.write("Barcode not in dataset.")
-                st.write("`manual_entry()`")
+        if product_details is not None:
+            st.write(product_details, len(product_details))
+            update_table("donation_log", product_details)
+            st.success("Saved item to donation log.")
         else:
-            st.write("Item already in today's donations. Incrementing quantity.")
-            st.write("`increment_quantity()`")
+            st.write("Barcode not in dataset.")
+            st.write("`manual_entry()`")
 
