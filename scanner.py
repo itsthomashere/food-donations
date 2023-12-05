@@ -125,12 +125,8 @@ def receive_barcodes():
         product_details: dict = find_product("dataset", user_input)
         if product_details is not None:
             update_table("donation_log", product_details)
-            st.success("Saved item to donation log.")
+            st.success(f"Saved {user_input} item to donation log.")
         else:
             st.write("Barcode not in dataset.")
 
-            if "product_details" not in st.session_state:
-                st.session_state["product_details"] = None
-            st.session_state["product_details"] = display_form()
-            st.write(st.session_state["product_details"])
 
