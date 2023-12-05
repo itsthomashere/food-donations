@@ -125,19 +125,11 @@ def receive_barcodes():
         else:
             st.write("Barcode not in dataset.")
             
-            with st.form("my_form"):
-                st.write("Inside the form")
-                slider_val = st.slider("Form slider")
-                checkbox_val = st.checkbox("Form checkbox")
+            product_code = st.text_input("Product Code")
+            product_name = st.text_input("Product Name")
 
-                # Every form must have a submit button.
-                submitted = st.form_submit_button("Submit")
-                if submitted:
-                    st.write("slider", slider_val, "checkbox", checkbox_val)
-
-                st.write("Outside the form")
-
-
+            if st.button("Submit") and product_code and product_name:
+                st.write("It works")
 
 
 #                st.write("Product Details:")
