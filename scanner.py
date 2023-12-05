@@ -22,7 +22,7 @@ def construct_product_details(product_code, product_name, category, price, weigh
         'total_weight': weight
     }
 
-def display_form():
+def display_form(product_code):
     """Display the form for entering product details and return the details."""
     with st.form("product_details_form"):
         st.write("Enter Product Details")
@@ -99,7 +99,7 @@ def receive_barcodes():
             st.write("Barcode not in dataset.")
             product_details = None
     
-            product_info = display_form()
+            product_info = display_form(product_code)
             if product_info:
                 product_code, product_name, category, price, weight = product_info
                 product_details = construct_product_details(product_code, product_name, category, price, weight)
