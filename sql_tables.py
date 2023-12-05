@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine, text, bindparam
 import datetime
