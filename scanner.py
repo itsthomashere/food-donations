@@ -125,8 +125,8 @@ def receive_barcodes():
         else:
             st.write("Barcode not in dataset.")
             
-            product_code = st.text_input("Product Code")
-            product_name = st.text_input("Product Name")
+            product_code = st.text_input("Product Code", value=st.session_state['product_code'])
+            product_name = st.text_input("Product Name", value=st.session_state['product_name'])
 
             if st.button("Submit") and product_code and product_name:
                 st.write("It works")
