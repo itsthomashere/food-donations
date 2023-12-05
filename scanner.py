@@ -99,7 +99,7 @@ def receive_barcodes():
             st.write("Barcode not in dataset.")
             product_details = None
     
-            product_info = display_form(product_code)
+            product_info = display_form(product_details["product_code"])
             if product_info:
                 product_code, product_name, category, price, weight = product_info
                 product_details = construct_product_details(product_code, product_name, category, price, weight)
