@@ -50,14 +50,34 @@ def get_formatted_date():
     return today.strftime('%Y-%m-%d')
 
 
-def find_product(table_name: str, product_code: str) -> tuple | None:
+def find_product(table_name: str, product_code: str) -> dict | None:
     conn = st.connection("digitalocean", type="sql")
     with conn.session as s:
         query = text(f"""
             SELECT product_code, product_name, category, price, weight FROM {table_name} WHERE product_code = :product_code
         """)
         result = s.execute(query, {"product_code": product_code}).fetchone()
-    return result
+    if result is not None:
+        try:
+            product_code, product_name, category, price, weight = result
+            return = {
+                    'date_received': datetime.date.today(),
+                    'product_code': product_code,
+                    'product_name': product_name,
+                    'category': category,
+                    'price': price,
+                    'weight': weight,
+                    'quantity': 1,
+                    'total_price': price,
+                    'total_weight': weight
+                }
+
+        except Exception as e:
+            st.write(e)
+            st.write(result)
+            return result
+    else:
+        return result
 
 
 def in_donations_table(product_code, date):
@@ -98,23 +118,8 @@ def receive_barcodes():
     user_input = st.chat_input("Enter a barcode")
 
     if user_input:
-        product_details: tuple = find_product("dataset", user_input)
+        product_details: dict = find_product("dataset", user_input)
         if product_details is not None:
-            product_code, product_name, category, price, weight = product_details
-
-            
-            product_details = {
-                    'date_received': datetime.date.today(),
-                    'product_code': product_code,
-                    'product_name': product_name,
-                    'category': category,
-                    'price': price,
-                    'weight': weight,
-                    'quantity': 1,
-                    'total_price': price,
-                    'total_weight': weight
-                }
-
             update_table("donation_log", product_details)
             st.success("Saved item to donation log.")
         else:
