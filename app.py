@@ -73,9 +73,9 @@ options = option_menu(None,
 
 # --- MORE EFFICIENT ALTERNATIVE TO IF ELIF STATEMENTS
 pages = {
-    'Donations': donations_dataset,
+    'Manual': donations_dataset,
     'Barcode Scanner': receive_barcodes,
-    'Dataset': food_dataset
+    'Totals': food_dataset
 }
 pages[options]()
 # ---
