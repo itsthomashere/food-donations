@@ -6,6 +6,38 @@ from sqlalchemy import create_engine, text
 from sql_tables import update_table
 
 
+def construct_product_details(product_code, product_name, category, price, weight):
+    """
+    Construct a dictionary of product details.
+    """
+    return {
+        'date_received': datetime.date.today(),
+        'product_code': product_code,
+        'product_name': product_name,
+        'category': category,
+        'price': price,
+        'weight': weight,
+        'quantity': 1,
+        'total_price': price,
+        'total_weight': weight
+    }
+
+def display_form():
+    """Display the form for entering product details and return the details."""
+    with st.form("product_details_form"):
+        st.write("Enter Product Details")
+        product_code = st.text_input("Product Code")
+        product_name = st.text_input("Product Name")
+        category = st.text_input("Category")
+        price = st.number_input("Price", min_value=0.0, format="%.2f")
+        weight = st.number_input("Weight", min_value=0.0, format="%.2f")
+        
+        submit_button = st.form_submit_button("Submit")
+        
+        if submit_button:
+            return product_code, product_name, category, price, weight
+
+
 def get_formatted_date():
     """Return today's date in 'YYYY-MM-DD' format."""
     today = datetime.date.today()
@@ -52,5 +84,11 @@ def receive_barcodes():
             user_input = None
         else:
             st.write("Barcode not in dataset.")
-            st.write("`manual_entry()`")
+            product_details = None
+    
+            product_info = display_form()
+            if product_info:
+                product_code, product_name, category, price, weight = product_info
+                product_details = construct_product_details(product_code, product_name, category, price, weight)
+                st.write("Product Details:")
 
