@@ -113,26 +113,26 @@ def receive_barcodes():
             update_table("donation_log", product_details)
             st.success("Saved item to donation log.")
         else:
-st.write("Barcode not in dataset.")
-    product_details = None
+            st.write("Barcode not in dataset.")
+            product_details = None
 
-    product_info = display_form()
-    if product_info:
-        # Update session state with form values
-        st.session_state['product_code'], st.session_state['product_name'], \
-        st.session_state['category'], st.session_state['price'], \
-        st.session_state['weight'] = product_info
+            product_info = display_form()
+            if product_info:
+                # Update session state with form values
+                st.session_state['product_code'], st.session_state['product_name'], \
+                st.session_state['category'], st.session_state['price'], \
+                st.session_state['weight'] = product_info
+        
+                # Retrieve values from session state
+                product_code = st.session_state['product_code']
+                product_name = st.session_state['product_name']
+                category = st.session_state['category']
+                price = st.session_state['price']
+                weight = st.session_state['weight']
 
-        # Retrieve values from session state
-        product_code = st.session_state['product_code']
-        product_name = st.session_state['product_name']
-        category = st.session_state['category']
-        price = st.session_state['price']
-        weight = st.session_state['weight']
-
-        # Construct product details and update table
-        product_details = construct_product_details(product_code, product_name, category, price, weight)
-        st.write("Product Details:")
-        update_table("donation_log", product_details)
-        st.success("Saved to donations.")
+                # Construct product details and update table
+                product_details = construct_product_details(product_code, product_name, category, price, weight)
+                st.write("Product Details:")
+                update_table("donation_log", product_details)
+                st.success("Saved to donations.")
 
