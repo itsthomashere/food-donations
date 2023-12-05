@@ -54,7 +54,7 @@ def create_product_dictionary(details):
     Create a dictionary with product details and default values for quantity and totals.
     """
     return {
-        'date_received': datetime.date.today().strftime('%Y-%m-%d')
+        'date_received': datetime.date.today().strftime('%Y-%m-%d'),
         'product_code': details['product_code'],
         'product_name': details['product_name'],
         'category': details['category'],
