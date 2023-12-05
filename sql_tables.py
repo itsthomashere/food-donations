@@ -73,8 +73,10 @@ def donations_dataset():
     if user_input:
         details = parse_input(user_input)
         product_details = create_product_dictionary(details)
-        st.write("Product Details:")
-        st.json(product_details)
+        if product_details is not None and st.button("Submit"):
+            st.write("Product Details:")
+            st.json(product_details)
+            update_table('donation_log', product_details)
     
 
 def food_dataset():
