@@ -128,15 +128,8 @@ def receive_barcodes():
             st.success("Saved item to donation log.")
         else:
             st.write("Barcode not in dataset.")
-            
-            product_code = st.text_input("Product Code", value=st.session_state['product_code'])
-            product_name = st.text_input("Product Name", value=st.session_state['product_name'])
 
-            if st.button("Submit") and product_code and product_name:
-                st.write("It works")
-
-
-#                st.write("Product Details:")
-#                update_table("donation_log", product_details)
-#                st.success("Saved to donations.")
+            product_details = display_form()
+            update_table("donation_log", product_details)
+            st.success("Saved to donations.")
 
