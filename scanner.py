@@ -124,25 +124,30 @@ def receive_barcodes():
             st.success("Saved item to donation log.")
         else:
             st.write("Barcode not in dataset.")
+            
+            with st.form("my_form"):
+                st.write("Inside the form")
+                slider_val = st.slider("Form slider")
+                checkbox_val = st.checkbox("Form checkbox")
+
+                # Every form must have a submit button.
+                submitted = st.form_submit_button("Submit")
+                if submitted:
+                    st.write("slider", slider_val, "checkbox", checkbox_val)
+
+                st.write("Outside the form")
+
+
+
+
+
             product_details = None
 
             product_info = display_form()
             if product_info:
-                # Update session state with form values
-                st.session_state['product_code'], st.session_state['product_name'], \
-                st.session_state['category'], st.session_state['price'], \
-                st.session_state['weight'] = product_info
-        
-                # Retrieve values from session state
-                product_code = st.session_state['product_code']
-                product_name = st.session_state['product_name']
-                category = st.session_state['category']
-                price = st.session_state['price']
-                weight = st.session_state['weight']
 
-                # Construct product details and update table
-                product_details = construct_product_details(product_code, product_name, category, price, weight)
-                st.write("Product Details:")
-                update_table("donation_log", product_details)
-                st.success("Saved to donations.")
+
+#                st.write("Product Details:")
+#                update_table("donation_log", product_details)
+#                st.success("Saved to donations.")
 
