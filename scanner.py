@@ -49,7 +49,7 @@ def display_form():
         weight = st.number_input("Weight", min_value=0.0, format="%.2f", value=st.session_state['weight'])
         
         submit_button = st.form_submit_button("Submit")
-        
+
         if submit_button:
             # Update session state with the new values
             st.session_state['product_code'] = product_code
@@ -130,6 +130,4 @@ def receive_barcodes():
             st.write("Barcode not in dataset.")
 
             product_details = display_form()
-            update_table("donation_log", product_details)
-            st.success("Saved to donations.")
 
