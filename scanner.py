@@ -22,12 +22,26 @@ def construct_product_details(product_code, product_name, category, price, weigh
         'total_weight': weight
     }
 
+import streamlit as st
+
 def display_form():
     """Display the form for entering product details and return the details."""
+    
+    # Initialize session state variables if they don't exist
+    if 'product_code' not in st.session_state:
+        st.session_state['product_code'] = ''
+    if 'product_name' not in st.session_state:
+        st.session_state['product_name'] = ''
+    if 'category' not in st.session_state:
+        st.session_state['category'] = ''
+    if 'price' not in st.session_state:
+        st.session_state['price'] = 0.0
+    if 'weight' not in st.session_state:
+        st.session_state['weight'] = 0.0
+
     with st.form("product_details_form"):
         st.write("Enter Product Details")
         
-        # Use session_state values as default values
         product_code = st.text_input("Product Code", value=st.session_state['product_code'])
         product_name = st.text_input("Product Name", value=st.session_state['product_name'])
         category = st.text_input("Category", value=st.session_state['category'])
@@ -37,8 +51,14 @@ def display_form():
         submit_button = st.form_submit_button("Submit")
         
         if submit_button:
+            # Update session state with the new values
+            st.session_state['product_code'] = product_code
+            st.session_state['product_name'] = product_name
+            st.session_state['category'] = category
+            st.session_state['price'] = price
+            st.session_state['weight'] = weight
+            
             st.write(product_code, product_name, category, price, weight)
-            # Return the values entered in the form
             return product_code, product_name, category, price, weight
 
     return None
@@ -98,22 +118,6 @@ def in_donations_table(product_code, date):
 
 
 def receive_barcodes():
-
-    # Initialize session state for form values
-    if 'product_code' not in st.session_state:
-        st.session_state['product_code'] = ''
-
-    if 'product_name' not in st.session_state:
-        st.session_state['product_name'] = ''
-
-    if 'category' not in st.session_state:
-        st.session_state['category'] = ''
-
-    if 'price' not in st.session_state:
-        st.session_state['price'] = 0.0
-
-    if 'weight' not in st.session_state:
-        st.session_state['weight'] = 0.0
 
     user_input = st.chat_input("Enter a barcode")
 
