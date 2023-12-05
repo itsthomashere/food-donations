@@ -77,6 +77,7 @@ def donations_dataset():
             st.write("Product Details:")
             st.json(product_details)
             update_table('donation_log', product_details)
+            st.success("Saved to donation log.")
     
 
 def food_dataset():
