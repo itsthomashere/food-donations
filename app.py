@@ -64,7 +64,7 @@ title = st.markdown(
 )
 
 options = option_menu(None, 
-                      ["Manual",, "Barcode Scanner", "Totals"], 
+                      ["Manual", "Barcode Scanner", "Totals"], 
                       icons=['clipboard-data', 'upc-scan', "database-add"], 
                       menu_icon="cast", 
                       default_index=1, 
