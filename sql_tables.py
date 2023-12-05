@@ -8,22 +8,10 @@ def get_sql_dataframe(table_name: str, order) -> None:
     messages = conn.query(query)
     st.dataframe(messages, use_container_width=True, hide_index=True)
 
-
-def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
-
-    product_code, product_name, category, price, weight = donation_data
-
-    product_details = {
-        'date_received': datetime.date.today(),
-        'product_code': product_code,
-        'product_name': product_name,
-        'category': category,
-        'price': price,
-        'weight': weight,
-        'quantity': 1,
-        'total_price': price,
-        'total_weight': weight
-    }
+def update_table(table_name: str, product_details: dict) -> None:
+    """
+    Updates the specified table with product details.
+    """
 
     query = f"""
     INSERT INTO {table_name} (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
@@ -40,6 +28,7 @@ def update_table(table_name: str, donation_data: tuple[str | float]) -> None:
     with conn.session as s:
         s.execute(text(query), product_details)
         s.commit()
+
 
 def donations_dataset():
     product_details = {
