@@ -3,6 +3,15 @@ import streamlit as st
 from sqlalchemy import create_engine, text, bindparam
 import datetime
 
+def display_overall_totals(df: pd.DataFrame) -> None:
+    """
+    Display the overall total price and total weight using Streamlit.
+    """
+    total_price = df['total_price'].sum()
+    total_weight = df['total_weight'].sum()
+    st.write(f"Overall Total Price: {total_price}")
+    st.write(f"Overall Total Weight: {total_weight}")
+
 def get_today_data(table_name: str) -> pd.DataFrame:
     """
     Fetch data from the specified table where 'date_received' is today's date,
@@ -108,4 +117,5 @@ def food_dataset():
     df = get_today_data(table_name)
     totals_df = calculate_totals(df)
     st.dataframe(totals_df, use_container_width=True, hide_index=True)
+    display_overall_totals(totals_df)
 
