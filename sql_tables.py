@@ -8,7 +8,7 @@ def get_today_data(table_name: str) -> pd.DataFrame:
     Fetch data from the specified table where 'date_received' is today's date,
     and return it as a pandas DataFrame.
     """
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.date.today().strftime("%Y-%m-%d")
     conn = st.experimental_connection("digitalocean", type="sql")
     query = f"SELECT * FROM {table_name} WHERE date_received = '{today}'"
     result = conn.query(query)
