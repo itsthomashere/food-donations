@@ -29,25 +29,53 @@ def update_table(table_name: str, product_details: dict) -> None:
         s.execute(text(query), product_details)
         s.commit()
 
+def parse_input(user_input):
+    """
+    Parse the input string from the user to extract product details.
+    """
+    details = user_input.split('|')
+    product_name, category, price, weight, product_code = [detail.strip() for detail in details]
 
-def donations_dataset():
-    product_details = {
-        'date_received': '2023-11-30',
-        'product_code': '20000370',
-        'product_name': 'Pork Bangers 500 g',
-        'category': 'Mixed Groceries',
-        'price': 59.99,
-        'weight': 0.5,
-        'quantity': 1,
-        'total_price': 59.99,
-        'total_weight': 0.5
+    # Converting price and weight to float
+    price = float(price) if price else 0.0
+    weight = float(weight) if weight else 0.0
+
+    return {
+        'product_name': product_name,
+        'category': category,
+        'price': price,
+        'weight': weight,
+        'product_code': product_code
     }
 
-    get_sql_dataframe('donation_log', 'date_received')
-    dummy_data = st.button("Send dummy data...")
-    if dummy_data:
-        update_table('donation_log', product_details)
 
+def create_product_dictionary(details):
+    """
+    Create a dictionary with product details and default values for quantity and totals.
+    """
+    return {
+        'date_received': datetime.now().strftime('%Y-%m-%d'),
+        'product_code': details['product_code'],
+        'product_name': details['product_name'],
+        'category': details['category'],
+        'price': details['price'],
+        'weight': details['weight'],
+        'quantity': 1,
+        'total_price': details['price'],
+        'total_weight': details['weight']
+    }
+
+def donations_dataset():
+    st.title("Manual Entry")
+    
+    user_input = st.text_input("Enter food item details (Format: Name | Category | Price | Weight | Code):")
+
+    if user_input:
+        details = parse_input(user_input)
+        product_details = create_product_dictionary(details)
+        st.write("Product Details:")
+        st.json(product_details)
+    
 
 def food_dataset():
     get_sql_dataframe('dataset', 'category')
