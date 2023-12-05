@@ -26,16 +26,20 @@ def display_form():
     """Display the form for entering product details and return the details."""
     with st.form("product_details_form"):
         st.write("Enter Product Details")
-        product_code = st.text_input("Product Code")
-        product_name = st.text_input("Product Name")
-        category = st.text_input("Category")
-        price = st.number_input("Price", min_value=0.0, format="%.2f")
-        weight = st.number_input("Weight", min_value=0.0, format="%.2f")
+        
+        # Use session_state values as default values
+        product_code = st.text_input("Product Code", value=st.session_state['product_code'])
+        product_name = st.text_input("Product Name", value=st.session_state['product_name'])
+        category = st.text_input("Category", value=st.session_state['category'])
+        price = st.number_input("Price", min_value=0.0, format="%.2f", value=st.session_state['price'])
+        weight = st.number_input("Weight", min_value=0.0, format="%.2f", value=st.session_state['weight'])
         
         submit_button = st.form_submit_button("Submit")
         
         if submit_button:
+            # Return the values entered in the form
             return product_code, product_name, category, price, weight
+
     return None
 
 
