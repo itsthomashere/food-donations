@@ -140,13 +140,6 @@ def receive_barcodes():
 
 
 
-
-            product_details = None
-
-            product_info = display_form()
-            if product_info:
-
-
 #                st.write("Product Details:")
 #                update_table("donation_log", product_details)
 #                st.success("Saved to donations.")
