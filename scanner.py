@@ -76,12 +76,25 @@ def receive_barcodes():
     user_input = st.chat_input("Enter a barcode")
 
     if user_input:
-        product_details = find_product("dataset", user_input)
+        product_details: tuple = find_product("dataset", user_input)
         if product_details is not None:
-            st.write(product_details, len(product_details))
+            product_code, product_name, category, price, weight = product_details
+
+            
+            product_details = {
+                    'date_received': datetime.date.today(),
+                    'product_code': product_code,
+                    'product_name': product_name,
+                    'category': category,
+                    'price': price,
+                    'weight': weight,
+                    'quantity': 1,
+                    'total_price': price,
+                    'total_weight': weight
+                }
+
             update_table("donation_log", product_details)
             st.success("Saved item to donation log.")
-            user_input = None
         else:
             st.write("Barcode not in dataset.")
             product_details = None
@@ -91,4 +104,6 @@ def receive_barcodes():
                 product_code, product_name, category, price, weight = product_info
                 product_details = construct_product_details(product_code, product_name, category, price, weight)
                 st.write("Product Details:")
+                update_table("donation_log", product_details)
+                st.success("Saved to donations.")
 
