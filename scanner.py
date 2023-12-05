@@ -37,6 +37,7 @@ def display_form():
         submit_button = st.form_submit_button("Submit")
         
         if submit_button:
+            st.write(product_code, product_name, category, price, weight)
             # Return the values entered in the form
             return product_code, product_name, category, price, weight
 
