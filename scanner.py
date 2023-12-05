@@ -60,7 +60,7 @@ def find_product(table_name: str, product_code: str) -> dict | None:
     if result is not None:
         try:
             product_code, product_name, category, price, weight = result
-            return = {
+            return {
                     'date_received': datetime.date.today(),
                     'product_code': product_code,
                     'product_name': product_name,
