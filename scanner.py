@@ -129,5 +129,8 @@ def receive_barcodes():
         else:
             st.write("Barcode not in dataset.")
 
-            product_details = display_form()
+            if "product_details" not in st.session_state:
+                st.session_state["product_details"] = None
+            st.session_state["product_details"] = display_form()
+            st.write(st.session_state["product_details"])
 
