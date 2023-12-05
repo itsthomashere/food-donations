@@ -1,6 +1,28 @@
+import pandas
 import streamlit as st
 from sqlalchemy import create_engine, text, bindparam
 import datetime
+
+def get_today_data(table_name: str) -> pd.DataFrame:
+    """
+    Fetch data from the specified table where 'date_received' is today's date,
+    and return it as a pandas DataFrame.
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    conn = st.experimental_connection("digitalocean", type="sql")
+    query = f"SELECT * FROM {table_name} WHERE date_received = '{today}'"
+    result = conn.query(query)
+    return pd.DataFrame(result)
+
+def calculate_totals(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculate the total price and total weight, grouped by categories from the DataFrame.
+    """
+    grouped_df = df.groupby('category').agg(
+        total_price=pd.NamedAgg(column='total_price', aggfunc='sum'),
+        total_weight=pd.NamedAgg(column='total_weight', aggfunc='sum')
+    ).reset_index()
+    return grouped_df
 
 def get_sql_dataframe(table_name: str, order) -> None:
     conn = st.connection("digitalocean", type="sql")
@@ -81,5 +103,9 @@ def donations_dataset():
     
 
 def food_dataset():
-    get_sql_dataframe('dataset', 'category')
+    #get_sql_dataframe('dataset', 'category')
+    table_name = "donation_log"  # Replace with your actual table name
+    df = get_today_data(table_name)
+    totals_df = calculate_totals(df)
+    st.dataframe(totals_df, use_container_width=True, hide_index=True)
 
