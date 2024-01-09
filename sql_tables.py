@@ -201,6 +201,9 @@ def donations_dataset():
             return
         product_details = extract_product_details(prod_url, prod_price, quantity)
 
+        # add datetime to date_received key in product_details
+        product_details["date_received"] = datetime.date.today().strftime("%Y-%m-%d")
+
         if product_details is not None and st.button("Submit"):
             st.write("Product Details:")
             st.json(product_details)
