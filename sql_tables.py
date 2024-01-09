@@ -178,15 +178,14 @@ def create_product_dictionary(details):
 def donations_dataset():
     st.title("Manual Entry")
     
-    user_input = st.text_input("Enter url, price and quantity, seperated by a spacebar: ")
-
-    if user_input.startswith('https://') and ' ' in user_input:
-        url, price, quantity = user_input.split(' ')
-        product_details = extract_product_details(url, float(price), quantity)
 
     user_input = st.text_input(
         "Enter the URL, price and quantity, separated by spacebars: "
     )
+
+    if user_input.startswith('https://') and ' ' in user_input:
+        url, price, quantity = user_input.split(' ')
+        product_details = extract_product_details(url, float(price), quantity)
 
     if user_input.startswith("http") and url.contains(" "):
         # split url and price and turn price into float, include try except block
