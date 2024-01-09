@@ -187,7 +187,7 @@ def donations_dataset():
         url, price, quantity = user_input.split(' ')
         product_details = extract_product_details(url, float(price), quantity)
 
-    if user_input.startswith("http") and url.contains(" "):
+    if user_input.startswith("http") and user_input.contains(" "):
         # split url and price and turn price into float, include try except block
         try:
             prod_url, prod_price, quantity = user_input.split()
