@@ -164,14 +164,9 @@ def donations_dataset():
     
     user_input = st.text_input("Enter url and price, seperated by a spacebar: ")
 
-    # split user input into url and price
-    # add if condition for if https and a float is entered
     if user_input.startswith('https://') and ' ' in user_input:
         url, price = user_input.split(' ')
-
-    assert url.startswith('https://'), "Please enter a valid url."
-
-    if user_input:
+        assert url.startswith('https://'), "Please enter a valid url."
         # details = parse_input(user_input)
         # product_details = create_product_dictionary(details)
         product_details = extract_product_details(url, float(price))
