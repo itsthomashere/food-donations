@@ -4,7 +4,8 @@ import pandas as pd
 import streamlit as st
 from sqlalchemy import bindparam, create_engine, text
 
-from weight_extractor import extract_weight, extract_weight_type, standardise_weight
+from weight_extractor import (extract_weight, extract_weight_type,
+                              standardise_weight)
 
 category_mapping = {
     "Bakery": "Mixed Bakery",
@@ -199,6 +200,7 @@ def donations_dataset():
         except Exception as e:
             st.error(f"An error occurred: {e}")
             return
+        product_details = extract_product_details(prod_url, prod_price, quantity)
 
         if product_details is not None and st.button("Submit"):
             st.write("Product Details:")
