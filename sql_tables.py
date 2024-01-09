@@ -63,8 +63,8 @@ def extract_product_details(prod_url: str, prod_price: float, quantity: int) -> 
         'price': p,
         'weight': w,
         'quantity': quantity,
-        'total_price': p * quantity,
-        'total_weight': w * quantity
+        'total_price': float(p) * float(quantity),
+        'total_weight': w * float(quantity)
     }
 
     return product_dict
