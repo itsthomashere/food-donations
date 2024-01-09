@@ -1,7 +1,70 @@
+import datetime
+
 import pandas as pd
 import streamlit as st
-from sqlalchemy import create_engine, text, bindparam
-import datetime
+from sqlalchemy import bindparam, create_engine, text
+
+category_mapping = {
+        "Bakery": "Mixed Bakery",
+        "Bread_Bakery_Deserts": "Mixed Bakery",
+        "Flowers Plants": "Non-Food Groceries",
+        "Kids Food Toiletries": "Non-Food Groceries",
+        "High Tea": "Non-Food Groceries",
+        "Fruit_Veg": "Mixed Veg",
+        "Fruit Vegetables Salads": "Mixed Veg",
+        "Meat_poultry_fish": "Mixed Groceries",
+        "Meat Poultry Fish": "Mixed Groceries",
+        "Easter Feast": "Mixed Groceries",
+        "Milk_Dairy_Eggs": "Mixed Groceries",
+        "Milk Dairy Eggs": "Mixed Groceries",
+        "Beverages & Juices": "Mixed Groceries",
+        "Eid Feast": "Mixed Groceries",
+        "Pantry": "Non-Food Groceries",
+        "Ready Meals": "Mixed Deli",
+        "Food To Go": "Mixed Deli",
+        "Deli_Entertaining": "Mixed Deli",
+        "Recipes": "Mixed Deli",
+        "Promotions": "Mixed Deli",
+        "Summer Wellbeing": "Mixed Fruit",
+        "Food Basket": "Mixed Fruit",
+        "Buy Any 2 Save 15 on Berries": "Mixed Fruit",
+        "Plant Based Shop": "Mixed Groceries",
+        "Ready_meals": "Mixed Deli",
+        "Deli Entertaining": "Mixed Deli",
+        "Soup Shop": "Mixed Groceries"
+    }
+
+def extract_product_code(url_segments: list[str]) -> str:
+    pc = url_segments.pop()[2:]
+    if pc.endswith('?isFromPLP=true'):
+        pc = pc.replace('?isFromPLP=true', '')
+    return pc
+
+def extract_product_details(prod_url: str, prod_price: float) -> dict[str, str | float]:
+    """Extracts product attributes from the item's url and price, both passed in as arguments."""
+    pc = pn = c = p = w = ''  # Initialize long form variable names
+
+    pd = {}
+    pdetails = prod_url.split('/')
+    pc = extract_product_code(pdetails)
+    pn = pdetails.pop(-2).replace('-', ' ')
+    c = category_mapping.get(pdetails[5].replace('-', ' '), pdetails[5].replace('-', ' '))
+    p = prod_price
+    w = standardise_weight((extract_weight(pn), extract_weight_type(pn)))
+    q = 1
+
+    product_dict = {
+        'product_code': pc,
+        'product_name': pn,
+        'category': c,
+        'price': p,
+        'weight': w,
+        'quantity': q,
+        'total_price': p * q,
+        'total_weight': w * q
+    }
+
+    return product_dict
 
 def display_overall_totals(df: pd.DataFrame) -> None:
     """
@@ -99,11 +162,19 @@ def create_product_dictionary(details):
 def donations_dataset():
     st.title("Manual Entry")
     
-    user_input = st.text_input("Enter food item details (Format: Name | Category | Price | Weight | Code):")
+    user_input = st.text_input("Enter url and price, seperated by a spacebar: ")
+
+    # split user input into url and price
+    # add if condition for if https and a float is entered
+    if user_input.startswith('https://') and ' ' in user_input:
+        url, price = user_input.split(' ')
+
+    assert url.startswith('https://'), "Please enter a valid url."
 
     if user_input:
-        details = parse_input(user_input)
-        product_details = create_product_dictionary(details)
+        # details = parse_input(user_input)
+        # product_details = create_product_dictionary(details)
+        product_details = extract_product_details(url, float(price))
         if product_details is not None and st.button("Submit"):
             st.write("Product Details:")
             st.json(product_details)
