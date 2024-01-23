@@ -15,6 +15,7 @@ category_mapping = {
         "High Tea": "Non-Food Groceries",
         "Fruit_Veg": "Mixed Veg",
         "Fruit Vegetables Salads": "Mixed Veg",
+        "Baby Food Toiletries": "Mixed Groceries",
         "Meat_poultry_fish": "Mixed Groceries",
         "Meat Poultry Fish": "Mixed Groceries",
         "Easter Feast": "Mixed Groceries",
