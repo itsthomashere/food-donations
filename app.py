@@ -17,10 +17,10 @@ def connect_to_table(query: str, conn: Connection) -> None:
     """
     with conn.session as session:
         session.execute(text(query))
-        session.commit()
+        # session.commit()
 
 def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
-    conn = st.connection("digitalocean", type="sql")
+    conn = st.connection("digitalocean", type="sql", autocommit=True)
     with conn.session as s:
         query = text(f"""
             SELECT product_code, product_name, category, price, weight FROM {table_name} WHERE product_code = :product_code
@@ -44,9 +44,13 @@ def get_connection() -> Connection:
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
         # return conn.execute(text(query), query_params).fetchone()
-        return conn.query(text(query), params=query_params).fetchone()
+        result = session.execute(text(query), params=query_params).fetchone()
+        # session.commit()
+        return result
         # df = conn.query("select * from pet_owners where owner = :owner", ttl=3600, params={"owner":"barbara"})
-
+    with conn.session as session:
+        session.execute("INSERT INTO numbers (val) VALUES (:n);", {"n": n})
+        # session.commit()
 # ---------------------------------
 
 def main() -> None:
