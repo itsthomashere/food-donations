@@ -3,6 +3,7 @@ from datetime import datetime
 
 import openai
 import streamlit as st
+from dataclasses import asdict
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
 from streamlit_option_menu import option_menu
