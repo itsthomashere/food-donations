@@ -142,7 +142,6 @@ def receive_barcodes() -> None:
     try:
 
         input_str = st.chat_input("Enter a barcode")
-        tuple(input_str)
 
         # 1: Is this a barcode?
 
@@ -155,6 +154,8 @@ def receive_barcodes() -> None:
         # }
 
         if input_str:
+            barcode = tuple(input_str.split()) if " " in input_str else (input_str,)
+            st.write(barcode)
             result = execute_query(conn,
                                           c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
                                           {"product_code": input_str, "date_received": date}
