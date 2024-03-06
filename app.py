@@ -12,22 +12,7 @@ from sql_tables import food_dataset, donations_dataset
 from scanner import receive_barcodes
 
 
-# def create_tables() -> None:
-#     conn = st.connection("digitalocean", type="sql")
-#     with conn.session as s:
-#         # Create the 'donation_log' table with specified columns
-#         s.execute(text("""
-#                     CREATE TABLE IF NOT EXISTS donation_log (
-#                     date_received DATE,
-#                     product_code VARCHAR(13),
-#                     product_name VARCHAR(255),
-#                     category VARCHAR(255),
-#                     price NUMERIC(10, 2),
-#                     weight NUMERIC(10, 2),
-#                     quantity INT,
-#                     total_price NUMERIC(10, 2),
-#                     total_weight NUMERIC(10, 2));"""))
-#         # s.commit()
+
 
 def connect_to_table(query: str, conn: Connection) -> None:
     """
@@ -72,6 +57,11 @@ def get_connection() -> Connection:
         Connection object
     """
     return st.connection("digitalocean", type="sql")
+
+
+def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
+    with conn.session as s:
+        return conn.execute(text(query), query_params).fetchone()
 
 # ---------------------------------
 
