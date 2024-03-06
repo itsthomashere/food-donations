@@ -127,7 +127,7 @@ def receive_barcodes() -> None:
                 # format the results into DonatedFoodItem object
                 try:
                     st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item = convert_to_donated_item(dataset_item, quantity=1)
+                    donated_item = convert_to_donated_item(food_item, quantity=1)
                     st.write(donated_item)
 
                     # product_details = DatasetItem(*result)
