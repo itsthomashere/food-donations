@@ -44,7 +44,7 @@ def get_connection() -> Connection:
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
         # return conn.execute(text(query), query_params).fetchone()
-        return conn.query(text(query), ttl=3600, params=query_params).fetchone()
+        return conn.query(text(query), params=query_params).fetchone()
         # df = conn.query("select * from pet_owners where owner = :owner", ttl=3600, params={"owner":"barbara"})
 
 # ---------------------------------
