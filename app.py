@@ -31,6 +31,7 @@ def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
 
 
 
+@st.cache_data
 def get_connection() -> Connection:
     """
     Establishes and returns a database connection.
@@ -41,7 +42,6 @@ def get_connection() -> Connection:
     return st.connection("digitalocean", type="sql")
 
 
-@st.cache_data
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
         # return conn.execute(text(query), query_params).fetchone()
