@@ -15,6 +15,7 @@ category_mapping = {
         "High Tea": "Non-Food Groceries",
         "Fruit_Veg": "Mixed Veg",
         "Fruit Vegetables Salads": "Mixed Veg",
+        "Braai Shop": "Mixed Groceries",
         "Baby Food Toiletries": "Mixed Groceries",
         "Meat_poultry_fish": "Mixed Groceries",
         "Meat Poultry Fish": "Mixed Groceries",
@@ -33,6 +34,7 @@ category_mapping = {
         "Food Basket": "Mixed Fruit",
         "Buy Any 2 Save 15 on Berries": "Mixed Fruit",
         "Plant Based Shop": "Mixed Groceries",
+        "Frozen Food": "Mixed Groceries",
         "Ready_meals": "Mixed Deli",
         "Deli Entertaining": "Mixed Deli",
         "Soup Shop": "Mixed Groceries"
