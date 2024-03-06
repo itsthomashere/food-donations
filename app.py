@@ -11,9 +11,6 @@ from models import DonatedFoodItem, MissingBarcode, DatasetItem
 from sql_tables import food_dataset, donations_dataset
 # from scanner import receive_barcodes
 
-
-
-
 def connect_to_table(query: str, conn: Connection) -> None:
     """
     Executes an SQL query using Streamlit connection object
@@ -46,7 +43,9 @@ def get_connection() -> Connection:
 
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
-        return conn.execute(text(query), query_params).fetchone()
+        # return conn.execute(text(query), query_params).fetchone()
+        return conn.query(text(query), ttl=3600, params=query_params).fetchone()
+        # df = conn.query("select * from pet_owners where owner = :owner", ttl=3600, params={"owner":"barbara"})
 
 # ---------------------------------
 
