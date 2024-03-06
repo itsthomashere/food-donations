@@ -4,7 +4,7 @@ import openai
 import streamlit as st
 from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
-from constants import DONATION_LOG_TABLE, MISSING_BARCODES_TABLE
+from constants as c
 
 from sql_tables import food_dataset, donations_dataset
 from scanner import receive_barcodes
