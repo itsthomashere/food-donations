@@ -5,7 +5,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
-from constants as c
+import constants as c
 from models import DonatedFoodItem, MissingBarcode, DatasetItem
 
 from sql_tables import food_dataset, donations_dataset
