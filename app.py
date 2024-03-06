@@ -41,6 +41,7 @@ def get_connection() -> Connection:
     return st.connection("digitalocean", type="sql")
 
 
+@st.cache_data
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
         # return conn.execute(text(query), query_params).fetchone()
