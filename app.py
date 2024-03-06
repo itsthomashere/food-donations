@@ -156,7 +156,7 @@ def receive_barcodes() -> None:
         if input_str:
             input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
             barcode = input_tuple[0]
-            quantity  = input_tuple[1] if len(input_tuple) > 1 else 1
+            quantity  = int(str(input_tuple[1]).strip("x")) if len(input_tuple) > 1 else 1
 
             result = execute_query(conn,
                                           c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
@@ -182,7 +182,7 @@ def receive_barcodes() -> None:
                     # st.write("Query succeeded:", food_item)
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity.strip("x"))
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
