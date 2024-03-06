@@ -145,7 +145,7 @@ def receive_barcodes() -> None:
 
         if user_input:
             result = execute_query(conn,
-                                          c.CHECK_IF_ITEM_IS_IN_DONATION_HISTORY,
+                                          c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
                                           {"product_code": user_input, "date_received": date}
                                           )
             try:
