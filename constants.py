@@ -43,7 +43,7 @@ total_price = donation_history.price * (donation_history.quantity + EXCLUDED.qua
 total_weight = donation_history.weight * (donation_history.quantity + EXCLUDED.quantity);
 """
 
-CHECK_EXISTENCE_DONATION_HISTORY = """
+CHECK_IF_ITEM_IN_DONATION_HISTORY = """
 SELECT COUNT(*)
 FROM donation_log
 WHERE product_code = :product_code AND date_received = :date_received;
