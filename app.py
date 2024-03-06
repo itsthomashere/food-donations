@@ -29,7 +29,7 @@ from scanner import receive_barcodes
 
 def connect_to_table(query: str, conn) -> None:
     """
-    Connects to table or creates table if it doesn't exist
+    Executes an SQL query using Streamlit connection object
     """
     with conn.session as session:
         session.execute(text(query))
@@ -99,7 +99,14 @@ def main() -> None:
 
     try:
         conn = get_connection()
-        connect_to_table(c.DONATION_LOG_TABLE, conn)
+
+        # Establish connection to Donation History table
+        connect_to_table(c.DONATION_HISTORY_TABLE, conn)
+
+        # Establish connection to Missing Barcodes table
+        connect_to_table(c.MISSING_BARCODES_TABLE, conn)
+
+
     except Exception as e:
         st.error(e)
 
