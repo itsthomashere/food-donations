@@ -32,21 +32,6 @@ def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
     return result
 
 
-def customize_streamlit_ui() -> None:
-    st.set_page_config(
-        page_title="Barcode Scanner",
-        page_icon="📊",
-        layout="wide"
-        )
-
-    hide_st_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                header {visibility: hidden;}
-                </style>
-                """
-    st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 def get_connection() -> Connection:
@@ -67,7 +52,20 @@ def execute_query(conn: Connection, query: str, query_params: dict = None) -> li
 
 def main() -> None:
 
-    customize_streamlit_ui()
+    st.set_page_config(
+        page_title="Barcode Scanner",
+        page_icon="📊",
+        layout="wide"
+        )
+
+    st.markdown("""
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+                """,
+                unsafe_allow_html=True)
 
     title = "Woolworths Food Donations"
     title = st.markdown(
