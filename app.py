@@ -46,6 +46,16 @@ def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> Don
         total_weight=total_weight,
     )
 
+
+def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
+    """
+    Saves a DonatedFoodItem to the 'donation_history' table.
+    """
+    product_details = asdict(donated_food_item)
+
+    # Connect to the database and execute the query
+    with conn.session as session:
+        session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
 # ---------------------------------
 
 def main() -> None:
