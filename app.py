@@ -154,20 +154,23 @@ def receive_barcodes() -> None:
         # }
 
         if input_str:
-            input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
-            barcode = input_tuple[0]
-            quantity  = int(str(input_tuple[1]).strip("x")) if len(input_tuple) > 1 else 1
-
-            result = execute_query(conn,
-                                          c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
-                                          {"product_code": barcode, "date_received": date}
-                                          )
             try:
-                result = bool(result[0])
+                input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
+                barcode = input_tuple[0]
+                quantity  = int(str(input_tuple[1]).strip("x")) if len(input_tuple) > 1 else 1
             except Exception as e:
-                result = result[0] if isinstance(result, tuple) else result
+                st.error(e)
 
-            st.write(f"Does this item need incrementing?\n>{result}")
+            # result = execute_query(conn,
+            #                               c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
+            #                               {"product_code": barcode, "date_received": date}
+            #                               )
+            # try:
+            #     result = bool(result[0])
+            # except Exception as e:
+            #     result = result[0] if isinstance(result, tuple) else result
+
+            # st.write(f"Does this item need incrementing?\n>{result}")
                 
 
             # st.write(item_in_table)
