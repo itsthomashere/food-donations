@@ -83,7 +83,7 @@ def display_overall_totals(df: pd.DataFrame) -> None:
     st.write(f"Overall Total Weight: {total_weight}")
 
 
-def get_today_data(table_name: str, date: str = None) -> pd.DataFrame:
+def get_data_for_date(table_name: str, date: str = None) -> pd.DataFrame:
     """
     Fetch data from the specified table where 'date_received' is today's date,
     and return it as a pandas DataFrame.
@@ -217,8 +217,23 @@ def donations_dataset():
 
 def food_dataset():
     # get_sql_dataframe('dataset', 'category')
-    table_name = "donation_log"  # Replace with your actual table name
-    df = get_today_data(table_name)
-    totals_df = calculate_totals(df)
-    st.dataframe(totals_df, use_container_width=True, hide_index=True)
-    display_overall_totals(totals_df)
+    table_name = "donation_log"
+
+    if st.button('Show data for yesterday'):
+        # Calculate yesterday's date
+        yesterday = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+        df = get_data_for_date("donation_log", yesterday)
+    else:
+        # Default to today's data
+        df = get_data_for_date("donation_log")
+    
+    if not df.empty:
+        totals_df = calculate_totals(df)
+        st.dataframe(totals_df, use_container_width=True, hide_index=True)
+        display_overall_totals(totals_df)
+    else:
+        st.write("No data available for the selected date.")
+
+    # totals_df = calculate_totals(df)
+    # st.dataframe(totals_df, use_container_width=True, hide_index=True)
+    # display_overall_totals(totals_df)
