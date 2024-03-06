@@ -154,11 +154,13 @@ def receive_barcodes() -> None:
         # }
 
         if input_str:
-            barcode = tuple(input_str.split()) if " " in input_str else (input_str,)
-            st.write(barcode)
+            input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
+            barcode = input_tuple[0] # quantity can be found at index 1
+            quantity  = input_tuple[1] if len(input_tuple) > 1 else 1
+
             result = execute_query(conn,
                                           c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
-                                          {"product_code": input_str, "date_received": date}
+                                          {"product_code": barcode, "date_received": date}
                                           )
             try:
                 result = bool(result[0])
@@ -171,7 +173,7 @@ def receive_barcodes() -> None:
             # st.write(item_in_table)
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
-                                   {"product_code": input_str}
+                                   {"product_code": barcode}
                                    )
             if result:
                 try:
@@ -180,7 +182,7 @@ def receive_barcodes() -> None:
                     # st.write("Query succeeded:", food_item)
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity = 1)
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
@@ -194,7 +196,7 @@ def receive_barcodes() -> None:
 
                 finally:
                     st.write(donated_item)
-                    # st.success(f"Saved {input_str} item to donation log.")
+                    # st.success(f"Saved {barcode} item to donation log.")
             else:
                 st.write("No data found.")
 
