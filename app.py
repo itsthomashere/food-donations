@@ -1,6 +1,7 @@
 import os
 
 import openai
+from datetime import datetime
 import streamlit as st
 from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
@@ -52,6 +53,23 @@ def execute_query(conn: Connection, query: str, query_params: dict = None) -> li
     #     session.execute("INSERT INTO numbers (val) VALUES (:n);", {"n": n})
         # session.commit()
 # ---------------------------------
+
+def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
+    """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
+    date_received = datetime.now().strftime("%Y-%m-%d")
+    total_price = dataset_item.price * quantity
+    total_weight = dataset_item.weight * quantity
+    return DonatedFoodItem(
+        date_received=date_received,
+        product_code=dataset_item.product_code,
+        product_name=dataset_item.product_name,
+        category=dataset_item.category,
+        price=dataset_item.price,
+        weight=dataset_item.weight,
+        quantity=quantity,
+        total_price=total_price,
+        total_weight=total_weight,
+    )
 
 def main() -> None:
 
