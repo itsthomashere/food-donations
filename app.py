@@ -141,7 +141,8 @@ def receive_barcodes() -> None:
 
     try:
 
-        user_input = st.chat_input("Enter a barcode")
+        input_str = st.chat_input("Enter a barcode")
+        tuple(input_str)
 
         # 1: Is this a barcode?
 
@@ -153,10 +154,10 @@ def receive_barcodes() -> None:
         #     False: add_product_to_donation_history
         # }
 
-        if user_input:
+        if input_str:
             result = execute_query(conn,
                                           c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
-                                          {"product_code": user_input, "date_received": date}
+                                          {"product_code": input_str, "date_received": date}
                                           )
             try:
                 result = bool(result[0])
@@ -169,7 +170,7 @@ def receive_barcodes() -> None:
             # st.write(item_in_table)
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
-                                   {"product_code": user_input}
+                                   {"product_code": input_str}
                                    )
             if result:
                 try:
@@ -192,7 +193,7 @@ def receive_barcodes() -> None:
 
                 finally:
                     st.write(donated_item)
-                    # st.success(f"Saved {user_input} item to donation log.")
+                    # st.success(f"Saved {input_str} item to donation log.")
             else:
                 st.write("No data found.")
 
