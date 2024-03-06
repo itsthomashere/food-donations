@@ -30,7 +30,7 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
     If return_rows is True, return the first result row.
     If return_rows is False, execute the query without expecting a return row, suitable for DDL operations.
     """
-    with conn.session() as session:
+    with conn.session as session:
         result = session.execute(text(query), params=query_params)
         if return_rows:
             return result.fetchone()
