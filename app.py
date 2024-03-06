@@ -53,6 +53,14 @@ def customize_streamlit_ui() -> None:
                 """
     st.markdown(hide_st_style, unsafe_allow_html=True)
 
+def get_connection():
+    """
+    Establishes and returns a database connection.
+    
+    Returns:
+        Connection object
+    """
+    return st.connection("digitalocean", type="sql")
 
 # ---------------------------------
 
