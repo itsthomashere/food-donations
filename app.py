@@ -34,10 +34,10 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
         result = session.execute(text(query), params=query_params)
         if return_rows:
             return result.fetchone()
-        else:
+        # else:
             # Explicitly not fetching rows to avoid the error for queries that do not return rows.
-            transaction.commit()  # Ensure changes are committed for DDL operations.
-            return None
+            # transaction.commit()  # Ensure changes are committed for DDL operations.
+        return None
 
 
 def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
