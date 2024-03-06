@@ -112,7 +112,15 @@ def main() -> None:
         ADD CONSTRAINT product_code_unique UNIQUE (product_code);
         """
 
+        find_duplicates_query = """
+        SELECT product_code, COUNT(*)
+        FROM donation_history
+        GROUP BY product_code
+        HAVING COUNT(*) > 1;
+        """
+
         connect_to_table(constraint, conn)
+        connect_to_table(find_duplicates_query, conn)
 
     except Exception as e:
         st.error(e)
