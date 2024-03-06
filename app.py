@@ -53,6 +53,7 @@ def customize_streamlit_ui() -> None:
                 """
     st.markdown(hide_st_style, unsafe_allow_html=True)
 
+
 def get_connection():
     """
     Establishes and returns a database connection.
@@ -64,32 +65,35 @@ def get_connection():
 
 # ---------------------------------
 
-customize_streamlit_ui()
+def main() -> None:
 
-title = "Woolworths Food Donations"
-title = st.markdown(
-    f"<h1 style='text-align: center;'>{title}</h1>", unsafe_allow_html=True
-)
+    customize_streamlit_ui()
 
-options = option_menu(None, 
-                      ["Manual", "Barcode Scanner", "Totals"], 
-                      icons=['clipboard-data', 'upc-scan', "database-add"], 
-                      menu_icon="cast", 
-                      default_index=1, 
-                      orientation="horizontal"
-                      )
+    title = "Woolworths Food Donations"
+    title = st.markdown(
+        f"<h1 style='text-align: center;'>{title}</h1>", unsafe_allow_html=True
+    )
+
+    options = option_menu(None, 
+                          ["Manual", "Barcode Scanner", "Totals"], 
+                          icons=['clipboard-data', 'upc-scan', "database-add"], 
+                          menu_icon="cast", 
+                          default_index=1, 
+                          orientation="horizontal"
+                          )
 
 # --- MORE EFFICIENT ALTERNATIVE TO IF ELIF STATEMENTS
-pages = {
-    'Manual': donations_dataset,
-    'Barcode Scanner': receive_barcodes,
-    'Totals': food_dataset
-}
-pages[options]()
+    pages = {
+        'Manual': donations_dataset,
+        'Barcode Scanner': receive_barcodes,
+        'Totals': food_dataset
+    }
+    pages[options]()
 # ---
 
-try:
-    create_tables()
-except Exception as e:
-    st.error(e)
+    try:
+        create_tables()
+    except Exception as e:
+        st.error(e)
 
+main()
