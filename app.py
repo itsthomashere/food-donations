@@ -24,10 +24,20 @@ def connect_to_table(query: str, conn: Connection) -> None:
         session.execute(text(query))
 
 
-def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
-    """Execute a SQL query with optional parameters on a given connection and return the first result."""
-    with conn.session as s:
-        return s.execute(text(query), params=query_params).fetchone()
+def execute_query(conn: Connection, query: str, query_params: dict = None, return_rows: bool = True) -> list:
+    """Execute a SQL query with optional parameters on a given connection.
+
+    If return_rows is True, return the first result row.
+    If return_rows is False, execute the query without expecting a return row, suitable for DDL operations.
+    """
+    with conn.begin() as transaction:
+        result = transaction.execute(text(query), params=query_params)
+        if return_rows:
+            return result.fetchone()
+        else:
+            # Explicitly not fetching rows to avoid the error for queries that do not return rows.
+            transaction.commit()  # Ensure changes are committed for DDL operations.
+            return None
 
 
 def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
@@ -103,11 +113,11 @@ def main() -> None:
         conn: Connection = get_connection()
         # Establish connection to Donation History table
         # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
-        execute_query(conn, c.DONATION_HISTORY_TABLE)
+        execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
 
         # Establish connection to Missing Barcodes table
         # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
-        execute_query(conn, c.MISSING_BARCODES_TABLE)
+        execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
 
 
         # connect_to_table(drop_table_query, conn)
