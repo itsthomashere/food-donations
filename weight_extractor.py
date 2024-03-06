@@ -1,6 +1,5 @@
 import re
 
-
 def standardise_weight(weight_tuple: tuple) -> float:
     value, unit = weight_tuple
     if unit == 'g':
@@ -13,7 +12,6 @@ def standardise_weight(weight_tuple: tuple) -> float:
         return round(float(value), 2)  # No conversion needed, round off to two decimal places
     else:
         return 0.0
-
 
 def extract_weight(prod_name: str) -> float:
     def is_fractional_weight() -> bool:
