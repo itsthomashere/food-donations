@@ -31,9 +31,8 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
         return None
 
 
-def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1, date: date) -> DonatedFoodItem:
+def convert_to_donated_item(dataset_item: DatasetItem, date: date, quantity: int = 1) -> DonatedFoodItem:
     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
-    date = datetime.now().strftime("%Y-%m-%d")
     total_price = dataset_item.price * quantity
     total_weight = dataset_item.weight * quantity
     return DonatedFoodItem(
@@ -156,6 +155,7 @@ def receive_barcodes() -> None:
 
             st.write(result)
                 
+
             # st.write(item_in_table)
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
@@ -168,7 +168,7 @@ def receive_barcodes() -> None:
                     # st.write("Query succeeded:", food_item)
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, quantity=1, date=date)
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity = 1)
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
