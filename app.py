@@ -9,7 +9,7 @@ from constants as c
 from models import DonatedFoodItem, MissingBarcode, DatasetItem
 
 from sql_tables import food_dataset, donations_dataset
-from scanner import receive_barcodes
+# from scanner import receive_barcodes
 
 
 
@@ -101,19 +101,29 @@ def main() -> None:
         st.error(e)
     # -------------------------------------------
 
+def receive_barcodes() -> None:
     # Step 2: Receive barcodes
     try:
         
         user_input = st.chat_input("Enter a barcode")
 
         if user_input:
-            # product_details: dict = find_product("dataset", user_input)
-            pass
-            if product_details is not None:
+            result = execute_query(conn,
+                                   c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
+                                   {"product_code": user_input}
+                                   )
+            if results:
+                st.write("Query succeeded:", results)
+                # format the results into DonatedFoodItem object
+                try:
+                    product_details = DonatedFoodItem(*results)
+                except Exception as e:
+                    st.error(e)
+
                 update_table("donation_log", product_details)
                 st.success(f"Saved {user_input} item to donation log.")
             else:
-                st.write("Barcode not in dataset.")
+                st.write("No data found.")
     # -------------------------------------------
 
 
