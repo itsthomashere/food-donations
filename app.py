@@ -5,6 +5,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
 from constants as c
+from models import DonatedFoodItem, MissingBarcode, DatasetItem
 
 from sql_tables import food_dataset, donations_dataset
 from scanner import receive_barcodes
@@ -105,7 +106,6 @@ def main() -> None:
 
         # Establish connection to Missing Barcodes table
         connect_to_table(c.MISSING_BARCODES_TABLE, conn)
-
 
     except Exception as e:
         st.error(e)
