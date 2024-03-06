@@ -182,7 +182,7 @@ def receive_barcodes() -> None:
                     # st.write("Query succeeded:", food_item)
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity.strip("x"))
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
