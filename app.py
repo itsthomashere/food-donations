@@ -143,7 +143,6 @@ def receive_barcodes() -> None:
                 finally:
                     st.write(donated_item)
                     st.success(f"Saved {user_input} item to donation log.")
-                    st.balloons()
             else:
                 st.write("No data found.")
 
