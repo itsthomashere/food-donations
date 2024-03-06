@@ -4,6 +4,7 @@ import openai
 import streamlit as st
 from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
+from sqlalchemy.engine.base import Connection
 from constants as c
 from models import DonatedFoodItem, MissingBarcode, DatasetItem
 
@@ -28,7 +29,7 @@ from scanner import receive_barcodes
 #                     total_weight NUMERIC(10, 2));"""))
 #         # s.commit()
 
-def connect_to_table(query: str, conn) -> None:
+def connect_to_table(query: str, conn: Connection) -> None:
     """
     Executes an SQL query using Streamlit connection object
     """
@@ -63,7 +64,7 @@ def customize_streamlit_ui() -> None:
     st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
-def get_connection():
+def get_connection() -> Connection:
     """
     Establishes and returns a database connection.
     
@@ -98,8 +99,9 @@ def main() -> None:
     }
     pages[options]()
 
+    # --- Step 1: Connect to database tables --- 
     try:
-        conn = get_connection()
+        conn: Connection = get_connection()
 
         # Establish connection to Donation History table
         connect_to_table(c.DONATION_HISTORY_TABLE, conn)
@@ -109,5 +111,22 @@ def main() -> None:
 
     except Exception as e:
         st.error(e)
+    # -------------------------------------------
+
+    # Step 2: Receive barcodes
+    try:
+        
+        user_input = st.chat_input("Enter a barcode")
+
+        if user_input:
+            # product_details: dict = find_product("dataset", user_input)
+            pass
+            if product_details is not None:
+                update_table("donation_log", product_details)
+                st.success(f"Saved {user_input} item to donation log.")
+            else:
+                st.write("Barcode not in dataset.")
+    # -------------------------------------------
+
 
 main()
