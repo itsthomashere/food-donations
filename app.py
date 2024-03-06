@@ -155,7 +155,7 @@ def receive_barcodes() -> None:
 
         if input_str:
             input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
-            barcode = int(input_tuple[0]) if input_tuple[0].isdigit() else input_tuple[0] # quantity can be found at index 1
+            barcode = input_tuple[0]
             quantity  = input_tuple[1] if len(input_tuple) > 1 else 1
 
             result = execute_query(conn,
