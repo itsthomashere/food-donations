@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, date
 
 import openai
 import streamlit as st
@@ -31,13 +31,13 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
         return None
 
 
-def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
+def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1, date: date) -> DonatedFoodItem:
     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
-    date_received = datetime.now().strftime("%Y-%m-%d")
+    date = datetime.now().strftime("%Y-%m-%d")
     total_price = dataset_item.price * quantity
     total_weight = dataset_item.weight * quantity
     return DonatedFoodItem(
-        date_received=date_received,
+        date_received=date,
         product_code=dataset_item.product_code,
         product_name=dataset_item.product_name,
         category=dataset_item.category,
@@ -50,15 +50,30 @@ def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> Don
 
 
 def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
-    """
-    Saves a DonatedFoodItem to the 'donation_history' table.
-    """
+    """Saves a DonatedFoodItem to the 'donation_history' table."""
     product_details = asdict(donated_food_item)
 
     # Connect to the database and execute the query
     with conn.session as session:
         session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
 # ---------------------------------
+
+def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
+    """Checks to see if an item already exists in the dataset"""
+
+    query = text(f"""
+    SELECT COUNT(*)
+    FROM donation_log
+    WHERE product_code = :product_code AND date_received = :date_received;
+    """)
+
+    with conn.session as s:
+        result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
+    try:
+        return bool(result[0])
+    except Exception as e:
+        return result[0] if isinstance(result, tuple) else result
+
 
 def main() -> None:
 
@@ -122,12 +137,31 @@ def main() -> None:
 
 def receive_barcodes() -> None:
     # Step 2: Receive barcodes
+    date = datetime.now().strftime("%Y-%m-%d")
+
     try:
         conn: Connection = get_connection()
 
         user_input = st.chat_input("Enter a barcode")
 
         if user_input:
+            result = execute_query(conn,
+                                          c.CHECK_IF_ITEM_IS_IN_DONATION_HISTORY,
+                                          {"product_code": user_input, "date_received": date}
+                                          )
+            try:
+                result = bool(result[0])
+            except Exception as e:
+                result = result[0] if isinstance(result, tuple) else result
+
+            st.write(result)
+                
+                try:
+        return bool(result[0])
+    except Exception as e:
+        return result[0] if isinstance(result, tuple) else result
+
+            st.write(item_in_table)
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
                                    {"product_code": user_input}
@@ -139,7 +173,7 @@ def receive_barcodes() -> None:
                     # st.write("Query succeeded:", food_item)
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, quantity=1)
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, quantity=1, date=date)
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
