@@ -1,58 +1,33 @@
 import os
+from datetime import datetime
 
 import openai
-from datetime import datetime
 import streamlit as st
-from streamlit_option_menu import option_menu
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
+from streamlit_option_menu import option_menu
+
 import constants as c
-from models import DonatedFoodItem, MissingBarcode, DatasetItem
-
-from sql_tables import food_dataset, donations_dataset
-# from scanner import receive_barcodes
-
-def connect_to_table(query: str, conn: Connection) -> None:
-    """
-    Executes an SQL query using Streamlit connection object
-    """
-    with conn.session as session:
-        session.execute(text(query))
-        # session.commit()
-
-def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
-    conn = st.connection("digitalocean", type="sql", autocommit=True)
-    with conn.session as s:
-        query = text(f"""
-            SELECT product_code, product_name, category, price, weight FROM {table_name} WHERE product_code = :product_code
-        """)
-        result = s.execute(query, {"product_code": product_code}).fetchone()
-    return result
-
-
+from models import DatasetItem, DonatedFoodItem, MissingBarcode
+from sql_tables import donations_dataset, food_dataset
 
 
 def get_connection() -> Connection:
-    """
-    Establishes and returns a database connection.
-    
-    Returns:
-        Connection object
-    """
-    return st.connection("digitalocean", type="sql")
+    """Establishes and returns a database connection."""
+    return st.connection("digitalocean", type="sql", autocommit=True)
+
+
+def connect_to_table(query: str, conn: Connection) -> None:
+    """Executes an SQL query using Streamlit connection object"""
+    with conn.session as session:
+        session.execute(text(query))
 
 
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
+    """Execute a SQL query with optional parameters on a given connection and return the first result."""
     with conn.session as s:
-        # return conn.execute(text(query), query_params).fetchone()
-        result = s.execute(text(query), params=query_params).fetchone()
-        # session.commit()
-        return result
-        # df = conn.query("select * from pet_owners where owner = :owner", ttl=3600, params={"owner":"barbara"})
-    # with conn.session as session:
-    #     session.execute("INSERT INTO numbers (val) VALUES (:n);", {"n": n})
-        # session.commit()
-# ---------------------------------
+        return s.execute(text(query), params=query_params).fetchone()
+
 
 def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
@@ -70,6 +45,8 @@ def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> Don
         total_price=total_price,
         total_weight=total_weight,
     )
+
+# ---------------------------------
 
 def main() -> None:
 
@@ -136,11 +113,15 @@ def receive_barcodes() -> None:
                                    {"product_code": user_input}
                                    )
             if result:
+                st.write("Query succeeded:", food_item)
                 food_item = DatasetItem(*result)
                 st.write("Query succeeded:", food_item)
                 # format the results into DonatedFoodItem object
                 try:
                     st.write("Converting `DatasetItem` to `DonatedFoodItem`")
+                    donated_item = convert_to_donated_item(dataset_item, quantity=1)
+                    st.write(donated_item)
+
                     # product_details = DatasetItem(*result)
 
                 except Exception as e:
