@@ -124,6 +124,8 @@ def receive_barcodes() -> None:
                 st.success(f"Saved {user_input} item to donation log.")
             else:
                 st.write("No data found.")
+    except Exception as e:
+        st.error(e)
     # -------------------------------------------
 
 
