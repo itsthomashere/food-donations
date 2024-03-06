@@ -7,7 +7,7 @@ class MissingBarcode:
 
 @dataclass
 class DatasetItem:
-    product_code: str
+    product_code: int
     product_name: str
     category: str
     price: float
@@ -16,7 +16,7 @@ class DatasetItem:
 @dataclass
 class DonatedFoodItem:
     date_received: str
-    product_code: str
+    product_code: int
     product_name: str
     category: str
     price: float
