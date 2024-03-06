@@ -123,24 +123,29 @@ def receive_barcodes() -> None:
                                    {"product_code": user_input}
                                    )
             if result:
-                st.write("Query succeeded:", result)
-                food_item = DatasetItem(*result)
-                st.write("Query succeeded:", food_item)
-                # format the results into DonatedFoodItem object
                 try:
-                    st.write("Converting `DatasetItem` to `DonatedFoodItem`")
-                    donated_item = convert_to_donated_item(food_item, quantity=1)
+                    # Convert the result to a `DatasetItem` object
+                    food_item = DatasetItem(*result)
+                    # st.write("Query succeeded:", food_item)
+
+                    # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
+                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, quantity=1)
                     st.write(donated_item)
 
+                    # st.write("`Saving to donation history...`")
+                    save_donated_food_item(conn, donated_item)
                     # product_details = DatasetItem(*result)
 
                 except Exception as e:
                     st.error(e)
 
-                update_table("donation_log", product_details)
-                st.success(f"Saved {user_input} item to donation log.")
+                finally:
+                    st.write(donated_item)
+                    st.success(f"Saved {user_input} item to donation log.")
+                    st.balloons()
             else:
                 st.write("No data found.")
+
     except Exception as e:
         st.error(e)
     # -------------------------------------------
