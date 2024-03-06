@@ -156,12 +156,7 @@ def receive_barcodes() -> None:
 
             st.write(result)
                 
-                try:
-        return bool(result[0])
-    except Exception as e:
-        return result[0] if isinstance(result, tuple) else result
-
-            st.write(item_in_table)
+            # st.write(item_in_table)
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
                                    {"product_code": user_input}
@@ -179,7 +174,7 @@ def receive_barcodes() -> None:
                     # st.write("`Saving to donation history...`")
                     # check to see if the item is already an the donation history
 
-                    save_donated_food_item(conn, donated_item)
+                    # save_donated_food_item(conn, donated_item)
                     # product_details = DatasetItem(*result)
 
                 except Exception as e:
