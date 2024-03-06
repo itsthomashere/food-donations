@@ -113,7 +113,7 @@ def receive_barcodes() -> None:
                                    {"product_code": user_input}
                                    )
             if result:
-                st.write("Query succeeded:", food_item)
+                st.write("Query succeeded:", result)
                 food_item = DatasetItem(*result)
                 st.write("Query succeeded:", food_item)
                 # format the results into DonatedFoodItem object
