@@ -137,11 +137,21 @@ def main() -> None:
 def receive_barcodes() -> None:
     # Step 2: Receive barcodes
     date = datetime.now().strftime("%Y-%m-%d")
+    conn: Connection = get_connection()
 
     try:
-        conn: Connection = get_connection()
 
         user_input = st.chat_input("Enter a barcode")
+
+        # 1: Is this a barcode?
+
+        # 1.2 Does the user input contain a spacebar?
+
+        # 2: Is the barcode already in today's donation history?
+        # routes = {
+        #     True: increment_quantity,
+        #     False: add_product_to_donation_history
+        # }
 
         if user_input:
             result = execute_query(conn,
