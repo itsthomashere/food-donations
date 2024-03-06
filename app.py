@@ -153,7 +153,7 @@ def receive_barcodes() -> None:
             except Exception as e:
                 result = result[0] if isinstance(result, tuple) else result
 
-            st.write(result)
+            st.write(f"Does this item need incrementing?\n>{result}")
                 
 
             # st.write(item_in_table)
