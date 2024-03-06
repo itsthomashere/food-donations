@@ -127,4 +127,5 @@ def receive_barcodes() -> None:
     # -------------------------------------------
 
 
-main()
+if __name__ == "main":
+    main()
