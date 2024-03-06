@@ -29,6 +29,14 @@ def execute_query(conn: Connection, query: str, query_params: dict = None) -> li
         return s.execute(text(query), params=query_params).fetchone()
 
 
+def tuple_to_donated_item(data_tuple: tuple, quantity: int = 1) -> DonatedFoodItem:
+    """Converts a tuple representing a DatasetItem into a DonatedFoodItem."""
+    date_received = datetime.now().strftime("%Y-%m-%d")
+    total_price = data_tuple[3] * quantity
+    total_weight = data_tuple[4] * quantity
+    return DonatedFoodItem(*((date_received) + (data_tuple) + (quantity, total_price, total_weight)))
+
+
 def convert_to_donated_item(dataset_item: DatasetItem, quantity: int = 1) -> DonatedFoodItem:
     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
     date_received = datetime.now().strftime("%Y-%m-%d")
