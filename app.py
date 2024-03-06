@@ -119,8 +119,11 @@ def main() -> None:
         HAVING COUNT(*) > 1;
         """
 
-        connect_to_table(constraint, conn)
-        connect_to_table(find_duplicates_query, conn)
+        drop_table_query = "DROP TABLE IF EXISTS donation_history;"
+        connect_to_table(drop_table_query, conn)
+
+        # connect_to_table(constraint, conn)
+        # connect_to_table(find_duplicates_query, conn)
 
     except Exception as e:
         st.error(e)
