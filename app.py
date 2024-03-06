@@ -44,12 +44,12 @@ def get_connection() -> Connection:
 def execute_query(conn: Connection, query: str, query_params: dict = None) -> list:
     with conn.session as s:
         # return conn.execute(text(query), query_params).fetchone()
-        result = session.execute(text(query), params=query_params).fetchone()
+        result = s.execute(text(query), params=query_params).fetchone()
         # session.commit()
         return result
         # df = conn.query("select * from pet_owners where owner = :owner", ttl=3600, params={"owner":"barbara"})
-    with conn.session as session:
-        session.execute("INSERT INTO numbers (val) VALUES (:n);", {"n": n})
+    # with conn.session as session:
+    #     session.execute("INSERT INTO numbers (val) VALUES (:n);", {"n": n})
         # session.commit()
 # ---------------------------------
 
