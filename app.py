@@ -131,7 +131,7 @@ def receive_barcodes() -> None:
 
                     # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
                     donated_item: DonatedFoodItem = convert_to_donated_item(food_item, quantity=1)
-                    st.write(donated_item)
+                    # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
                     save_donated_food_item(conn, donated_item)
