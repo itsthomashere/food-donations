@@ -102,24 +102,14 @@ def main() -> None:
         # Setting this up as a global variable. 
         conn: Connection = get_connection()
         # Establish connection to Donation History table
-        connect_to_table(c.DONATION_HISTORY_TABLE, conn)
+        # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
+        execute_query(conn, c.DONATION_HISTORY_TABLE)
 
         # Establish connection to Missing Barcodes table
-        connect_to_table(c.MISSING_BARCODES_TABLE, conn)
+        # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
+        execute_query(conn, c.MISSING_BARCODES_TABLE)
 
-        constraint = """
-        ALTER TABLE donation_history
-        ADD CONSTRAINT product_code_unique UNIQUE (product_code);
-        """
 
-        find_duplicates_query = """
-        SELECT product_code, COUNT(*)
-        FROM donation_history
-        GROUP BY product_code
-        HAVING COUNT(*) > 1;
-        """
-
-        drop_table_query = "DROP TABLE IF EXISTS donation_history;"
         # connect_to_table(drop_table_query, conn)
 
         # connect_to_table(constraint, conn)
