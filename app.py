@@ -89,8 +89,9 @@ def main() -> None:
 
     # --- Step 1: Connect to database tables --- 
     try:
-        conn: Connection = get_connection()
 
+        # Setting this up as a global variable. 
+        conn: Connection = get_connection()
         # Establish connection to Donation History table
         connect_to_table(c.DONATION_HISTORY_TABLE, conn)
 
@@ -104,7 +105,8 @@ def main() -> None:
 def receive_barcodes() -> None:
     # Step 2: Receive barcodes
     try:
-        
+        conn: Connection = get_connection()
+
         user_input = st.chat_input("Enter a barcode")
 
         if user_input:
