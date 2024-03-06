@@ -107,6 +107,13 @@ def main() -> None:
         # Establish connection to Missing Barcodes table
         connect_to_table(c.MISSING_BARCODES_TABLE, conn)
 
+        constraint = """
+        ALTER TABLE donation_history
+        ADD CONSTRAINT product_code_unique UNIQUE (product_code);
+        """
+
+        connect_to_table(constraint, conn)
+
     except Exception as e:
         st.error(e)
     # -------------------------------------------
