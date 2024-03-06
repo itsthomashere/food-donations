@@ -32,3 +32,13 @@ product_code VARCHAR(13) PRIMARY KEY);
 FIND_DATASET_ITEM_BY_PRODUCT_CODE = """
 SELECT product_code, product_name, category, price, weight FROM dataset WHERE product_code = :product_code
 """
+
+DONATION_HISTORY_INSERT_FOOD_ITEM = """
+INSERT INTO donation_history (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
+VALUES (:date_received, :product_code, :product_name, :category, :price, :weight, :quantity, :total_price, :total_weight)
+ON CONFLICT (product_code)
+DO UPDATE SET
+quantity = donation_history.quantity + EXCLUDED.quantity,
+total_price = donation_history.price * (donation_history.quantity + EXCLUDED.quantity),
+total_weight = donation_history.weight * (donation_history.quantity + EXCLUDED.quantity);
+"""
