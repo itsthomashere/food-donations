@@ -31,7 +31,6 @@ def check_existing_entry(table_name: str, product_code: str) -> tuple | None:
 
 
 
-@st.cache_data
 def get_connection() -> Connection:
     """
     Establishes and returns a database connection.
