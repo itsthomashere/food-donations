@@ -18,12 +18,6 @@ def get_connection() -> Connection:
     return st.connection("digitalocean", type="sql", autocommit=True)
 
 
-def connect_to_table(query: str, conn: Connection) -> None:
-    """Executes an SQL query using Streamlit connection object"""
-    with conn.session as session:
-        session.execute(text(query))
-
-
 def execute_query(conn: Connection, query: str, query_params: dict = None, return_rows: bool = True) -> list:
     """Execute a SQL query with optional parameters on a given connection.
 
@@ -149,6 +143,8 @@ def receive_barcodes() -> None:
                     # st.write(donated_item)
 
                     # st.write("`Saving to donation history...`")
+                    # check to see if the item is already an the donation history
+
                     save_donated_food_item(conn, donated_item)
                     # product_details = DatasetItem(*result)
 
