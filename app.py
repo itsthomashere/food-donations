@@ -128,6 +128,4 @@ def receive_barcodes() -> None:
         st.error(e)
     # -------------------------------------------
 
-
-if __name__ == "main":
-    main()
+main()
