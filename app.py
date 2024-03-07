@@ -161,45 +161,25 @@ def receive_barcodes() -> None:
             except Exception as e:
                 st.error(e)
 
-            # result = execute_query(conn,
-            #                               c.CHECK_IF_ITEM_IN_DONATION_HISTORY,
-            #                               {"product_code": barcode, "date_received": date}
-            #                               )
-            # try:
-            #     result = bool(result[0])
-            # except Exception as e:
-            #     result = result[0] if isinstance(result, tuple) else result
-
-            # st.write(f"Does this item need incrementing?\n>{result}")
-                
-
-            # st.write(item_in_table)
+            # Search in our dataset for product information matching the barcode
             result = execute_query(conn,
                                    c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
                                    {"product_code": barcode}
                                    )
             if result:
+                st.write(result)
                 try:
                     # Convert the result to a `DatasetItem` object
                     food_item = DatasetItem(*result)
-                    # st.write("Query succeeded:", food_item)
-
-                    # st.write("Converting `DatasetItem` to `DonatedFoodItem`")
                     donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
-                    # st.write(donated_item)
-
-                    # st.write("`Saving to donation history...`")
-                    # check to see if the item is already an the donation history
 
                     # save_donated_food_item(conn, donated_item)
-                    # product_details = DatasetItem(*result)
 
                 except Exception as e:
                     st.error(e)
 
                 finally:
                     st.write(donated_item)
-                    # st.success(f"Saved {barcode} item to donation log.")
             else:
                 st.write("No data found.")
 
