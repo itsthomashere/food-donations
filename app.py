@@ -157,7 +157,7 @@ def receive_barcodes() -> None:
             try:
                 input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
                 barcode = input_tuple[0]
-                quantity  = int(str(input_tuple[1]).strip("x")) if len(input_tuple) > 1 else 1
+                quantity  = int(str(input_tuple[-1]).strip("x")) if len(input_tuple) > 1 else 1
             except Exception as e:
                 st.error(e)
 
@@ -173,7 +173,7 @@ def receive_barcodes() -> None:
                     food_item = DatasetItem(*result)
                     donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
 
-                    # save_donated_food_item(conn, donated_item)
+                    save_donated_food_item(conn, donated_item)
 
                 except Exception as e:
                     st.error(e)
