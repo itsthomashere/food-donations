@@ -9,6 +9,7 @@ from sqlalchemy.engine.base import Connection
 from streamlit_option_menu import option_menu
 
 import constants as c
+from db import engine
 from models import DatasetItem, DonatedFoodItem, MissingBarcode
 from sql_tables import donations_dataset, food_dataset
 
