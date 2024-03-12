@@ -17,6 +17,7 @@ from sql_tables import donations_dataset, food_dataset
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
+    st.success("Connected to database.")
 
 # -----------------------------------------------------------------------------
 
@@ -148,6 +149,7 @@ def receive_barcodes() -> None:
     # conn: Connection = get_connection()
 
     try:
+        create_db_and_tables()
 
         input_str = st.chat_input("Enter a barcode")
 
