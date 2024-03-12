@@ -7,12 +7,17 @@ from dataclasses import asdict
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
 from streamlit_option_menu import option_menu
+from sqlmodel import Field, SQLModel, select
 
 import constants as c
 from db import engine
 from models import DatasetItem, DonatedFoodItem, MissingBarcode
 from sql_tables import donations_dataset, food_dataset
 
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
+
+# -----------------------------------------------------------------------------
 
 def get_connection() -> Connection:
     """Establishes and returns a database connection."""
