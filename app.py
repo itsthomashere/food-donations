@@ -38,47 +38,47 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
         return None
 
 
-def convert_to_donated_item(dataset_item: DatasetItem, date: date, quantity: int = 1) -> DonatedFoodItem:
-    """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
-    total_price = dataset_item.price * quantity
-    total_weight = dataset_item.weight * quantity
-    return DonatedFoodItem(
-        date_received=date,
-        product_code=dataset_item.product_code,
-        product_name=dataset_item.product_name,
-        category=dataset_item.category,
-        price=dataset_item.price,
-        weight=dataset_item.weight,
-        quantity=quantity,
-        total_price=total_price,
-        total_weight=total_weight,
-    )
+# def convert_to_donated_item(dataset_item: DatasetItem, date: date, quantity: int = 1) -> DonatedFoodItem:
+#     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
+#     total_price = dataset_item.price * quantity
+#     total_weight = dataset_item.weight * quantity
+#     return DonatedFoodItem(
+#         date_received=date,
+#         product_code=dataset_item.product_code,
+#         product_name=dataset_item.product_name,
+#         category=dataset_item.category,
+#         price=dataset_item.price,
+#         weight=dataset_item.weight,
+#         quantity=quantity,
+#         total_price=total_price,
+#         total_weight=total_weight,
+#     )
 
 
-def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
-    """Saves a DonatedFoodItem to the 'donation_history' table."""
-    product_details = asdict(donated_food_item)
-
-    # Connect to the database and execute the query
-    with conn.session as session:
-        session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
+# def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
+#     """Saves a DonatedFoodItem to the 'donation_history' table."""
+#     product_details = asdict(donated_food_item)
+#
+#     # Connect to the database and execute the query
+#     with conn.session as session:
+#         session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
 # ---------------------------------
 
-def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
-    """Checks to see if an item already exists in the dataset"""
-
-    query = text(f"""
-    SELECT COUNT(*)
-    FROM donation_log
-    WHERE product_code = :product_code AND date_received = :date_received;
-    """)
-
-    with conn.session as s:
-        result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
-    try:
-        return bool(result[0])
-    except Exception as e:
-        return result[0] if isinstance(result, tuple) else result
+# def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
+#     """Checks to see if an item already exists in the dataset"""
+#
+#     query = text(f"""
+#     SELECT COUNT(*)
+#     FROM donation_log
+#     WHERE product_code = :product_code AND date_received = :date_received;
+#     """)
+#
+#     with conn.session as s:
+#         result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
+#     try:
+#         return bool(result[0])
+#     except Exception as e:
+#         return result[0] if isinstance(result, tuple) else result
 
 
 def main() -> None:
