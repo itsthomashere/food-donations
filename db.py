@@ -6,7 +6,7 @@ username = st.secrets["database"]["username"]
 password = st.secrets["database"]["password"]
 host = st.secrets["database"]["host"]
 port = st.secrets["database"]["port"]
-database_name = st.secrets["database"]["database_name"]
+database_name = st.secrets["database"]["postgres"]
 
 postgresql_url = f"postgresql://{username}:{password}@{host}:{port}/{database_name}"
 
