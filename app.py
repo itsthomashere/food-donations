@@ -11,7 +11,8 @@ from sqlmodel import Field, SQLModel, select
 
 import constants as c
 from db import engine
-from models import DatasetItem, DonatedFoodItem, MissingBarcode
+# from models import DatasetItem, DonatedFoodItem, MissingBarcode
+from models import Dataset, DonatedFoodItem, MissingBarcode
 from sql_tables import donations_dataset, food_dataset
 
 def create_db_and_tables():
@@ -176,16 +177,17 @@ def receive_barcodes() -> None:
                 st.write(result)
                 try:
                     # Convert the result to a `DatasetItem` object
-                    food_item = DatasetItem(*result)
-                    donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
+                    # food_item = DatasetItem(*result)
+                    # donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
 
-                    save_donated_food_item(conn, donated_item)
+                    # save_donated_food_item(conn, donated_item)
 
                 except Exception as e:
                     st.error(e)
 
                 finally:
-                    st.write(donated_item)
+                    # st.write(donated_item)
+                    pass
             else:
                 st.write("No data found.")
 
