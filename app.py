@@ -120,16 +120,17 @@ def main() -> None:
 
     # --- Step 1: Connect to database tables --- 
     try:
+        pass
 
         # Setting this up as a global variable. 
-        conn: Connection = get_connection()
+        # conn: Connection = get_connection()
         # Establish connection to Donation History table
         # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
-        execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
+        # execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
 
         # Establish connection to Missing Barcodes table
         # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
-        execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
+        # execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
 
 
         # connect_to_table(drop_table_query, conn)
@@ -143,8 +144,8 @@ def main() -> None:
 
 def receive_barcodes() -> None:
     # Step 2: Receive barcodes
-    date = datetime.now().strftime("%Y-%m-%d")
-    conn: Connection = get_connection()
+    # date = datetime.now().strftime("%Y-%m-%d")
+    # conn: Connection = get_connection()
 
     try:
 
@@ -165,32 +166,15 @@ def receive_barcodes() -> None:
                 input_tuple = tuple(input_str.split()) if " " in input_str else (input_str,)
                 barcode = input_tuple[0]
                 quantity  = int(str(input_tuple[-1]).strip("x")) if len(input_tuple) > 1 else 1
+                st.write(f"Barcode: {barcode} | Quantity: {quantity}")
             except Exception as e:
                 st.error(e)
 
             # Search in our dataset for product information matching the barcode
-            result = execute_query(conn,
-                                   c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
-                                   {"product_code": barcode}
-                                   )
-            if result:
-                st.write(result)
-                try:
-                    pass
-                    # Convert the result to a `DatasetItem` object
-                    # food_item = DatasetItem(*result)
-                    # donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
-
-                    # save_donated_food_item(conn, donated_item)
-
-                except Exception as e:
-                    st.error(e)
-
-                finally:
-                    # st.write(donated_item)
-                    pass
-            else:
-                st.write("No data found.")
+            # result = execute_query(conn,
+            #                        c.FIND_DATASET_ITEM_BY_PRODUCT_CODE,
+            #                        {"product_code": barcode}
+            #                        )
 
     except Exception as e:
         st.error(e)
