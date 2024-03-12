@@ -26,11 +26,14 @@ total_weight NUMERIC(10, 2));
 
 MISSING_BARCODES_TABLE = """
 CREATE TABLE IF NOT EXISTS missing_barcodes (
-product_code VARCHAR(13) PRIMARY KEY);
+product_code VARCHAR(13) PRIMARY KEY
+);
 """
 
 FIND_DATASET_ITEM_BY_PRODUCT_CODE = """
-SELECT product_code, product_name, category, price, weight FROM dataset WHERE product_code = :product_code
+SELECT product_code, product_name, category, price, weight 
+FROM dataset 
+WHERE product_code = :product_code
 """
 
 DONATION_HISTORY_INSERT_FOOD_ITEM = """
