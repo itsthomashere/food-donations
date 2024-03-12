@@ -176,6 +176,7 @@ def receive_barcodes() -> None:
             if result:
                 st.write(result)
                 try:
+                    pass
                     # Convert the result to a `DatasetItem` object
                     # food_item = DatasetItem(*result)
                     # donated_item: DonatedFoodItem = convert_to_donated_item(food_item, date=date, quantity=quantity)
