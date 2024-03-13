@@ -9,6 +9,7 @@ from layout import set_page_config_and_hide_defaults, display_page_title
 
 
 def main():
+    conn = dbo.get_connection()
     set_page_config_and_hide_defaults()
     display_page_title("Woolworths Food Donations")
 
