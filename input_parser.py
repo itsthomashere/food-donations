@@ -5,9 +5,9 @@ from models import FoodItem, DonatedFoodItem, MissingItem
 
 def get_routes():
     return {
-            "donation_history": DonatedFoodItem,
-            "dataset": FoodItem,
-            "barcode_queue": MissingItem
+            "donation_history": "donation_history",
+            "dataset": "dataset",
+            "barcode_queue": "barcode_queue"
         }
 
 def parse_input(user_input):
