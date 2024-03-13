@@ -16,7 +16,11 @@ def get_connection() -> Connection:
     return st.connection("digitalocean", type="sql", autocommit=True)
 
 
-def execute_query(conn: Connection, query: str, query_params: dict = None, return_rows: bool = True) -> list:
+def execute_query(
+        conn: Connection, 
+        query: str, 
+        query_params: dict = None, 
+        return_rows: bool = True) -> list:
     """Execute a SQL query with optional parameters on a given connection.
 
     If return_rows is True, return the first result row.
@@ -29,47 +33,47 @@ def execute_query(conn: Connection, query: str, query_params: dict = None, retur
         return None
 
 
-# def convert_to_donated_item(dataset_item: DatasetItem, date: date, quantity: int = 1) -> DonatedFoodItem:
-#     """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
-#     total_price = dataset_item.price * quantity
-#     total_weight = dataset_item.weight * quantity
-#     return DonatedFoodItem(
-#         date_received=date,
-#         product_code=dataset_item.product_code,
-#         product_name=dataset_item.product_name,
-#         category=dataset_item.category,
-#         price=dataset_item.price,
-#         weight=dataset_item.weight,
-#         quantity=quantity,
-#         total_price=total_price,
-#         total_weight=total_weight,
-#     )
+def convert_to_donated_item(dataset_item: DatasetItem, date: date, quantity: int = 1) -> DonatedFoodItem:
+    """Converts a given DatasetItem to a DonatedFoodItem with specified quantity."""
+    total_price = dataset_item.price * quantity
+    total_weight = dataset_item.weight * quantity
+    return DonatedFoodItem(
+        date_received=date,
+        product_code=dataset_item.product_code,
+        product_name=dataset_item.product_name,
+        category=dataset_item.category,
+        price=dataset_item.price,
+        weight=dataset_item.weight,
+        quantity=quantity,
+        total_price=total_price,
+        total_weight=total_weight,
+    )
 
 
-# def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
-#     """Saves a DonatedFoodItem to the 'donation_history' table."""
-#     product_details = asdict(donated_food_item)
-#
-#     # Connect to the database and execute the query
-#     with conn.session as session:
-#         session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
-# ---------------------------------
+def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem) -> None:
+    """Saves a DonatedFoodItem to the 'donation_history' table."""
+    product_details = asdict(donated_food_item)
 
-# def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
-#     """Checks to see if an item already exists in the dataset"""
-#
-#     query = text(f"""
-#     SELECT COUNT(*)
-#     FROM donation_log
-#     WHERE product_code = :product_code AND date_received = :date_received;
-#     """)
-#
-#     with conn.session as s:
-#         result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
-#     try:
-#         return bool(result[0])
-#     except Exception as e:
-#         return result[0] if isinstance(result, tuple) else result
+    # Connect to the database and execute the query
+    with conn.session as session:
+        session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
+---------------------------------
+
+def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
+    """Checks to see if an item already exists in the dataset"""
+
+    query = text(f"""
+    SELECT COUNT(*)
+    FROM donation_log
+    WHERE product_code = :product_code AND date_received = :date_received;
+    """)
+
+    with conn.session as s:
+        result = s.execute(query, {"product_code": product_code, "date_received": date}).fetchone()
+    try:
+        return bool(result[0])
+    except Exception as e:
+        return result[0] if isinstance(result, tuple) else result
 
 
 def main() -> None:
@@ -115,14 +119,14 @@ def main() -> None:
         pass
 
         # Setting this up as a global variable. 
-        # conn: Connection = get_connection()
+        conn: Connection = get_connection()
         # Establish connection to Donation History table
         # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
-        # execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
+        execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
 
         # Establish connection to Missing Barcodes table
         # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
-        # execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
+        execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
 
 
         # connect_to_table(drop_table_query, conn)
