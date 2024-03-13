@@ -118,6 +118,7 @@ def main() -> None:
     #     'Totals': food_dataset
     # }
     # pages[options]()
+    receive_barcodes()
 
     # --- Step 1: Connect to database tables --- 
     try:
