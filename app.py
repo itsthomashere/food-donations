@@ -1,26 +1,15 @@
-import os
 from datetime import datetime, date
 
-import openai
 import streamlit as st
 from dataclasses import asdict
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
 from streamlit_option_menu import option_menu
+
 import input_parser as ip
-from sqlmodel import Field, SQLModel, select
-
 import constants as c
-from db import engine
-# from models import DatasetItem, DonatedFoodItem, MissingBarcode
-# from models import Dataset, DonatedFoodItem, MissingBarcode
-from sql_tables import donations_dataset, food_dataset
+from models import Dataset, DonatedFoodItem, MissingBarcode
 
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
-    st.success("Connected to database.")
-
-# -----------------------------------------------------------------------------
 
 def get_connection() -> Connection:
     """Establishes and returns a database connection."""
