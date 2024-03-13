@@ -31,8 +31,16 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
-                    item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": barcode}).iloc[0]
-                    st.write(item)
+                    retrieval = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": barcode}).iloc[0]
+                    if retrieval:
+                        food_item = FoodItem(
+                                product_code=retrieval['product_code'],
+                                product_name=retrieval['product_name'],
+                                category=retrieval['category'],
+                                price=retrieval['price'],
+                                weight=retrieval['weight']
+                            )
+                        st.write(food_item)
                 except Exception as e:
                     st.error(f"Error retrieving item: {e}")
 
