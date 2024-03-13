@@ -13,5 +13,7 @@ def main():
     conn = dbo.get_connection()
     display_page_title("Woolworths Food Donations")
 
+    st.chat_input("Enter a barcode: ")
+
 
 main()
