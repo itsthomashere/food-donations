@@ -147,6 +147,8 @@ def receive_barcodes() -> None:
     # Step 2: Receive barcodes
     # date = datetime.now().strftime("%Y-%m-%d")
     # conn: Connection = get_connection()
+    st.write(f"Barcode in dataset: \n2576260000008")
+    st.write(f"Barcode not in dataset: \n6009226866340")
 
     try:
         # create_db_and_tables()
