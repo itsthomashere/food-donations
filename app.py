@@ -31,7 +31,7 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
-                    item = conn.query(FoodItem).filter(FoodItem.barcode == barcode).first()
+                    item = dbo.get_food_item_by_product_code(conn, barcode)
                     st.write(item)
                 except Exception as e:
                     st.error(f"Error retrieving item: {e}")
