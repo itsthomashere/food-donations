@@ -20,7 +20,7 @@ def main():
             routes = ip.get_routes()
             action, data = ip.parse_input(user_input)
 
-            if action == "display" and data in tables:
+            if action == "display" and data in routes:
                 dbo.fetch_all_items(conn, routes[data])
             
             elif action == "barcode":
