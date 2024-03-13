@@ -15,7 +15,7 @@ def main():
 
     user_input = st.chat_input("Enter a barcode: ")
     st.write("Missing item: 6009226866340")
-    st.write("Dataset item: 6009233018428")
+    st.write("Dataset item: 6009217484898")
 
     if user_input:
         try:
