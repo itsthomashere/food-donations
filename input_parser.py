@@ -21,8 +21,8 @@ def handle_barcode_input(user_input):
     """Process barcode input, extracting barcode and quantity."""
     try:
         input_tuple = tuple(user_input.split()) if " " in user_input else (user_input,)
-        barcode = input_tuple[0]
-        quantity = int(str(input_tuple[-1]).strip("x")) if len(input_tuple) > 1 else 1
+        barcode = input_tuple[-1]
+        quantity = int(str(input_tuple[0]).strip("x")) if len(input_tuple) > 1 else 1
         return barcode, quantity
     except Exception as e:
         st.error(f"Error processing barcode input: {e}")
