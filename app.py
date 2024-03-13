@@ -32,8 +32,6 @@ def main():
             else:
                 st.write("Invalid input or table not found.")
 
-
-
         except Exception as e:
             st.error(e)
 
