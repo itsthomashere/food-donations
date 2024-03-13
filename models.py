@@ -4,6 +4,9 @@ from sqlalchemy.orm import sessionmaker
 from typing import Optional
 import datetime
 
+from db_operations import get_connection
+
+engine = get_connection()
 Base = declarative_base()
 
 class FoodItem(Base):
@@ -31,3 +34,5 @@ class MissingItem(Base):
     date_added = Column(DateTime, nullable=False)
     product_code = Column(Integer, primary_key=True, index=True, nullable=True)
     status = Column(String, nullable=False)
+
+Base.metadata.create_all(engine)
