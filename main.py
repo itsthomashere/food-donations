@@ -4,6 +4,7 @@ Streamlit App for Food Donation Company Sign-up Form
 
 import streamlit as st
 
+
 def main():
     st.title("Food Donation Company Sign-up Form")
 

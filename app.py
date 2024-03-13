@@ -12,5 +12,5 @@ def main():
     set_page_config_and_hide_defaults()
     display_page_title("Woolworths Food Donations")
 
-if __name__ == "main":
-    main()
+
+main()
