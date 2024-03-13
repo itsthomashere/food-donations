@@ -9,4 +9,4 @@ def get_connection():
 
 def fetch_all_items(conn, model):
     """Fetches all items using the specified SQLAlchemy model."""
-    st.write("Fetching all items from {model}")
+    st.write(f"Fetching all items from {model}")
