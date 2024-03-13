@@ -104,20 +104,20 @@ def main() -> None:
         f"<h1 style='text-align: center;'>{title}</h1>", unsafe_allow_html=True
     )
 
-    options = option_menu(None, 
-                          ["Manual", "Barcode Scanner", "Totals"], 
-                          icons=['clipboard-data', 'upc-scan', "database-add"], 
-                          menu_icon="cast", 
-                          default_index=1, 
-                          orientation="horizontal"
-                          )
+    # options = option_menu(None, 
+    #                       ["Manual", "Barcode Scanner", "Totals"], 
+    #                       icons=['clipboard-data', 'upc-scan', "database-add"], 
+    #                       menu_icon="cast", 
+    #                       default_index=1, 
+    #                       orientation="horizontal"
+    #                       )
 
-    pages = {
-        'Manual': donations_dataset,
-        'Barcode Scanner': receive_barcodes,
-        'Totals': food_dataset
-    }
-    pages[options]()
+    # pages = {
+    #     'Manual': donations_dataset,
+    #     'Barcode Scanner': receive_barcodes,
+    #     'Totals': food_dataset
+    # }
+    # pages[options]()
 
     # --- Step 1: Connect to database tables --- 
     try:
