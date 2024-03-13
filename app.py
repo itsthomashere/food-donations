@@ -7,6 +7,7 @@ from dataclasses import asdict
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
 from streamlit_option_menu import option_menu
+import input_parser as ip
 from sqlmodel import Field, SQLModel, select
 
 import constants as c
