@@ -31,9 +31,7 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
-                    item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": barcode})
-                    # st.dataframe(item)
-                    st.write(item.iloc[0])
+                    item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": barcode}).iloc[0]
                 except Exception as e:
                     st.error(f"Error retrieving item: {e}")
 
