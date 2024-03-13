@@ -18,7 +18,19 @@ def main():
     if user_input:
         try:
             routes = ip.get_routes()
-            ip.parse_input(user_input)
+            action, data = ip.parse_input(user_input)
+
+            if action == "display" and data in tables:
+                dbo.fetch_all_items(conn, routes[data])
+            
+            elif action == "barcode":
+                barcode, quantity = data
+
+            else:
+                st.write("Invalid input or table not found.")
+
+
+
         except Exception as e:
             st.error(e)
 
