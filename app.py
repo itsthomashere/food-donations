@@ -149,7 +149,7 @@ def receive_barcodes() -> None:
     # conn: Connection = get_connection()
 
     try:
-        create_db_and_tables()
+        # create_db_and_tables()
 
         input_str = st.chat_input("Enter a barcode")
 
