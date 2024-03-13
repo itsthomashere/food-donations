@@ -57,7 +57,7 @@ def save_donated_food_item(conn: Connection, donated_food_item: DonatedFoodItem)
     # Connect to the database and execute the query
     with conn.session as session:
         session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), product_details)
----------------------------------
+# ---------------------------------
 
 def in_donations_table(conn: Connection, product_code: str | int, date: date) -> bool:
     """Checks to see if an item already exists in the dataset"""
