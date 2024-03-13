@@ -27,6 +27,7 @@ def main():
             
             elif action == "barcode":
                 barcode, quantity = data
+                st.write(f"Barcode: {barcode}, Quantity: {quantity}")
 
             else:
                 st.write("Invalid input or table not found.")
