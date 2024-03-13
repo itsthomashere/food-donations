@@ -14,8 +14,8 @@ def main():
     display_page_title("Woolworths Food Donations")
 
     user_input = st.chat_input("Enter a barcode: ")
-    st.write("Missing item: \n6009226866340")
-    st.write("Dataset item: \n6009233018428")
+    st.write("Missing item: 6009226866340")
+    st.write("Dataset item: 6009233018428")
 
     if user_input:
         try:
