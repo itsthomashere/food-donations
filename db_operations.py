@@ -9,6 +9,5 @@ def get_connection():
 
 def fetch_all_items(conn, table):
     """Fetches all items using the specified SQLAlchemy model."""
-    st.write(f"Fetching all items from {table}")
     df = conn.query(f"select * from {table}", ttl=3600)
     st.dataframe(df)
