@@ -29,6 +29,13 @@ def main():
                 barcode, quantity = data
                 st.write(f"Barcode: {barcode}, Quantity: {quantity}")
 
+                # with barcode and quantity in hand, we can now continue to retrieve the item from the database
+                try:
+                    item = conn.query(FoodItem).filter(FoodItem.barcode == barcode).first()
+                    st.write(item)
+                except Exception as e:
+                    st.error(f"Error retrieving item: {e}")
+
             else:
                 st.write("Invalid input or table not found.")
 
