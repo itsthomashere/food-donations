@@ -1,12 +1,11 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import streamlit as st
 from typing import Optional
 import datetime
 
-from db_operations import get_connection
-
-engine = get_connection()
+engine = st.connection("digitalocean", type="sql", autocommit=True)
 Base = declarative_base()
 
 class FoodItem(Base):
