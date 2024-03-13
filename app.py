@@ -118,15 +118,15 @@ def main() -> None:
     try:
         pass
 
-        # Setting this up as a global variable. 
-        conn: Connection = get_connection()
-        # Establish connection to Donation History table
-        # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
-        execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
+        # # Setting this up as a global variable. 
+        # conn: Connection = get_connection()
+        # # Establish connection to Donation History table
+        # # connect_to_table(c.DONATION_HISTORY_TABLE, conn)
+        # execute_query(conn, c.DONATION_HISTORY_TABLE, return_rows=False)
 
-        # Establish connection to Missing Barcodes table
-        # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
-        execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
+        # # Establish connection to Missing Barcodes table
+        # # connect_to_table(c.MISSING_BARCODES_TABLE, conn)
+        # execute_query(conn, c.MISSING_BARCODES_TABLE, return_rows=False)
 
 
         # connect_to_table(drop_table_query, conn)
