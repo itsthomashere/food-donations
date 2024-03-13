@@ -31,7 +31,8 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
-                    item = dbo.get_food_item_by_product_code(conn, barcode)
+                    item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": barcode})
+                    st.dataframe(item)
                     st.write(item)
                 except Exception as e:
                     st.error(f"Error retrieving item: {e}")
