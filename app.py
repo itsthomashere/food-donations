@@ -1,6 +1,7 @@
 from datetime import datetime, date
 
 import streamlit as st
+from sqlalchemy import text
 
 import input_parser as ip
 import db_operations as dbo
@@ -54,10 +55,10 @@ def main():
                             status="pending",
                         )
                         with conn.session as session:
-                            session.execute(
+                            session.execute(text(
                                 """
                                                 INSERT INTO barcode_queue (date_added, product_code, status)
-                                                VALUES (:date_added, :product_code, :status)""",
+                                                VALUES (:date_added, :product_code, :status)"""),
                                 {
                                     "date_added": missing_item.date_added,
                                     "product_code": missing_item.product_code,
