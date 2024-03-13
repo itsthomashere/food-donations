@@ -1,5 +1,14 @@
 """Module for parsing and handling user input."""
 import streamlit as st
+from models import FoodItem, DonatedFoodItem, MissingItem
+
+
+def get_routes():
+    return {
+            "donation_history": DonatedFoodItem,
+            "dataset": FoodItem,
+            "barcode_queue": MissingItem
+        }
 
 def parse_input(user_input):
     """Parse the user input to determine action."""
