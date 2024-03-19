@@ -21,7 +21,9 @@ def check_if_item_in_donation_history(conn, product_code, date):
     Returns True if a given product_code is located in the donation_history table for a specific date.
     """
     query_result = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
-    return not query_result.empty and query_result.iloc[0]['count'] > 0
+    
+    # Assuming query_result is a DataFrame and the SQL query returns a column named 'item_count'
+    return not query_result.empty and query_result.iloc[0]['item_count'] > 0
 
 def get_current_quantity(conn, product_code):
     """Returns the current quantity of a given product_code in the donation_history table."""
