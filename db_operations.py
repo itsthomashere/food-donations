@@ -20,7 +20,5 @@ def get_food_item_by_product_code(conn, product_code):
     """
     Retrieves a FoodItem from the database based on the given product_code.
     """
-    retrieved_item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": product_code}).iloc[0]
-    if not retrieved_item.empty:
-        result = retrieved_item.iloc[0]
-    return result
+    retrieved_item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": product_code})
+    return retrieved_item
