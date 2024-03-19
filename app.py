@@ -7,11 +7,19 @@ import input_parser as ip
 import db_operations as dbo
 from models import FoodItem, DonatedFoodItem, MissingItem
 from layout import set_page_config_and_hide_defaults, display_page_title
+import constants as c
 
 
 def main():
     set_page_config_and_hide_defaults()  # must always be called first
     conn = dbo.get_connection()
+
+    with conn.session as session:
+        session.execute(text(c.DROP_DONATION_HISTORY_TABLE))
+
+    with conn.session as session:
+        session.execute(text(c.DONATION_HISTORY_TABLE))
+
     display_page_title("Woolworths Food Donations")
 
     user_input = st.chat_input("Enter a barcode: ")
