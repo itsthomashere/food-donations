@@ -26,6 +26,24 @@ def check_if_item_in_donation_history(conn, product_code, date):
 def get_food_item_by_product_code(conn, product_code, date):
     """Returns a food item from the dataset table given a product_code."""
     return conn.query(c.FIND_DATASET_ITEM_BY_PRODUCT_CODE, params={"product_code": product_code})
+
+def save_donated_item_to_donation_history(conn, donated_item):
+    """Saves a donated item to the donation_history table."""
+    with conn.session as session:
+        session.execute(c.DONATION_HISTORY_INSERT_FOOD_ITEM, 
+                        {"date_received": donated_item.date_received,
+                         "product_code": donated_item.product_code,
+                         "product_name": donated_item.product_name,
+                         "category": donated_item.category,
+                         "price": donated_item.price,
+                         "weight": donated_item.weight,
+                         "quantity": donated_item.quantity,
+                         "total_price": donated_item.total_price,
+                         "total_weight": donated_item.total_weight
+                         }
+                        )
+        session.commit()
+
                     
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
