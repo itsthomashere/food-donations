@@ -81,18 +81,12 @@ def handle_missing_item(conn, barcode):
         status="pending",
     )
     dbo.add_missing_item_to_queue(conn, missing_item)
-    st.write("Adding MissingItem to barcode_queue...")
 
 def main():
     """Main function to run the Streamlit app."""
     set_page_config_and_hide_defaults()  # Setup Streamlit page config
     conn = dbo.get_connection()  # Establish database connection
-
-    # with conn.session as session:
-    #     session.execute(text(c.DONATION_HISTORY_TABLE))  # Ensure table exists
-
     display_page_title("Woolworths Food Donations")  # Display page title
-
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
     if user_input:
         process_user_input(conn, user_input)  # Process the input
