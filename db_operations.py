@@ -29,8 +29,11 @@ def get_food_item_by_product_code(conn, product_code, date):
 
 def save_donated_item_to_donation_history(conn, donated_item):
     """Saves a donated item to the donation_history table."""
+    # Ensure that the SQL command is a text query for execution
+    sql_command = text(c.DONATION_HISTORY_INSERT_FOOD_ITEM)
+
     with conn.session as session:
-        session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), 
+        session.execute(sql_command, 
                         {"date_received": donated_item.date_received,
                          "product_code": donated_item.product_code,
                          "product_name": donated_item.product_name,
@@ -43,7 +46,6 @@ def save_donated_item_to_donation_history(conn, donated_item):
                          }
                         )
         session.commit()
-
                     
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
