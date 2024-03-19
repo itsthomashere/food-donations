@@ -23,6 +23,11 @@ def check_if_item_in_donation_history(conn, product_code, date):
     query_result = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
     return not query_result.empty and query_result.iloc[0]['count'] > 0
 
+def get_current_quantity(conn, product_code):
+    """Returns the current quantity of a given product_code in the donation_history table."""
+    return conn.query(c.GET_CURRENT_QUANTITY, params={"product_code": product_code})
+
+
 def get_food_item_by_product_code(conn, product_code, date):
     """Returns a food item from the dataset table given a product_code."""
     return conn.query(c.FIND_DATASET_ITEM_BY_PRODUCT_CODE, params={"product_code": product_code})
