@@ -5,6 +5,7 @@ from models import FoodItem, DonatedFoodItem, MissingItem
 
 def get_routes():
     return {
+            "donation history": "donation_history",
             "donation_history": "donation_history",
             "dataset": "dataset",
             "missing_items": "missing_items",
