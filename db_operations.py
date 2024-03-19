@@ -31,4 +31,11 @@ def get_food_item_by_product_code(conn, product_code):
 
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
-    item = conn.query(c.DONATION_HISTORY_INSERT_FOOD_ITEM, params={"product_code": product_code, "quantity": quantity})
+    st.write("Updating donation history item...")
+    pass
+    # with conn.session as session:
+    #     session.execute(c.DONATION_HISTORY_INSERT_FOOD_ITEM, 
+    #                     {"product_code": product_code,
+    #                      }
+    #                     )
+    #     session.commit()
