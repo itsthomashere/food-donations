@@ -35,14 +35,14 @@ def save_donated_item_to_donation_history(conn, donated_item):
     with conn.session as session:
         session.execute(sql_command, 
                         {"date_received": donated_item.date_received,
-                         "product_code": donated_item.product_code,
+                         "product_code": int(donated_item.product_code),
                          "product_name": donated_item.product_name,
                          "category": donated_item.category,
-                         "price": donated_item.price,
-                         "weight": donated_item.weight,
-                         "quantity": donated_item.quantity,
-                         "total_price": donated_item.total_price,
-                         "total_weight": donated_item.total_weight
+                         "price": float(donated_item.price),
+                         "weight": float(donated_item.weight),
+                         "quantity": int(donated_item.quantity),
+                         "total_price": float(donated_item.total_price),
+                         "total_weight": float(donated_item.total_weight)
                          }
                         )
         session.commit()
