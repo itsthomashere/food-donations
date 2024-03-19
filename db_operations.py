@@ -18,7 +18,7 @@ def fetch_all_items(conn, table):
 
 def check_if_item_in_donation_history(conn, product_code, date):
     """Returns True if a given product_code is located in donation_history table."""
-    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
+    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date}).first()
     st.write(item)
     return True if item else False
                     
@@ -26,8 +26,8 @@ def get_food_item_by_product_code(conn, product_code):
     """
     Retrieves a FoodItem from the database based on the given product_code.
     """
-    retrieved_item = conn.query(c.FIND_DATASET_ITEM_BY_PRODUCT_CODE, ttl=3600, params={"product_code": product_code})
-    return retrieved_item
+    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date}).first()
+    return item
 
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
