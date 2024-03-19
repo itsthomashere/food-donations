@@ -44,11 +44,6 @@ def main():
                         # retrieve the food item from the dataset
 
                     item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
-                    # item = conn.query(
-                    #     "select * from dataset where product_code = :product_code",
-                    #     ttl=3600,
-                    #     params={"product_code": barcode},
-                    # )
                     st.write(f"Item: {item}")
                     if not item.empty:
                         food_item_row = item.iloc[0]
