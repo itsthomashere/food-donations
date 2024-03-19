@@ -74,10 +74,10 @@ def main():
                             st.write("Adding DonatedFoodItem to donation_history...")
                             # This should never run if the item is already present in donation_history, and will run into a unique constraint error if it slips through
                             dbo.save_donated_item_to_donation_history(conn, donated_item)
-                            st.success("Item added to donation history.")
+                            # st.success("Item added to donation history.")
                             # display current quantity of item in donation history
                             current_quantity = dbo.get_current_quantity(conn, barcode)
-                            st.write(f"Current quantity of {barcode} in donation history: {current_quantity}")
+                            st.success(f"Item added. Current quantity of {barcode}: `{current_quantity}`")
                         except Exception as e:
                             st.error(e)
 
