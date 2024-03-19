@@ -43,7 +43,7 @@ def main():
                         st.write("Item not in donation history.")
                         # retrieve the food item from the dataset
 
-                    item = dbo.get_food_item_by_product_code(conn, barcode)
+                    item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
                     # item = conn.query(
                     #     "select * from dataset where product_code = :product_code",
                     #     ttl=3600,
