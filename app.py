@@ -65,7 +65,7 @@ def save_donated_item(conn, barcode, food_item_row, quantity):
         dbo.save_donated_item_to_donation_history(conn, donated_item)
         current_quantity = dbo.get_current_quantity(conn, barcode)  # Assuming this function exists to fetch the current quantity
         st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
-        st.rerun()
+        # st.rerun()
     except Exception as e:
         st.error(e)
 
