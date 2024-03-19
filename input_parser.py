@@ -7,7 +7,8 @@ def get_routes():
     return {
             "donation_history": "donation_history",
             "dataset": "dataset",
-            "barcode_queue": "barcode_queue"
+            "missing_items": "missing_items",
+            "missing items": "missing_items"
         }
 
 def parse_input(user_input):
