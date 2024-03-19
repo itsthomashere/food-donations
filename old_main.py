@@ -2,7 +2,7 @@ import streamlit as st
 from sqlalchemy import create_engine, text
 #from streamlit_option_menu import option_menu
 
-import constants as c
+import db.constants as c
 
 product_info = (6009178236888, 20011697)
 

@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from sqlalchemy import bindparam, create_engine, text
 
-from weight_extractor import (extract_weight, extract_weight_type,
+from services.weight_extractor import (extract_weight, extract_weight_type,
                               standardise_weight)
 
 category_mapping = {

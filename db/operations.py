@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Connection
 from sqlalchemy.orm import Session
 # from models import FoodItem, DonatedFoodItem, MissingItem
-import constants as c
+import db.constants as c
 
 
 def get_connection():

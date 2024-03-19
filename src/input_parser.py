@@ -1,6 +1,6 @@
 """Module for parsing and handling user input."""
 import streamlit as st
-from models import FoodItem, DonatedFoodItem, MissingItem
+from src.models import FoodItem, DonatedFoodItem, MissingItem
 
 
 def get_routes():
