@@ -32,6 +32,13 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
+                    # query donation_history to first check if product_code is already present
+                    # if it is, update the quantity and total_price/total_weight
+                    if dbo.check_if_item_in_donation_history(conn, barcode, date.today()):
+                        st.write("Item already in donation history.")
+                        # update the quantity and total_price/total_weight
+                        updated_item = dbo.update_donation_history_item(conn, barcode, quantity)
+
                     item = dbo.get_food_item_by_product_code(conn, barcode)
                     # item = conn.query(
                     #     "select * from dataset where product_code = :product_code",
