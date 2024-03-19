@@ -11,10 +11,14 @@
 # total_weight NUMERIC(10, 2));
 # """
 
+DROP_DONATION_HISTORY_TABLE = """
+DROP TABLE IF EXISTS donation_history;
+"""
+
 DONATION_HISTORY_TABLE = """
 CREATE TABLE IF NOT EXISTS donation_history (
 date_received DATE,
-product_code VARCHAR(13),
+product_code VARCHAR(13) UNIQUE,
 product_name VARCHAR(255),
 category VARCHAR(255),
 price NUMERIC(10, 2),
@@ -39,11 +43,6 @@ WHERE product_code = :product_code
 DONATION_HISTORY_INSERT_FOOD_ITEM = """
 INSERT INTO donation_history (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
 VALUES (:date_received, :product_code, :product_name, :category, :price, :weight, :quantity, :total_price, :total_weight)
-ON CONFLICT (product_code)
-DO UPDATE SET
-quantity = donation_history.quantity + EXCLUDED.quantity,
-total_price = donation_history.price * (donation_history.quantity + EXCLUDED.quantity),
-total_weight = donation_history.weight * (donation_history.quantity + EXCLUDED.quantity);
 """
 
 CHECK_IF_ITEM_IN_DONATION_HISTORY = """
