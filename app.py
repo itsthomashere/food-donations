@@ -84,10 +84,10 @@ def main():
                     else:
                         st.write("Adding MissingItem to barcode_queue...")
 
-                        with conn.session as session:
-                            # session.execute(text(c.DROP_BARCODES_TABLE))
-                            session.execute(text(c.MISSING_ITEMS_TABLE))
-                            session.commit()
+                        # with conn.session as session:
+                        #     # session.execute(text(c.DROP_BARCODES_TABLE))
+                        #     session.execute(text(c.MISSING_ITEMS_TABLE))
+                        #     session.commit()
 
                         missing_item = MissingItem(
                             date_added=datetime.now(),
