@@ -5,7 +5,7 @@ import streamlit as st
 from typing import Optional
 import datetime
 
-engine = st.connection("digitalocean", type="sql", autocommit=True)
+# engine = st.connection("digitalocean", type="sql", autocommit=True)
 Base = declarative_base()
 
 class FoodItem(Base):
@@ -34,4 +34,4 @@ class MissingItem(Base):
     product_code = Column(Integer, primary_key=True, index=True, nullable=True)
     status = Column(String, nullable=False)
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
