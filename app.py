@@ -50,6 +50,7 @@ def process_donated_food_item(conn, barcode, quantity):
 
 def save_donated_item(conn, barcode, food_item_row, quantity):
     """Save a donated item to the donation history."""
+    st.write(food_item_row)
     donated_item = DonatedFoodItem(
         date_received=datetime.now(),
         product_code=food_item_row["product_code"],
@@ -88,7 +89,7 @@ def main():
     conn = dbo.get_connection()  # Establish database connection
     display_page_title("Woolworths Food Donations")  # Display page title
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
-    
+
     if user_input:
         with st.empty():
             process_user_input(conn, user_input)  # Process the input
