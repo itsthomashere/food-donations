@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS missing_barcodes (
 date_added DATE,
 product_code VARCHAR(255) PRIMARY KEY,
 status VARCHAR(255));
-);
 """
 
 FIND_DATASET_ITEM_BY_PRODUCT_CODE = """
