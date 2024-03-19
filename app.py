@@ -44,11 +44,11 @@ def process_donated_food_item(conn, barcode, quantity):
     """Process a donated food item, adding it to the database or handling it as missing."""
     item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
     if not item.empty:
-        save_donated_item(conn, item.iloc[0], quantity)
+        save_donated_item(conn, barcode, item.iloc[0], quantity)
     else:
         handle_missing_item(conn, barcode)
 
-def save_donated_item(conn, food_item_row, barcode, quantity):
+def save_donated_item(conn, barcode, food_item_row, quantity):
     """Save a donated item to the donation history."""
     donated_item = DonatedFoodItem(
         date_received=datetime.now(),
@@ -63,9 +63,11 @@ def save_donated_item(conn, food_item_row, barcode, quantity):
     )
     try:
         dbo.save_donated_item_to_donation_history(conn, donated_item)
-        st.success(f"Item added. Current quantity of {barcode}: {quantity}")
+        current_quantity = dbo.get_current_quantity(conn, barcode)  # Assuming this function exists to fetch the current quantity
+        st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
     except Exception as e:
         st.error(e)
+
 
 def handle_missing_item(conn, barcode):
     """Handle a missing item by adding it to the barcode queue."""
