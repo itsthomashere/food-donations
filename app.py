@@ -11,7 +11,7 @@ from layout import set_page_config_and_hide_defaults, display_page_title
 
 def main():
     set_page_config_and_hide_defaults()  # must always be called first
-    conn = dbo.get_connection()
+    # conn = dbo.get_connection()
     display_page_title("Woolworths Food Donations")
 
     user_input = st.chat_input("Enter a barcode: ")
