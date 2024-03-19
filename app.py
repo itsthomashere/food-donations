@@ -69,8 +69,8 @@ def save_donated_item(conn, barcode, food_item_row, quantity):
     except Exception as e:
         st.error(e)
     
-    else:
-        st.rerun()
+    # else:
+    #     st.rerun()
 
 
 def handle_missing_item(conn, barcode):
