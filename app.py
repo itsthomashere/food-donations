@@ -89,6 +89,7 @@ def main():
     display_page_title("Woolworths Food Donations")  # Display page title
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
     if user_input:
-        process_user_input(conn, user_input)  # Process the input
+        with st.empty():
+            process_user_input(conn, user_input)  # Process the input
 
 main()
