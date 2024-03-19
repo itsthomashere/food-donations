@@ -44,9 +44,9 @@ def main():
                         # retrieve the food item from the dataset
 
                     item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
-                    st.write(f"Item: {item}")
                     if not item.empty:
                         food_item_row = item.iloc[0]
+
                         donated_item = DonatedFoodItem(
                             date_received=datetime.now(),
                             product_code=food_item_row["product_code"],
@@ -58,6 +58,7 @@ def main():
                             total_price=food_item_row["price"] * quantity,
                             total_weight=food_item_row["weight"] * quantity,
                         )
+
                         # food_item = FoodItem(
                         #     product_code=food_item_row["product_code"],
                         #     product_name=food_item_row["product_name"],
@@ -81,6 +82,10 @@ def main():
                         #     total_weight=food_item.weight * quantity,
                         # )
                         st.write(donated_item)
+
+                        # save donated item to donation_history
+                        st.write("Adding DonatedFoodItem to donation_history...")
+                        
                     else:
                         st.write("Adding MissingItem to barcode_queue...")
                         missing_item = MissingItem(
