@@ -42,14 +42,14 @@ def main():
                 try:
                     # query donation_history to first check if product_code is already present
                     # if it is, update the quantity and total_price/total_weight
-                    st.write("Checking if item is in donation history...")
-                    if dbo.check_if_item_in_donation_history(conn, barcode, date.today()):
-                        st.write("Item already in donation history.")
-                        # update the quantity and total_price/total_weight
-                        updated_item = dbo.update_donation_history_item(conn, barcode, quantity)
-                    else:
-                        st.write("Item not in donation history.")
-                        # retrieve the food item from the dataset
+                    # st.write("Checking if item is in donation history...")
+                    # if dbo.check_if_item_in_donation_history(conn, barcode, date.today()):
+                    #     st.write("Item already in donation history.")
+                    #     # update the quantity and total_price/total_weight
+                    #     updated_item = dbo.update_donation_history_item(conn, barcode, quantity)
+                    # else:
+                    #     st.write("Item not in donation history.")
+                    #     # retrieve the food item from the dataset
 
                     item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
                     if not item.empty:
