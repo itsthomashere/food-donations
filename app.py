@@ -91,7 +91,7 @@ def main():
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
 
     if user_input:
-        with st.empty():
-            process_user_input(conn, user_input)  # Process the input
+        # with st.empty():
+        process_user_input(conn, user_input)  # Process the input
 
 main()
