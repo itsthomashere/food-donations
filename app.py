@@ -94,18 +94,10 @@ def main():
                             product_code=barcode,
                             status="pending",
                         )
-                        with conn.session as session:
-                            session.execute(text(
-                                """
-                                                INSERT INTO barcode_queue (date_added, product_code, status)
-                                                VALUES (:date_added, :product_code, :status)"""),
-                                {
-                                    "date_added": missing_item.date_added,
-                                    "product_code": missing_item.product_code,
-                                    "status": missing_item.status,
-                                },
-                            )
-                            session.commit()
+
+                        # save missing item to barcode_queue
+                        dbo.add_missing_item_to_queue(conn, missing_item)
+
                 except Exception as e:
                     st.error(f"Error retrieving item: {e}")
 
