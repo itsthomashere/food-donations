@@ -57,10 +57,15 @@ def save_donated_item_to_donation_history(conn, donated_item):
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
     st.write("Updating donation history item...")
-    pass
-    # with conn.session as session:
-    #     session.execute(c.DONATION_HISTORY_INSERT_FOOD_ITEM, 
-    #                     {"product_code": product_code,
-    #                      }
-    #                     )
-    #     session.commit()
+
+def add_missing_item_to_queue(conn, missing_item):
+    """Adds a missing item to the barcode_queue table."""
+    st.write("Adding missing item to queue...")
+    with conn.session as session:
+        session.execute(text(c.MISSING_ITEM_INSERT_PRODUCT_CODE),
+                        {
+                            "date_added": missing_item.date_added,
+                            "product_code": missing_item.product_code,
+                            "status": missing_item.status,
+                            })
+        session.commit()
