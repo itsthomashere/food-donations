@@ -66,3 +66,8 @@ FROM donation_log
 WHERE product_code = :product_code AND date_received = :date_received;
 """
 
+GET_CURRENT_QUANTITY = """
+SELECT quantity
+FROM donation_history
+WHERE product_code = :product_code;
+"""
