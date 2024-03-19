@@ -61,8 +61,8 @@ ON CONFLICT (product_code) DO UPDATE SET
 """
 
 CHECK_IF_ITEM_IN_DONATION_HISTORY = """
-SELECT COUNT(*)
-FROM donation_log
+SELECT COUNT(*) AS item_count
+FROM donation_history
 WHERE product_code = :product_code AND date_received = :date_received;
 """
 
