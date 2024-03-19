@@ -32,11 +32,16 @@ DROP_BARCODES_TABLE = """
 DROP TABLE IF EXISTS barcode_queue;
 """
 
-MISSING_BARCODES_TABLE = """
-CREATE TABLE IF NOT EXISTS missing_barcodes (
+MISSING_ITEMS_TABLE = """
+CREATE TABLE IF NOT EXISTS missing_items (
 date_added DATE,
 product_code VARCHAR(255) PRIMARY KEY,
 status VARCHAR(255));
+"""
+
+MISSING_ITEM_INSERT_PRODUCT_CODE = """
+INSERT INTO barcode_queue (date_added, product_code, status)
+VALUES (:date_added, :product_code, :status)
 """
 
 FIND_DATASET_ITEM_BY_PRODUCT_CODE = """
