@@ -26,9 +26,9 @@ def check_if_item_in_donation_history(conn, product_code, date):
     return not query_result.empty and query_result.iloc[0]['item_count'] > 0
 
 @st.cache_data
-def get_current_quantity(conn, product_code):
+def get_current_quantity(_conn, product_code):
     """Returns the current quantity of a given product_code in the donation_history table."""
-    return conn.query(c.GET_CURRENT_QUANTITY, params={"product_code": product_code})
+    return _conn.query(c.GET_CURRENT_QUANTITY, params={"product_code": product_code})
 
 
 def get_food_item_by_product_code(conn, product_code, date):
