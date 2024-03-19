@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS missing_items (
 MISSING_ITEM_INSERT_PRODUCT_CODE = """
 INSERT INTO missing_items (date_added, product_code, status)
 VALUES (:date_added, :product_code, :status)
+ON CONFLICT (date_added, product_code) DO NOTHING;
 """
 
 FIND_DATASET_ITEM_BY_PRODUCT_CODE = """
