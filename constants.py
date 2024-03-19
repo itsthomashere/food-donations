@@ -28,6 +28,10 @@ total_price NUMERIC(10, 2),
 total_weight NUMERIC(10, 2));
 """
 
+DROP_BARCODES_TABLE = """
+DROP TABLE IF EXISTS barcode_queue;
+"""
+
 MISSING_BARCODES_TABLE = """
 CREATE TABLE IF NOT EXISTS missing_barcodes (
 date_added DATE,
