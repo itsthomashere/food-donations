@@ -22,14 +22,11 @@ def check_if_item_in_donation_history(conn, product_code, date):
     """
     query_result = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
     return not query_result.empty and query_result.iloc[0]['count'] > 0
-                    
-def get_food_item_by_product_code(conn, product_code, date):
-    """
-    Retrieves a FoodItem from the database based on the given product_code.
-    """
-    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date}).all()
-    return item
 
+def get_food_item_by_product_code(conn, product_code, date):
+    """Returns a food item from the dataset table given a product_code."""
+    return conn.query(c.FIND_DATASET_ITEM_BY_PRODUCT_CODE, params={"product_code": product_code})
+                    
 def update_donation_history_item(conn, product_code, quantity):
     """Updates the quantity and total_price/total_weight of a given product_code in donation_history."""
     st.write("Updating donation history item...")
