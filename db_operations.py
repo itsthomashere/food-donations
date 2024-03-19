@@ -61,7 +61,7 @@ def update_donation_history_item(conn, product_code, quantity):
 
 def add_missing_item_to_queue(conn, missing_item):
     """Adds a missing item to the missing_items table."""
-    st.write("Adding missing item to queue...")
+    st.write("Missing item added to queue...")
     with conn.session as session:
         session.execute(text(c.MISSING_ITEM_INSERT_PRODUCT_CODE),
                         {
