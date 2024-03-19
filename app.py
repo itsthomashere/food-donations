@@ -64,6 +64,7 @@ def main():
                         # save donated item to donation_history
                         st.write("Adding DonatedFoodItem to donation_history...")
                         dbo.save_donated_item_to_donation_history(conn, donated_item)
+                        st.success("Item added to donation history.")
 
                     else:
                         st.write("Adding MissingItem to barcode_queue...")
