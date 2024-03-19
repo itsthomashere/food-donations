@@ -32,13 +32,15 @@ def main():
 
                 # with barcode and quantity in hand, we can now continue to retrieve the item from the database
                 try:
-                    item = conn.query(
-                        "select * from dataset where product_code = :product_code",
-                        ttl=3600,
-                        params={"product_code": barcode},
-                    )
-                    if not item.empty:
-                        food_item_row = item.iloc[0]
+                    item = dbo.get_food_item_by_product_code(conn, barcode)
+                    # item = conn.query(
+                    #     "select * from dataset where product_code = :product_code",
+                    #     ttl=3600,
+                    #     params={"product_code": barcode},
+                    # )
+                    # if not retrieved_item.empty:
+                    #     food_item_row = item.iloc[0]
+                    if item is not None:
                         food_item = FoodItem(
                             product_code=food_item_row["product_code"],
                             product_name=food_item_row["product_name"],
