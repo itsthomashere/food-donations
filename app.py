@@ -50,7 +50,9 @@ def process_donated_food_item(conn, barcode, quantity):
 
 def save_donated_item(conn, barcode, food_item_row, quantity):
     """Save a donated item to the donation history."""
-    st.write(food_item_row)
+    col1, col2, col3 = st.columns(3)
+    with col2:
+        st.write(food_item_row)
     donated_item = DonatedFoodItem(
         date_received=datetime.now(),
         product_code=food_item_row["product_code"],
