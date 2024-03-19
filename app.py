@@ -59,33 +59,11 @@ def main():
                             total_weight=food_item_row["weight"] * quantity,
                         )
 
-                        # food_item = FoodItem(
-                        #     product_code=food_item_row["product_code"],
-                        #     product_name=food_item_row["product_name"],
-                        #     category=food_item_row["category"],
-                        #     price=food_item_row["price"],
-                        #     weight=food_item_row["weight"],
-                        # )
-                        # st.write(food_item)
-
-                        # Save the item to donation_history
-                        # st.write("Converting to DonatedFoodItem...")
-                        # donated_item = DonatedFoodItem(
-                        #     date_received=datetime.now(),
-                        #     product_code=food_item.product_code,
-                        #     product_name=food_item.product_name,
-                        #     category=food_item.category,
-                        #     price=food_item.price,
-                        #     weight=food_item.weight,
-                        #     quantity=quantity,
-                        #     total_price=food_item.price * quantity,
-                        #     total_weight=food_item.weight * quantity,
-                        # )
                         st.write(donated_item)
 
                         # save donated item to donation_history
                         st.write("Adding DonatedFoodItem to donation_history...")
-                        
+
                     else:
                         st.write("Adding MissingItem to barcode_queue...")
                         missing_item = MissingItem(
