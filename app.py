@@ -86,7 +86,7 @@ def main():
 
                         # with conn.session as session:
                         #     session.execute(text(c.DROP_BARCODES_TABLE))
-                        #     session.execute(text(c.MISSING_BARCODES_TABLE))
+                        #     session.execute(text(c.MISSING_ITEMS_TABLE))
                         #     session.commit()
 
                         missing_item = MissingItem(
