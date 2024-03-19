@@ -20,7 +20,8 @@ def check_if_item_in_donation_history(conn, product_code, date):
     """Returns True if a given product_code is located in donation_history table."""
     item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
     st.write(item)
-    return True if item else False
+    return not item.empty
+
                     
 def get_food_item_by_product_code(conn, product_code, date):
     """
