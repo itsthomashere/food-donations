@@ -17,7 +17,6 @@ total_weight NUMERIC(10, 2));
 """
 
 DROP_BARCODES_TABLE = """
-DROP TABLE IF EXISTS barcode_queue,
 DROP TABLE IF EXISTS missing_items;
 """
 
