@@ -1,97 +1,111 @@
-"""A Streamlit app for managing Woolworths Food Donations."""
-
 from datetime import datetime, date
+
 import streamlit as st
 from sqlalchemy import text
+
 import input_parser as ip
 import db_operations as dbo
-from models import DonatedFoodItem, MissingItem
+from models import FoodItem, DonatedFoodItem, MissingItem
 from layout import set_page_config_and_hide_defaults, display_page_title
 import constants as c
 
-def process_user_input(conn, user_input):
-    """Process user input and handle the database operations accordingly."""
-    try:
-        action, data = ip.parse_input(user_input)
-    except Exception as e:
-        st.error(e)
-        return  # Early return if parsing fails
-
-    if action == "display":
-        handle_display_action(conn, data)
-    elif action == "barcode":
-        handle_barcode_action(conn, data)
-    else:
-        st.write("Invalid input or table not found.")
-
-def handle_display_action(conn, data):
-    """Handle the display action for the given data."""
-    routes = ip.get_routes()
-    if data in routes:
-        dbo.fetch_all_items(conn, routes[data])
-    else:
-        st.write("Invalid route for display action.")
-
-def handle_barcode_action(conn, data):
-    """Handle the barcode action for the given data."""
-    barcode, quantity = data
-    try:
-        process_donated_food_item(conn, barcode, quantity)
-    except Exception as e:
-        st.error(f"Error processing barcode action: {e}")
-
-def process_donated_food_item(conn, barcode, quantity):
-    """Process a donated food item, adding it to the database or handling it as missing."""
-    item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
-    if not item.empty:
-        save_donated_item(conn, barcode, item.iloc[0], quantity)
-    else:
-        handle_missing_item(conn, barcode)
-
-def save_donated_item(conn, barcode, food_item_row, quantity):
-    """Save a donated item to the donation history."""
-    donated_item = DonatedFoodItem(
-        date_received=datetime.now(),
-        product_code=food_item_row["product_code"],
-        product_name=food_item_row["product_name"],
-        category=food_item_row["category"],
-        price=food_item_row["price"],
-        weight=food_item_row["weight"],
-        quantity=quantity,
-        total_price=food_item_row["price"] * quantity,
-        total_weight=food_item_row["weight"] * quantity,
-    )
-    try:
-        dbo.save_donated_item_to_donation_history(conn, donated_item)
-        current_quantity = dbo.get_current_quantity(conn, barcode)  # Assuming this function exists to fetch the current quantity
-        st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
-    except Exception as e:
-        st.error(e)
-
-
-def handle_missing_item(conn, barcode):
-    """Handle a missing item by adding it to the barcode queue."""
-    missing_item = MissingItem(
-        date_added=datetime.now(),
-        product_code=barcode,
-        status="pending",
-    )
-    dbo.add_missing_item_to_queue(conn, missing_item)
-    st.write("Adding MissingItem to barcode_queue...")
 
 def main():
-    """Main function to run the Streamlit app."""
-    set_page_config_and_hide_defaults()  # Setup Streamlit page config
-    conn = dbo.get_connection()  # Establish database connection
+    set_page_config_and_hide_defaults()  # must always be called first
+    conn = dbo.get_connection()
 
     # with conn.session as session:
-    #     session.execute(text(c.DONATION_HISTORY_TABLE))  # Ensure table exists
+    #     session.execute(text(c.DROP_DONATION_HISTORY_TABLE))
 
-    display_page_title("Woolworths Food Donations")  # Display page title
+    with conn.session as session:
+        session.execute(text(c.DONATION_HISTORY_TABLE))
 
-    user_input = st.chat_input("Enter a barcode: ")  # Get user input
+    display_page_title("Woolworths Food Donations")
+
+    user_input = st.chat_input("Enter a barcode: ")
+    st.write("Missing item: 6009226866340")
+    st.write("Dataset item: 6009217484898")
+
     if user_input:
-        process_user_input(conn, user_input)  # Process the input
+        try:
+            routes = ip.get_routes()
+            action, data = ip.parse_input(user_input)
 
-# if __name__ == "__main__":
+            if action == "display" and data in routes:
+                dbo.fetch_all_items(conn, routes[data])
+
+            elif action == "barcode":
+                barcode, quantity = data
+                st.write(f"Barcode: {barcode}, Quantity: {quantity}")
+
+                # with barcode and quantity in hand, we can now continue to retrieve the item from the database
+                try:
+                    # query donation_history to first check if product_code is already present
+                    # if it is, update the quantity and total_price/total_weight
+                    # st.write("Checking if item is in donation history...")
+                    # if dbo.check_if_item_in_donation_history(conn, barcode, date.today()):
+                    #     st.write("Item already in donation history.")
+                    #     # update the quantity and total_price/total_weight
+                    #     updated_item = dbo.update_donation_history_item(conn, barcode, quantity)
+                    # else:
+                    #     st.write("Item not in donation history.")
+                    #     # retrieve the food item from the dataset
+
+                    item = dbo.get_food_item_by_product_code(conn, barcode, date.today())
+                    if not item.empty:
+                        food_item_row = item.iloc[0]
+
+                        donated_item = DonatedFoodItem(
+                            date_received=datetime.now(),
+                            product_code=food_item_row["product_code"],
+                            product_name=food_item_row["product_name"],
+                            category=food_item_row["category"],
+                            price=food_item_row["price"],
+                            weight=food_item_row["weight"],
+                            quantity=quantity,
+                            total_price=food_item_row["price"] * quantity,
+                            total_weight=food_item_row["weight"] * quantity,
+                        )
+
+                        st.write(donated_item)
+
+                        # save donated item to donation_history
+                        try:
+                            st.write("Adding DonatedFoodItem to donation_history...")
+                            # This should never run if the item is already present in donation_history, and will run into a unique constraint error if it slips through
+                            dbo.save_donated_item_to_donation_history(conn, donated_item)
+                            # st.success("Item added to donation history.")
+                            # display current quantity of item in donation history
+                            current_quantity = dbo.get_current_quantity(conn, barcode)
+                            st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
+                        except Exception as e:
+                            st.error(e)
+
+                    else:
+                        st.write("Adding MissingItem to barcode_queue...")
+
+                        # with conn.session as session:
+                        #     # session.execute(text(c.DROP_BARCODES_TABLE))
+                        #     session.execute(text(c.MISSING_ITEMS_TABLE))
+                        #     session.commit()
+
+                        missing_item = MissingItem(
+                            date_added=datetime.now(),
+                            product_code=barcode,
+                            status="pending",
+                        )
+
+                        # save missing item to barcode_queue
+                        dbo.add_missing_item_to_queue(conn, missing_item)
+
+                except Exception as e:
+                    st.error(f"Error retrieving item: {e}")
+
+            else:
+                st.write("Invalid input or table not found.")
+
+        except Exception as e:
+            st.error(e)
+
+
 main()
