@@ -40,7 +40,7 @@ status VARCHAR(255));
 """
 
 MISSING_ITEM_INSERT_PRODUCT_CODE = """
-INSERT INTO barcode_queue (date_added, product_code, status)
+INSERT INTO missing_items (date_added, product_code, status)
 VALUES (:date_added, :product_code, :status)
 """
 
