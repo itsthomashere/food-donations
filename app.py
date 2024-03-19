@@ -42,11 +42,11 @@ def main():
                     #     food_item_row = item.iloc[0]
                     if item is not None:
                         food_item = FoodItem(
-                            product_code=food_item_row["product_code"],
-                            product_name=food_item_row["product_name"],
-                            category=food_item_row["category"],
-                            price=food_item_row["price"],
-                            weight=food_item_row["weight"],
+                            product_code=item["product_code"],
+                            product_name=item["product_name"],
+                            category=item["category"],
+                            price=item["price"],
+                            weight=item["weight"],
                         )
                         st.write(food_item)
                     else:
