@@ -30,7 +30,7 @@ def get_food_item_by_product_code(conn, product_code, date):
 def save_donated_item_to_donation_history(conn, donated_item):
     """Saves a donated item to the donation_history table."""
     with conn.session as session:
-        session.execute(c.DONATION_HISTORY_INSERT_FOOD_ITEM, 
+        session.execute(text(c.DONATION_HISTORY_INSERT_FOOD_ITEM), 
                         {"date_received": donated_item.date_received,
                          "product_code": donated_item.product_code,
                          "product_name": donated_item.product_name,
