@@ -34,9 +34,11 @@ DROP TABLE IF EXISTS barcode_queue;
 
 MISSING_ITEMS_TABLE = """
 CREATE TABLE IF NOT EXISTS missing_items (
-date_added DATE,
-product_code VARCHAR(255) PRIMARY KEY,
-status VARCHAR(255));
+    date_added DATE,
+    product_code VARCHAR(255),
+    status VARCHAR(255),
+    PRIMARY KEY (date_added, product_code)
+);
 """
 
 MISSING_ITEM_INSERT_PRODUCT_CODE = """
