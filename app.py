@@ -14,8 +14,8 @@ def main():
     set_page_config_and_hide_defaults()  # must always be called first
     conn = dbo.get_connection()
 
-    with conn.session as session:
-        session.execute(text(c.DROP_DONATION_HISTORY_TABLE))
+    # with conn.session as session:
+    #     session.execute(text(c.DROP_DONATION_HISTORY_TABLE))
 
     with conn.session as session:
         session.execute(text(c.DONATION_HISTORY_TABLE))
