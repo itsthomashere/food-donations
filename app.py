@@ -77,8 +77,7 @@ def main():
                             # st.success("Item added to donation history.")
                             # display current quantity of item in donation history
                             current_quantity = dbo.get_current_quantity(conn, barcode)
-                            st.success(f"Item added. Current quantity of {barcode}: {current_quantity}")
-                            st.write(current_quantity.iloc[0]['quantity'])
+                            st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
                         except Exception as e:
                             st.error(e)
 
