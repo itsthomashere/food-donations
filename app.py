@@ -34,6 +34,7 @@ def main():
                 try:
                     # query donation_history to first check if product_code is already present
                     # if it is, update the quantity and total_price/total_weight
+                    st.write("Checking if item is in donation history...")
                     if dbo.check_if_item_in_donation_history(conn, barcode, date.today()):
                         st.write("Item already in donation history.")
                         # update the quantity and total_price/total_weight
