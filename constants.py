@@ -42,7 +42,7 @@ WHERE product_code = :product_code
 
 DONATION_HISTORY_INSERT_FOOD_ITEM = """
 INSERT INTO donation_history (date_received, product_code, product_name, category, price, weight, quantity, total_price, total_weight)
-VALUES (%(date_received)s, %(product_code)s, %(product_name)s, %(category)s, %(price)s, %(weight)s, %(quantity)s, %(total_price)s, %(total_weight)s)
+VALUES (:date_received, :product_code, :product_name, :category, :price, :weight, :quantity, :total_price, :total_weight)
 ON CONFLICT (product_code) DO UPDATE SET
     date_received = EXCLUDED.date_received,
     product_name = EXCLUDED.product_name,
