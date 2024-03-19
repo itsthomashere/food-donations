@@ -22,3 +22,12 @@ def get_food_item_by_product_code(conn, product_code):
     """
     retrieved_item = conn.query("select * from dataset where product_code = :product_code", ttl=3600, params={"product_code": product_code})
     return retrieved_item
+
+def check_if_item_in_donation_history(conn, product_code, date):
+    """Returns True if a given product_code is located in donation_history table."""
+    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
+    st.write(item)
+    return True if item else False
+                    
+def update_donation_history_item(conn, product_code, quantity):
+    pass
