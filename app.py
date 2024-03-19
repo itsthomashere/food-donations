@@ -48,6 +48,7 @@ def main():
                     #     ttl=3600,
                     #     params={"product_code": barcode},
                     # )
+                    st.write(f"Item: {item}")
                     if not item.empty:
                         food_item_row = item.iloc[0]
                         food_item = FoodItem(
