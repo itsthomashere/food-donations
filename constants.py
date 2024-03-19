@@ -30,7 +30,9 @@ total_weight NUMERIC(10, 2));
 
 MISSING_BARCODES_TABLE = """
 CREATE TABLE IF NOT EXISTS missing_barcodes (
-product_code VARCHAR(255) PRIMARY KEY
+date_added DATE,
+product_code VARCHAR(255) PRIMARY KEY,
+status VARCHAR(255));
 );
 """
 
