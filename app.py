@@ -48,7 +48,7 @@ def process_donated_food_item(conn, barcode, quantity):
     else:
         handle_missing_item(conn, barcode)
 
-def save_donated_item(conn, food_item_row, quantity):
+def save_donated_item(conn, food_item_row, barcode, quantity):
     """Save a donated item to the donation history."""
     donated_item = DonatedFoodItem(
         date_received=datetime.now(),
