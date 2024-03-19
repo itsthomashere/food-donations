@@ -87,7 +87,7 @@ def handle_missing_item(conn, barcode):
 
 def main():
     """Main function to run the Streamlit app."""
-    set_page_config_and_hide_defaults()  # Setup Streamlit page config
+    # set_page_config_and_hide_defaults()  # Setup Streamlit page config
     conn = dbo.get_connection()  # Establish database connection
     display_page_title("Woolworths Food Donations")  # Display page title
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
