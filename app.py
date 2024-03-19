@@ -72,6 +72,7 @@ def main():
                         # save donated item to donation_history
                         try:
                             st.write("Adding DonatedFoodItem to donation_history...")
+                            # This should never run if the item is already present in donation_history, and will run into a unique constraint error if it slips through
                             dbo.save_donated_item_to_donation_history(conn, donated_item)
                             st.success("Item added to donation history.")
                         except Exception as e:
