@@ -5,7 +5,6 @@ import streamlit as st
 from typing import Optional
 import datetime
 
-# engine = st.connection("digitalocean", type="sql", autocommit=True)
 Base = declarative_base()
 
 class FoodItem(Base):
@@ -29,7 +28,7 @@ class DonatedFoodItem(Base):
     total_weight = Column(Float, nullable=False)
 
 class MissingItem(Base):
-    __tablename__ = 'barcode_queue'
+    __tablename__ = "missing_items"
     date_added = Column(DateTime, nullable=False)
     product_code = Column(Integer, primary_key=True, index=True, nullable=True)
     status = Column(String, nullable=False)
