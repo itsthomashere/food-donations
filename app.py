@@ -70,9 +70,12 @@ def main():
                         st.write(donated_item)
 
                         # save donated item to donation_history
-                        st.write("Adding DonatedFoodItem to donation_history...")
-                        dbo.save_donated_item_to_donation_history(conn, donated_item)
-                        st.success("Item added to donation history.")
+                        try:
+                            st.write("Adding DonatedFoodItem to donation_history...")
+                            dbo.save_donated_item_to_donation_history(conn, donated_item)
+                            st.success("Item added to donation history.")
+                        except Exception as e:
+                            st.error(e)
 
                     else:
                         st.write("Adding MissingItem to barcode_queue...")
