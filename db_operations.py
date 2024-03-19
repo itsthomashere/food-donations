@@ -17,11 +17,12 @@ def fetch_all_items(conn, table):
     st.dataframe(df)
 
 def check_if_item_in_donation_history(conn, product_code, date):
-    """Returns True if a given product_code is located in donation_history table."""
-    item = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
-    st.write(item)
-    return not item.empty
-
+    """
+    Returns True if a given product_code is located in the donation_history table for a specific date.
+    """
+    query_result = conn.query(c.CHECK_IF_ITEM_IN_DONATION_HISTORY, params={"product_code": product_code, "date_received": date})
+    st.write(query_result)
+    return not query_result.empty and query_result.iloc[0]['count'] > 0
                     
 def get_food_item_by_product_code(conn, product_code, date):
     """
