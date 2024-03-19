@@ -66,16 +66,11 @@ def save_donated_item(conn, barcode, food_item_row, quantity):
     )
     try:
         dbo.save_donated_item_to_donation_history(conn, donated_item)
-        current_quantity = dbo.get_current_quantity(conn, barcode)  # Assuming this function exists to fetch the current quantity
+        current_quantity = dbo.get_current_quantity(conn, barcode)
         st.success(f"Item added. Current quantity of {barcode}: {current_quantity.iloc[0]['quantity']}")
-        # st.rerun()
     except Exception as e:
         st.error(e)
     
-    # else:
-    #     st.rerun()
-
-
 def handle_missing_item(conn, barcode):
     """Handle a missing item by adding it to the barcode queue."""
     missing_item = MissingItem(
@@ -87,7 +82,7 @@ def handle_missing_item(conn, barcode):
 
 def main():
     """Main function to run the Streamlit app."""
-    # set_page_config_and_hide_defaults()  # Setup Streamlit page config
+    set_page_config_and_hide_defaults()  # Setup Streamlit page config
     conn = dbo.get_connection()  # Establish database connection
     display_page_title("Woolworths Food Donations")  # Display page title
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
