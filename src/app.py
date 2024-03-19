@@ -96,4 +96,4 @@ def main():
         # with st.empty():
         process_user_input(conn, user_input)  # Process the input
 
-main()
+# main()
