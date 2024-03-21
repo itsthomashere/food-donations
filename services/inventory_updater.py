@@ -1,6 +1,6 @@
 import datetime
 from sqlalchemy import text
-import constants as c
+import db.constants as c
 
 
 def save_pending_product_codes(conn, date=None):
