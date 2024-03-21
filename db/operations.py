@@ -71,3 +71,23 @@ def add_missing_item_to_queue(conn, missing_item):
                             "status": missing_item.status,
                             })
         session.commit()
+
+def save_donated_item_to_donation_history_dict(conn, donated_item_dict):
+    """Saves a donated item, provided as a dictionary, to the donation_history table."""
+    # Ensure that the SQL command is a text query for execution
+    sql_command = text(c.DONATION_HISTORY_INSERT_FOOD_ITEM)
+
+    with conn.session as session:
+        session.execute(sql_command, 
+                        {"date_received": donated_item_dict["date_received"],
+                         "product_code": int(donated_item_dict["product_code"]),
+                         "product_name": donated_item_dict["product_name"],
+                         "category": donated_item_dict["category"],
+                         "price": float(donated_item_dict["price"]),
+                         "weight": float(donated_item_dict["weight"]),
+                         "quantity": int(donated_item_dict["quantity"]),
+                         "total_price": float(donated_item_dict["total_price"]),
+                         "total_weight": float(donated_item_dict["total_weight"])
+                         }
+                        )
+        session.commit()
