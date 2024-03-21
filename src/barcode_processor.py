@@ -92,6 +92,7 @@ def main():
         if user_input.startswith("{"):
             try:
                 dbo.save_donated_item_to_donation_history_dict(conn, user_input)
+                return
             except Exception as e:
                 st.error(e)
         process_user_input(conn, user_input)  # Process the input
