@@ -1,7 +1,7 @@
 import streamlit as st
-import datetime
 from sqlalchemy import text
 import db.constants as c
+import datetime
 
 
 def save_pending_product_codes(conn, date=None):
@@ -14,18 +14,18 @@ def save_pending_product_codes(conn, date=None):
     date_str = date if isinstance(date, str) else date.strftime("%Y-%m-%d")
 
     try:
-        # Correcting the call to conn.query
-        query = text(c.FETCH_PENDING_PRODUCT_CODES_BY_DATE)
+        # Adjusting the call to conn.query to match the provided example
+        query = c.FETCH_PENDING_PRODUCT_CODES_BY_DATE
         parameters = {"date_added": date_str}
 
-        pending_product_codes = conn.query(query, parameters)
+        pending_product_codes = conn.query(query, params=parameters)
 
         # Assuming pending_product_codes is a DataFrame
         if not pending_product_codes.empty:
             with open(f"pending_product_codes_{date_str}.txt", "w") as file:
-                for product_code in pending_product_codes["product_code"]:
-                    file.write(f"{product_code}\n")
+                for _, row in pending_product_codes.iterrows():
+                    file.write(f'{row["product_code"]}\n')
         else:
             print("No pending product codes found for the specified date.")
     except Exception as e:
-        st.error(f"An error occurred: {e}")
+        print(f"An error occurred: {e}")
