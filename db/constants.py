@@ -66,3 +66,9 @@ SELECT quantity
 FROM donation_history
 WHERE product_code = :product_code;
 """
+
+FETCH_PENDING_PRODUCT_CODES = """
+SELECT product_code 
+FROM pending_items 
+WHERE status = 'pending'
+"""
