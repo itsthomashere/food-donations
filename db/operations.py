@@ -71,5 +71,3 @@ def add_missing_item_to_queue(conn, missing_item):
                             "status": missing_item.status,
                             })
         session.commit()
-
-

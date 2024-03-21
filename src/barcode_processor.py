@@ -8,6 +8,7 @@ import db.operations as dbo
 from src.models import DonatedFoodItem, MissingItem
 from src.layout import set_page_config_and_hide_defaults, display_page_title
 import db.constants as c
+import services.inventory_updater as iu
 
 def process_user_input(conn, user_input):
     """Process user input and handle the database operations accordingly."""
@@ -88,6 +89,9 @@ def main():
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
 
     if user_input:
+        if user_input == "download missing_items": # temporary solution
+            iu.save_pending_product_codes(conn)
+            return
         # with st.empty():
         process_user_input(conn, user_input)  # Process the input
 

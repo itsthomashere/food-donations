@@ -15,7 +15,7 @@ def save_pending_product_codes(conn):
     # Check if pending_product_codes is not empty and proceed to save to file
     if not pending_product_codes.empty:
         with open(filename, "w") as file:
-            for index, row in pending_product_codes.iterrows():
+            for _, row in pending_product_codes.iterrows():
                 file.write(f"{row['product_code']}, {today_date}\n")
         print(f"Pending product codes saved to {filename}")
     else:
