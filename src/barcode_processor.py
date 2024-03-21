@@ -89,13 +89,6 @@ def main():
     user_input = st.chat_input("Enter a barcode: ")  # Get user input
 
     if user_input:
-        if user_input.startswith("{"):
-            try:
-                dbo.save_donated_item_to_donation_history_dict(conn, user_input)
-                st.stop()
-                return
-            except Exception as e:
-                st.error(e)
         process_user_input(conn, user_input)  # Process the input
 
 # main()
