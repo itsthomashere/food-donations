@@ -1,22 +1,27 @@
-from datetime import datetime
-import db.constants as c
+import datetime
+from sqlalchemy import text
+import constants as c
 
-def save_pending_product_codes(conn):
+
+def save_pending_product_codes(conn, date=None):
     """
-    Fetches pending product codes and saves them with today's date to a text file.
+    Saves pending product codes with a specified date (defaulting to today) to a text file.
     """
-    # Fetch pending product codes using a predefined SQL query
-    pending_product_codes = conn.query(c.FETCH_PENDING_PRODUCT_CODES)
+    if date is None:
+        date = datetime.date.today()
 
-    # Prepare the filename with today's date
-    today_date = datetime.now().strftime("%Y-%m-%d")
-    filename = f"pending_product_codes_{today_date}.txt"
+    # Convert date to string if it's a datetime.date object
+    date_str = date if isinstance(date, str) else date.strftime("%Y-%m-%d")
 
-    # Check if pending_product_codes is not empty and proceed to save to file
+    # Fetching pending product codes
+    pending_product_codes = conn.query(
+        text(c.FETCH_PENDING_PRODUCT_CODES_BY_DATE), {"date_added": date_str}
+    )
+
+    # Assuming pending_product_codes is a DataFrame
     if not pending_product_codes.empty:
-        with open(filename, "w") as file:
-            for _, row in pending_product_codes.iterrows():
-                file.write(f"{row['product_code']}, {today_date}\n")
-        print(f"Pending product codes saved to {filename}")
+        with open(f"pending_product_codes_{date_str}.txt", "w") as file:
+            for product_code in pending_product_codes["product_code"]:
+                file.write(f"{product_code}\n")
     else:
-        print("No pending product codes to save.")
+        print("No pending product codes found for the specified date.")
