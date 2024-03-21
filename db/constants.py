@@ -67,8 +67,9 @@ FROM donation_history
 WHERE product_code = :product_code;
 """
 
-FETCH_PENDING_PRODUCT_CODES = """
-SELECT product_code 
-FROM pending_items 
+FETCH_PENDING_PRODUCT_CODES_BY_DATE = """
+SELECT product_code
+FROM missing_items
 WHERE status = 'pending'
+AND date_added = :date_added
 """
