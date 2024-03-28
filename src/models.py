@@ -32,5 +32,6 @@ class MissingItem(Base):
     date_added = Column(DateTime, nullable=False)
     product_code = Column(Integer, primary_key=True, index=True, nullable=True)
     status = Column(String, nullable=False)
+    quantity = Column(Integer, nullable=False)
 
 # Base.metadata.create_all(engine)
