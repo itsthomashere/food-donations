@@ -47,11 +47,11 @@ def process_donated_food_item(conn, barcode, quantity):
     if not item.empty:
         save_donated_item(conn, barcode, item.iloc[0], quantity)
     else:
-        handle_missing_item(conn, barcode)
+        handle_missing_item(conn, barcode, quantity)
 
 def save_donated_item(conn, barcode, food_item_row, quantity):
     """Save a donated item to the donation history."""
-    col1, col2, col3 = st.columns(3)
+    _, col2, _ = st.columns(3)
     with col2:
         st.write(food_item_row)
     donated_item = DonatedFoodItem(
@@ -72,12 +72,13 @@ def save_donated_item(conn, barcode, food_item_row, quantity):
     except Exception as e:
         st.error(e)
     
-def handle_missing_item(conn, barcode):
+def handle_missing_item(conn, barcode, quantity):
     """Handle a missing item by adding it to the barcode queue."""
     missing_item = MissingItem(
         date_added=datetime.now(),
         product_code=barcode,
         status="pending",
+        quantity=quantity
     )
     dbo.add_missing_item_to_queue(conn, missing_item)
 
